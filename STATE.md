@@ -1,0 +1,46 @@
+# EARTHMIND: Project State
+
+- **Current Phase**: EARTHMIND GOOGLE GEMINI LIVE REAL-TIME VOICE INTELLIGENCE V3.0 — PRODUCTION-GRADE MULTIMODAL INTEGRATION
+- **Current Module**: Gemini Live Core (`src/lib/gemini/`), Secure Server Gateway (`vite.config.ts`), Voice Engine Integration (`src/voice/`), Voice Diagnostics UI (`src/components/voice/`), and 24 Registered Application Tools
+- **Current Status**: RELEASE READY — 100% VERIFIED (Production Build Clean: 111 Modules Transformed, 20/20 Automated Voice & Gemini Tests Passed, Health Endpoint `/api/health/ai` HTTP 200 OK)
+
+- **Completed**:
+  - [x] **Secure Architecture & Credential Isolation**:
+    - **Zero Client Exposure**: `GEMINI_API_KEY` is strictly isolated on the secure server environment (`process.env.GEMINI_API_KEY`). It is never referenced in React components, client JS, Vite public variables (`VITE_GEMINI_API_KEY`), or Git history.
+    - **Server Gateway & WebSocket Proxy (`vite.config.ts`)**:
+      - `GET /api/health/ai`: Returns AI provider health, model name (`gemini-2.0-flash-exp`), configured boolean status, audio formats, and active tool counts without ever leaking API keys.
+      - `ws:///api/gemini/live`: Handles client upgrades, connects upstream to Google Gemini Multimodal Live API (`wss://generativelanguage.googleapis.com/...`), and proxies bidirectional streaming packets.
+    - **Configuration & Git Security**: `.env.example` includes `GEMINI_API_KEY=""`; `.gitignore` enforces `.env`, `.env.local`, `*.key`.
+  - [x] **Gemini Live Subsystem (`src/lib/gemini/`)**:
+    - `GeminiLiveClient.ts`: Master client managing WebSocket connection, handshake setup (`BidiGenerateContentSetup`), streaming audio chunks (`realtimeInput`), server content decoding, and automatic fallback switching.
+    - `GeminiLiveConfig.ts`: Voice personas (`Aoede`, `Charon`, `Fenrir`, `Kore`, `Puck`), 16kHz In / 24kHz Out sample rates, and scientific persona system instructions strictly distinguishing OBSERVED, MODELLED, and SIMULATED data.
+    - `GeminiContext.ts`: Compact EarthMind Context Engine generating real-time structured snapshots (`currentModule`, `selectedLocation`, `selectedYear`, `activeLayers`, `simulation` deltas, `chart`, `map`, `report`, `exhibition`) for grounding without token bloat.
+    - `GeminiTools.ts`: 24 official Gemini Tool Declarations (9 Read Tools, 15 Action Tools) conforming to Google GenAI function schema with live state execution and bounds checking.
+    - `GeminiAudio.ts`: 16kHz mono linear16 PCM capture via AudioWorklet/ScriptProcessor and 24kHz native PCM playback player with instant barge-in flushing.
+    - `GeminiSession.ts`: Session lifecycle auditor tracking session IDs, latency samples (ms), turn history, and packet counts.
+    - `GeminiEvents.ts`: Strongly typed event emitter for streaming audio, transcripts, status changes, interruptions, and tool calls.
+    - `GeminiErrors.ts`: Typed error hierarchy (`GeminiAuthError`, `GeminiAudioError`, `GeminiToolError`, etc.).
+    - `index.ts`: Barrel export.
+  - [x] **Voice Engine & UI Upgrades**:
+    - `VoiceEngine.ts`: Dual-mode engine with `GeminiLiveClient` as primary bidirectional real-time audio pipeline and deterministic local speech engine as seamless offline fallback.
+    - `VoiceContext.tsx`: Exposes `geminiStatus`, `geminiLatency`, and `activeEngineMode`.
+    - `VoiceSettingsPanel.tsx`: Added Section 0 for Real-Time Gemini Live Engine selection, Gemini Voice Personas (Aoede, Charon, Fenrir, Kore, Puck), natural barge-in toggles, and real-time status card.
+    - `VoicePanel.tsx`: Added Diagnostics Tab displaying live connection state, engine mode, model, audio I/O rates, roundtrip latency (ms), registered tools (24), and server security indicators.
+  - [x] **Automated Test Suite Verified (`scripts/testVoiceSuite.ts` & `npm run test:voice`)**:
+    - 20/20 automated test scenarios passing with 100% success rate:
+      - PART 1 (Tests 01–14): Local Intent Parsing, What-If variable extraction, multi-commands, Tamil/Thanglish phrases, destructive confirmations.
+      - PART 2 (Test 15): All 24 Gemini Tool Declarations and schema integrity validated.
+      - PART 3 (Test 16): EarthMind Context Grounding Engine serialization & biophysical delta generation verified.
+      - PART 4 (Tests 17–20): Real-time Gemini tool executions (`setSimulationVariable`, `runSimulation`, `navigate`, `getCurrentEarthMindContext`) verified on live application state.
+  - [x] **Production Build Clean (`npm run build`)**:
+    - `tsc -b` and `vite build` completed with 0 errors, bundling 111 modules into optimized production bundles.
+  - [x] **Development Server & Health Endpoint Verified**:
+    - `http://localhost:5173/`: HTTP 200 OK.
+    - `http://localhost:5173/api/health/ai`: HTTP 200 OK returning healthy JSON payload.
+
+- **Verification Status**:
+  - TypeScript Compilation: PASSED (0 errors, `tsc -b`)
+  - Vite Production Bundle: PASSED (111 modules bundled into optimized `dist/`, `vite build`)
+  - Automated Voice & Gemini Test Suite: PASSED (20/20 tests passing, `npm run test:voice`)
+  - AI Health Endpoint: PASSED (HTTP 200 OK on `/api/health/ai`)
+  - Local Server Health: PASSED (HTTP 200 OK on `http://localhost:5173/`)
