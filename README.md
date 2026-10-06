@@ -8,6 +8,7 @@
 [![Google Gemini Live](https://img.shields.io/badge/AI-Gemini%202.0%20Live-4285F4.svg)]()
 [![Three.js](https://img.shields.io/badge/3D-Three.js%20Photorealistic%20Globe-black.svg)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)]()
+[![Developer Portfolio](https://img.shields.io/badge/Developer%20Portfolio-karthi--portfolio--delta.vercel.app-000000.svg?style=flat&logo=vercel&logoColor=white)](https://karthi-portfolio-delta.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)]()
 
 ---
@@ -222,6 +223,15 @@ Runs 20 automated tests validating:
 
 ---
 
-## 12. License
+## 12. Author & Ecosystem
+
+- **Architect & Developer:** **Karthikeyan M**
+- **🌐 Live Portfolio:** [https://karthi-portfolio-delta.vercel.app](https://karthi-portfolio-delta.vercel.app)
+- **GitHub:** [@karthibaraniofficial-wq](https://github.com/karthibaraniofficial-wq)
+- **Direct Email:** `karthibaraniofficial@gmail.com`
+
+---
+
+## 13. License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
