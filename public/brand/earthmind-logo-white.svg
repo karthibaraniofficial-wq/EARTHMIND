@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 90" width="100%" height="auto" fill="none">
+  <!-- Left Symbol (White Scaled) -->
+  <g transform="translate(10, 9) scale(0.72)">
+    <circle cx="50" cy="50" r="45" stroke="#FFFFFF" stroke-width="0.75" stroke-opacity="0.3" stroke-dasharray="3,3"/>
+    <path d="M 18,36 C 26,22 64,20 82,34" stroke="#FFFFFF" stroke-width="1.4" stroke-opacity="0.35" stroke-dasharray="3,3"/>
+    <circle cx="50" cy="50" r="32" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 23,38 A 32 32 0 0 1 77,38" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.6"/>
+    <path d="M 18,50 Q 50,59 82,50" stroke="#FFFFFF" stroke-width="1.2" stroke-opacity="0.4"/>
+    <path d="M 50,18 C 34,30 34,70 50,82" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <line x1="50" y1="18" x2="50" y2="50" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.6" stroke-dasharray="2,1.5"/>
+    <line x1="50" y1="50" x2="79" y2="40" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.6"/>
+    <line x1="50" y1="50" x2="27" y2="72" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.6"/>
+    <path d="M 82,34 C 95,48 78,74 48,78 C 22,82 8,66 18,36" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="3.5" fill="#FFFFFF"/>
+    <circle cx="50" cy="18" r="2.2" fill="#FFFFFF"/>
+    <circle cx="79" cy="40" r="2.8" fill="#FFFFFF"/>
+    <circle cx="27" cy="72" r="2.8" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Right Typography Wordmark (White) -->
+  <g transform="translate(98, 0)">
+    <text x="0" y="48" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Plus Jakarta Sans', sans-serif" font-size="34" font-weight="800" letter-spacing="1.5">
+      EARTHMIND
+    </text>
+    <text x="2" y="68" fill="#FFFFFF" fill-opacity="0.75" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="2.2">
+      PLANETARY ENVIRONMENTAL INTELLIGENCE
+    </text>
+  </g>
+</svg>

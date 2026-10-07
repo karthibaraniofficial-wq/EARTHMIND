@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" width="100%" height="auto">
+  <defs>
+    <linearGradient id="matrixBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#051525"/>
+      <stop offset="100%" stop-color="#081E32"/>
+    </linearGradient>
+    <radialGradient id="centerGlobe" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="30%" stop-color="#0284C7"/>
+      <stop offset="70%" stop-color="#0F3858"/>
+      <stop offset="100%" stop-color="#061A2B"/>
+    </radialGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0C253E"/>
+      <stop offset="100%" stop-color="#091C30"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Container -->
+  <rect width="1100" height="520" rx="14" fill="url(#matrixBg)" stroke="rgba(24,200,200,0.2)" stroke-width="1.2"/>
+
+  <!-- Section Title -->
+  <g transform="translate(40, 42)">
+    <rect x="0" y="0" width="140" height="24" rx="12" fill="#0E2D4A" stroke="rgba(24,200,200,0.3)" stroke-width="1"/>
+    <text x="14" y="16" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" letter-spacing="1">SECTION 04</text>
+    <text x="156" y="18" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+      Live Earth Biophysical Intelligence Matrix
+    </text>
+    <text x="0" y="44" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+      Real-time remote sensing data streams mapped to Three.js photorealistic orbital geometry and terrain elevation.
+    </text>
+  </g>
+
+  <!-- Connecting Radial Lines from Center Earth to Outer Cards -->
+  <g stroke="rgba(24,200,200,0.25)" stroke-width="1.2" stroke-dasharray="4,4">
+    <!-- To Left Cards -->
+    <path d="M 550,290 L 320,150"/>
+    <path d="M 550,290 L 320,290"/>
+    <path d="M 550,290 L 320,430"/>
+    <!-- To Right Cards -->
+    <path d="M 550,290 L 780,150"/>
+    <path d="M 550,290 L 780,290"/>
+    <path d="M 550,290 L 780,430"/>
+  </g>
+
+  <!-- Central Earth Orb Graphic -->
+  <g transform="translate(550, 290)">
+    <!-- Aura Rings -->
+    <circle cx="0" cy="0" r="125" fill="none" stroke="rgba(24,200,200,0.12)" stroke-width="1"/>
+    <circle cx="0" cy="0" r="105" fill="none" stroke="rgba(24,200,200,0.22)" stroke-width="1.2" stroke-dasharray="6,4"/>
+    <circle cx="0" cy="0" r="85" fill="none" stroke="rgba(52,211,153,0.3)" stroke-width="1"/>
+    <!-- Globe Core -->
+    <circle cx="0" cy="0" r="72" fill="url(#centerGlobe)" filter="url(#glow)"/>
+    <!-- Grid on Globe -->
+    <ellipse cx="0" cy="0" rx="72" ry="32" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+    <ellipse cx="0" cy="0" rx="42" ry="72" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+    <line x1="-72" y1="0" x2="72" y2="0" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
+    <!-- Center Label -->
+    <rect x="-48" y="86" width="96" height="24" rx="12" fill="#091C30" stroke="#18C8C8" stroke-width="1"/>
+    <text x="0" y="102" text-anchor="middle" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" letter-spacing="0.6">REAL EARTH</text>
+  </g>
+
+  <!-- Left Column Cards (Layers 1 to 3) -->
+  <!-- Card 1: Biosphere / Vegetation -->
+  <g transform="translate(50, 105)">
+    <rect width="270" height="90" rx="8" fill="url(#cardGrad)" stroke="rgba(39,201,138,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="4" height="90" rx="2" fill="#27C98A"/>
+    <text x="18" y="26" fill="#27C98A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">🌳 BIOSPHERE</text>
+    <text x="18" y="46" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">NDVI &amp; Forest Canopy</text>
+    <text x="18" y="66" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Photosynthetic activity &amp; canopy loss</text>
+    <rect x="18" y="72" width="70" height="12" rx="6" fill="rgba(39,201,138,0.15)"/>
+    <text x="53" y="81" text-anchor="middle" fill="#27C98A" font-family="ui-monospace, monospace" font-size="8" font-weight="700">OBSERVED</text>
+  </g>
+
+  <!-- Card 2: Atmosphere / AQI -->
+  <g transform="translate(50, 245)">
+    <rect width="270" height="90" rx="8" fill="url(#cardGrad)" stroke="rgba(24,200,200,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="4" height="90" rx="2" fill="#18C8C8"/>
+    <text x="18" y="26" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">🫁 ATMOSPHERE</text>
+    <text x="18" y="46" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">AQI &amp; Fine PM2.5</text>
+    <text x="18" y="66" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Aerosol optical depth &amp; gas plumes</text>
+    <rect x="18" y="72" width="70" height="12" rx="6" fill="rgba(24,200,200,0.15)"/>
+    <text x="53" y="81" text-anchor="middle" fill="#18C8C8" font-family="ui-monospace, monospace" font-size="8" font-weight="700">OBSERVED</text>
+  </g>
+
+  <!-- Card 3: Hydrosphere / Water Table -->
+  <g transform="translate(50, 385)">
+    <rect width="270" height="90" rx="8" fill="url(#cardGrad)" stroke="rgba(79,168,255,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="4" height="90" rx="2" fill="#4FA8FF"/>
+    <text x="18" y="26" fill="#4FA8FF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">🌊 HYDROSPHERE</text>
+    <text x="18" y="46" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">Water Table &amp; Flood Hazard</text>
+    <text x="18" y="66" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Aquifer depletion &amp; drainage basin stress</text>
+    <rect x="18" y="72" width="70" height="12" rx="6" fill="rgba(79,168,255,0.15)"/>
+    <text x="53" y="81" text-anchor="middle" fill="#4FA8FF" font-family="ui-monospace, monospace" font-size="8" font-weight="700">MODELLED</text>
+  </g>
+
+  <!-- Right Column Cards (Layers 4 to 6) -->
+  <!-- Card 4: Thermosphere / Climate -->
+  <g transform="translate(780, 105)">
+    <rect width="270" height="90" rx="8" fill="url(#cardGrad)" stroke="rgba(255,107,107,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="4" height="90" rx="2" fill="#FF6B6B"/>
+    <text x="18" y="26" fill="#FF6B6B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">🌡️ CLIMATE</text>
+    <text x="18" y="46" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">Land Surface Temp &amp; Drought</text>
+    <text x="18" y="66" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Thermal infrared anomalies &amp; SPEI</text>
+    <rect x="18" y="72" width="70" height="12" rx="6" fill="rgba(255,107,107,0.15)"/>
+    <text x="53" y="81" text-anchor="middle" fill="#FF6B6B" font-family="ui-monospace, monospace" font-size="8" font-weight="700">OBSERVED</text>
+  </g>
+
+  <!-- Card 5: Anthroposphere / Urban -->
+  <g transform="translate(780, 245)">
+    <rect width="270" height="90" rx="8" fill="url(#cardGrad)" stroke="rgba(155,124,255,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="4" height="90" rx="2" fill="#9B7CFF"/>
+    <text x="18" y="26" fill="#9B7CFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">🏙️ ANTHROPOSPHERE</text>
+    <text x="18" y="46" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">Urban Heat &amp; Density</text>
+    <text x="18" y="66" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Impervious surface ratio &amp; night lights</text>
+    <rect x="18" y="72" width="70" height="12" rx="6" fill="rgba(155,124,255,0.15)"/>
+    <text x="53" y="81" text-anchor="middle" fill="#9B7CFF" font-family="ui-monospace, monospace" font-size="8" font-weight="700">OBSERVED</text>
+  </g>
+
+  <!-- Card 6: Risk & Sentinel / Planetary Health -->
+  <g transform="translate(780, 385)">
+    <rect width="270" height="90" rx="8" fill="url(#cardGrad)" stroke="rgba(255,209,102,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="4" height="90" rx="2" fill="#FFD166"/>
+    <text x="18" y="26" fill="#FFD166" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">⚠️ RISK &amp; SENTINEL</text>
+    <text x="18" y="46" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">Planetary Health Score (0-100)</text>
+    <text x="18" y="66" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Wildfire frequency &amp; tipping points</text>
+    <rect x="18" y="72" width="70" height="12" rx="6" fill="rgba(255,209,102,0.15)"/>
+    <text x="53" y="81" text-anchor="middle" fill="#FFD166" font-family="ui-monospace, monospace" font-size="8" font-weight="700">COMPOSITE</text>
+  </g>
+</svg>

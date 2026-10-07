@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" width="100%" height="auto">
+  <defs>
+    <linearGradient id="memBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#041324"/>
+      <stop offset="100%" stop-color="#071E32"/>
+    </linearGradient>
+    <linearGradient id="memCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A243D"/>
+      <stop offset="100%" stop-color="#081C30"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4FA8FF"/>
+      <stop offset="50%" stop-color="#18C8C8"/>
+      <stop offset="100%" stop-color="#27C98A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1100" height="280" rx="14" fill="url(#memBg)" stroke="rgba(24,200,200,0.2)" stroke-width="1.2"/>
+
+  <!-- Header -->
+  <g transform="translate(40, 34)">
+    <rect x="0" y="0" width="140" height="24" rx="12" fill="#0C2C4A" stroke="rgba(79,168,255,0.3)" stroke-width="1"/>
+    <text x="14" y="16" fill="#4FA8FF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" letter-spacing="1">EARTH MEMORY</text>
+    <text x="156" y="18" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+      Multi-Decadal Retrospective &amp; Environmental Forensics Timeline
+    </text>
+  </g>
+
+  <!-- Horizontal Timeline Bar -->
+  <line x1="80" y1="130" x2="1020" y2="130" stroke="url(#lineGrad)" stroke-width="3"/>
+
+  <!-- Step 1: Historical Baseline -->
+  <g transform="translate(60, 95)">
+    <circle cx="20" cy="35" r="10" fill="#082036" stroke="#4FA8FF" stroke-width="2.5"/>
+    <circle cx="20" cy="35" r="4" fill="#FFFFFF"/>
+    <rect x="-10" y="55" width="160" height="75" rx="8" fill="url(#memCardGrad)" stroke="rgba(79,168,255,0.25)" stroke-width="1"/>
+    <text x="70" y="75" text-anchor="middle" fill="#4FA8FF" font-family="ui-monospace, monospace" font-size="10" font-weight="700">1984 - 2000</text>
+    <text x="70" y="94" text-anchor="middle" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">HISTORICAL BASELINE</text>
+    <text x="70" y="112" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">Landsat &amp; AVHRR Biomes</text>
+  </g>
+
+  <!-- Step 2: Anomaly Emergence -->
+  <g transform="translate(260, 95)">
+    <circle cx="20" cy="35" r="10" fill="#082036" stroke="#FFD166" stroke-width="2.5"/>
+    <circle cx="20" cy="35" r="4" fill="#FFD166"/>
+    <rect x="-10" y="55" width="160" height="75" rx="8" fill="url(#memCardGrad)" stroke="rgba(255,209,102,0.25)" stroke-width="1"/>
+    <text x="70" y="75" text-anchor="middle" fill="#FFD166" font-family="ui-monospace, monospace" font-size="10" font-weight="700">2001 - 2015</text>
+    <text x="70" y="94" text-anchor="middle" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">ANOMALY EMERGENCE</text>
+    <text x="70" y="112" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">MODIS Thermal &amp; Deforestation</text>
+  </g>
+
+  <!-- Step 3: Sentinel Anomaly -->
+  <g transform="translate(460, 95)">
+    <circle cx="20" cy="35" r="10" fill="#082036" stroke="#FF6B6B" stroke-width="2.5"/>
+    <circle cx="20" cy="35" r="4" fill="#FF6B6B"/>
+    <rect x="-10" y="55" width="160" height="75" rx="8" fill="url(#memCardGrad)" stroke="rgba(255,107,107,0.25)" stroke-width="1"/>
+    <text x="70" y="75" text-anchor="middle" fill="#FF6B6B" font-family="ui-monospace, monospace" font-size="10" font-weight="700">2016 - 2024</text>
+    <text x="70" y="94" text-anchor="middle" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">CRITICAL TIPPING POINT</text>
+    <text x="70" y="112" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">Groundwater Deficit Spike</text>
+  </g>
+
+  <!-- Step 4: Present Observation -->
+  <g transform="translate(660, 95)">
+    <circle cx="20" cy="35" r="11" fill="#082036" stroke="#18C8C8" stroke-width="3"/>
+    <circle cx="20" cy="35" r="5" fill="#18C8C8"/>
+    <rect x="-10" y="55" width="160" height="75" rx="8" fill="url(#memCardGrad)" stroke="rgba(24,200,200,0.35)" stroke-width="1"/>
+    <text x="70" y="75" text-anchor="middle" fill="#18C8C8" font-family="ui-monospace, monospace" font-size="10" font-weight="700">OCT 2026 (NOW)</text>
+    <text x="70" y="94" text-anchor="middle" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">PRESENT MULTISPECTRAL</text>
+    <text x="70" y="112" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">11 Real-Time Live Layers</text>
+  </g>
+
+  <!-- Step 5: Counterfactual Future -->
+  <g transform="translate(860, 95)">
+    <circle cx="20" cy="35" r="10" fill="#082036" stroke="#27C98A" stroke-width="2.5" stroke-dasharray="3,3"/>
+    <circle cx="20" cy="35" r="4" fill="#27C98A"/>
+    <rect x="-10" y="55" width="160" height="75" rx="8" fill="url(#memCardGrad)" stroke="rgba(39,201,138,0.25)" stroke-width="1"/>
+    <text x="70" y="75" text-anchor="middle" fill="#27C98A" font-family="ui-monospace, monospace" font-size="10" font-weight="700">2030 - 2050</text>
+    <text x="70" y="94" text-anchor="middle" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">PROJECTED FORK</text>
+    <text x="70" y="112" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">What-If Branch Exploration</text>
+  </g>
+</svg>

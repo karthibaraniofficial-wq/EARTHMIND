@@ -29,6 +29,7 @@ import { GlassBadge } from '../components/glass/GlassBadge';
 import { useVoice } from '../voice/VoiceContext';
 import { useEarthMindTheme } from '../theme/ThemeProvider';
 import { useAppShell } from './AppShellContext';
+import { EarthMindLogo } from '../branding';
 
 export interface GlobalTopBarProps {
   onOpenCommand: () => void;
@@ -126,30 +127,12 @@ export const GlobalTopBar: React.FC<GlobalTopBarProps> = ({
           onClick={() => onNavigate('overview')}
           className="flex items-center gap-2.5 cursor-pointer group flex-shrink-0"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-earth-deep via-earth-ocean to-earth-aqua p-[1px] shadow-[0_0_15px_rgba(24,200,200,0.3)] group-hover:shadow-[0_0_20px_rgba(24,200,200,0.5)] transition-all">
-            <div className="w-full h-full bg-[#071A2B] rounded-[7px] flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-earth-aqua">
-                <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4" />
-                <path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.3" />
-                <path d="M3.6 9h16.8M3.6 15h16.8" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.3" />
-                <circle cx="12" cy="12" r="2.2" fill="#27C98A" />
-                <circle cx="7" cy="8" r="1.4" fill="#18C8C8" />
-                <circle cx="17" cy="8" r="1.4" fill="#9B7CFF" />
-              </svg>
-            </div>
-          </div>
-
-          <div className="flex items-baseline gap-2">
-            <span className="font-extrabold tracking-wider text-sm sm:text-base text-white font-mono">
-              EARTH<span className="text-earth-aqua">MIND</span>
-            </span>
-            <GlassBadge tone="aqua" size="sm">
-              v4.0 OS
-            </GlassBadge>
-            <span className="text-[10px] text-slate-400 font-mono tracking-tight hidden xl:inline">
-              PLANETARY INTELLIGENCE
-            </span>
-          </div>
+          <EarthMindLogo 
+            variant="full" 
+            size="md" 
+            badgeText="v4.0 OS" 
+            showTagline={false}
+          />
         </div>
       </div>
 

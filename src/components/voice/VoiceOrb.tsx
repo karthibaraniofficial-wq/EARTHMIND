@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mic, MicOff, Volume2, Sparkles, AlertCircle, Settings } from 'lucide-react';
 import { useVoice } from '../../voice/VoiceContext';
+import { EarthMindSymbol } from '../../branding';
 
 export const VoiceOrb: React.FC = () => {
   const {
@@ -113,26 +114,33 @@ export const VoiceOrb: React.FC = () => {
           title="Talk to EarthMind (Voice Intelligence Control)"
         >
           {/* Liquid Glass Spherical Background */}
-          <div className="w-full h-full rounded-full bg-gradient-to-br from-[#0c2a47]/90 via-[#071A2B]/95 to-[#051320] backdrop-blur-2xl flex items-center justify-center relative overflow-hidden border border-white/20">
+          <div className="w-full h-full rounded-full bg-gradient-to-br from-[#0c2a47]/95 via-[#071A2B]/95 to-[#051320] backdrop-blur-2xl flex items-center justify-center relative overflow-hidden border border-white/20">
             {/* Soft Liquid Glass Highlight Sheen */}
             <div className="absolute top-0 left-1/4 right-1/4 h-3 bg-gradient-to-b from-white/35 to-transparent rounded-full pointer-events-none" />
 
-            {/* Subtle orbital animation when searching/thinking */}
-            {(state === 'PROCESSING' || state === 'UNDERSTANDING') && (
-              <div className="absolute inset-1 rounded-full border border-earth-aurora/40 animate-spin pointer-events-none" />
-            )}
-
-            {/* Icon depending on state */}
+            {/* EarthMind Symbol as Core AI Intelligence */}
             {state === 'ERROR' ? (
               <AlertCircle className="w-6 h-6 text-earth-coral" />
-            ) : isSpeaking ? (
-              <Volume2 className="w-6 h-6 text-earth-emerald animate-pulse" />
-            ) : state === 'PROCESSING' || state === 'UNDERSTANDING' ? (
-              <Sparkles className="w-6 h-6 text-earth-aurora animate-pulse" />
-            ) : isListening ? (
-              <Mic className="w-6 h-6 text-earth-aqua animate-pulse" />
             ) : (
-              <Mic className="w-5 h-5 text-slate-300 group-hover:text-earth-aqua transition-colors" />
+              <div className="relative flex items-center justify-center">
+                <EarthMindSymbol
+                  size={28}
+                  variant={isSpeaking ? 'emerald' : isListening ? 'cyan' : 'primary'}
+                  animated={
+                    state === 'PROCESSING' || state === 'UNDERSTANDING'
+                      ? 'orbit'
+                      : isSpeaking
+                      ? 'pulse'
+                      : false
+                  }
+                  className="transition-transform duration-300"
+                />
+
+                {/* Micro state indicator overlay */}
+                {isListening && (
+                  <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 rounded-full bg-earth-aqua border border-slate-900 animate-ping" />
+                )}
+              </div>
             )}
           </div>
         </button>

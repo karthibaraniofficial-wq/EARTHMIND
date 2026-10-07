@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" fill="none">
+  <!-- Outer Telemetry Ring -->
+  <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="0.75" stroke-opacity="0.25" stroke-dasharray="3,3"/>
+
+  <!-- Orbital Ring Back -->
+  <path d="M 18,36 C 26,22 64,20 82,34" stroke="currentColor" stroke-width="1.4" stroke-opacity="0.3" stroke-dasharray="3,3"/>
+
+  <!-- Planetary Sphere Core -->
+  <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" stroke-width="2"/>
+
+  <!-- Atmospheric Limb -->
+  <path d="M 23,38 A 32 32 0 0 1 77,38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.5"/>
+
+  <!-- Equatorial Curve -->
+  <path d="M 18,50 Q 50,59 82,50" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.3"/>
+
+  <!-- Meridian Biosphere Arc -->
+  <path d="M 50,18 C 34,30 34,70 50,82" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Neural Mesh -->
+  <line x1="50" y1="18" x2="50" y2="50" stroke="currentColor" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="2,1.5"/>
+  <line x1="50" y1="50" x2="79" y2="40" stroke="currentColor" stroke-width="1" stroke-opacity="0.4"/>
+  <line x1="50" y1="50" x2="27" y2="72" stroke="currentColor" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- Front Orbital Ring -->
+  <path d="M 82,34 C 95,48 78,74 48,78 C 22,82 8,66 18,36" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- Intelligence Nodes -->
+  <circle cx="50" cy="50" r="3.4" fill="currentColor"/>
+  <circle cx="50" cy="18" r="2.2" fill="currentColor"/>
+  <circle cx="79" cy="40" r="2.8" fill="currentColor"/>
+  <circle cx="27" cy="72" r="2.8" fill="currentColor"/>
+</svg>

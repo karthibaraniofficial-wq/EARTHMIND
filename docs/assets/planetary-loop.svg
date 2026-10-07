@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 240" width="100%" height="auto">
+  <defs>
+    <linearGradient id="loopBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#051424"/>
+      <stop offset="100%" stop-color="#081F34"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D2742"/>
+      <stop offset="100%" stop-color="#091C30"/>
+    </linearGradient>
+    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#18C8C8"/>
+      <stop offset="100%" stop-color="#27C98A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Container -->
+  <rect width="1100" height="240" rx="14" fill="url(#loopBg)" stroke="rgba(24,200,200,0.18)" stroke-width="1.2"/>
+
+  <!-- Title & Subtitle -->
+  <g transform="translate(40, 32)">
+    <text x="0" y="0" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">THE NORTH STAR</text>
+    <text x="0" y="24" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700">
+      The Planetary Intelligence Closed-Loop Cycle
+    </text>
+  </g>
+
+  <!-- Flow Steps: 6 Nodes -->
+  <!-- Connecting Track Line -->
+  <path d="M 110,145 L 990,145" stroke="rgba(24,200,200,0.2)" stroke-width="2"/>
+  <path d="M 110,145 L 990,145" stroke="url(#arrowGrad)" stroke-width="2" stroke-dasharray="12,12"/>
+
+  <!-- Node 1: OBSERVE -->
+  <g transform="translate(60, 100)">
+    <rect width="130" height="85" rx="8" fill="url(#nodeGrad)" stroke="rgba(24,200,200,0.3)" stroke-width="1.2"/>
+    <circle cx="65" cy="22" r="14" fill="#0C253E" stroke="#18C8C8" stroke-width="1.2"/>
+    <text x="65" y="26" text-anchor="middle" font-size="12">🛰️</text>
+    <text x="65" y="52" text-anchor="middle" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">01. OBSERVE</text>
+    <text x="65" y="68" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">Remote Sensing</text>
+  </g>
+
+  <!-- Node 2: UNDERSTAND -->
+  <g transform="translate(225, 100)">
+    <rect width="130" height="85" rx="8" fill="url(#nodeGrad)" stroke="rgba(39,201,138,0.3)" stroke-width="1.2"/>
+    <circle cx="65" cy="22" r="14" fill="#0C253E" stroke="#27C98A" stroke-width="1.2"/>
+    <text x="65" y="26" text-anchor="middle" font-size="12">🧠</text>
+    <text x="65" y="52" text-anchor="middle" fill="#27C98A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">02. UNDERSTAND</text>
+    <text x="65" y="68" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">AI Reasoning</text>
+  </g>
+
+  <!-- Node 3: INVESTIGATE -->
+  <g transform="translate(390, 100)">
+    <rect width="130" height="85" rx="8" fill="url(#nodeGrad)" stroke="rgba(155,124,255,0.3)" stroke-width="1.2"/>
+    <circle cx="65" cy="22" r="14" fill="#0C253E" stroke="#9B7CFF" stroke-width="1.2"/>
+    <text x="65" y="26" text-anchor="middle" font-size="12">🔬</text>
+    <text x="65" y="52" text-anchor="middle" fill="#9B7CFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">03. INVESTIGATE</text>
+    <text x="65" y="68" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">Forensics &amp; Memory</text>
+  </g>
+
+  <!-- Node 4: SIMULATE -->
+  <g transform="translate(555, 100)">
+    <rect width="130" height="85" rx="8" fill="url(#nodeGrad)" stroke="rgba(255,209,102,0.3)" stroke-width="1.2"/>
+    <circle cx="65" cy="22" r="14" fill="#0C253E" stroke="#FFD166" stroke-width="1.2"/>
+    <text x="65" y="26" text-anchor="middle" font-size="12">🔮</text>
+    <text x="65" y="52" text-anchor="middle" fill="#FFD166" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">04. SIMULATE</text>
+    <text x="65" y="68" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">What-If Sandbox</text>
+  </g>
+
+  <!-- Node 5: PREDICT -->
+  <g transform="translate(720, 100)">
+    <rect width="130" height="85" rx="8" fill="url(#nodeGrad)" stroke="rgba(255,107,107,0.3)" stroke-width="1.2"/>
+    <circle cx="65" cy="22" r="14" fill="#0C253E" stroke="#FF6B6B" stroke-width="1.2"/>
+    <text x="65" y="26" text-anchor="middle" font-size="12">📈</text>
+    <text x="65" y="52" text-anchor="middle" fill="#FF6B6B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">05. PREDICT</text>
+    <text x="65" y="68" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">Future Fork Branches</text>
+  </g>
+
+  <!-- Node 6: DECIDE -->
+  <g transform="translate(885, 100)">
+    <rect width="130" height="85" rx="8" fill="url(#nodeGrad)" stroke="rgba(79,168,255,0.3)" stroke-width="1.2"/>
+    <circle cx="65" cy="22" r="14" fill="#0C253E" stroke="#4FA8FF" stroke-width="1.2"/>
+    <text x="65" y="26" text-anchor="middle" font-size="12">⚖️</text>
+    <text x="65" y="52" text-anchor="middle" fill="#4FA8FF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">06. DECIDE</text>
+    <text x="65" y="68" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5">Council &amp; Audit</text>
+  </g>
+</svg>

@@ -21,6 +21,7 @@ import { GlassButton } from '../../components/glass/GlassButton';
 import { GlassBadge } from '../../components/glass/GlassBadge';
 import { EnvironmentalHotspot, SavedScenario } from '../../types';
 import { ScientificBadge } from '../../design-system/ScientificBadge';
+import { EarthMindLogo } from '../../branding';
 
 interface ReportGeneratorViewProps {
   hotspots: EnvironmentalHotspot[];
@@ -114,10 +115,8 @@ export const ReportGeneratorView: React.FC<ReportGeneratorViewProps> = ({
         {/* Document Header */}
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b border-white/10 print:border-black/20">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="font-extrabold text-lg tracking-wider text-earth-aqua print:text-teal-700 font-mono">
-                EARTHMIND
-              </span>
+            <div className="flex items-center gap-3 mb-2 flex-wrap">
+              <EarthMindLogo variant="full" size="sm" showTagline={false} />
               <span className="text-xs font-mono text-slate-400 print:text-gray-500">| DIGITAL TWIN REPORT</span>
               <ScientificBadge provenance="OBSERVED" confidence={95} size="sm" />
             </div>

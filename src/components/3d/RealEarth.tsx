@@ -13,6 +13,7 @@ import {
   Layers,
   Sparkles
 } from 'lucide-react';
+import { EarthMindLoading } from '../../branding';
 
 export interface RealEarthProps {
   mode?: 'hero' | 'explorer' | 'memory' | 'overview';
@@ -901,26 +902,12 @@ export const RealEarth: React.FC<RealEarthProps> = ({
       {/* Texture Loading Experience */}
       {!isLoaded && (
         <div className="absolute inset-0 z-40 flex items-center justify-center p-6 bg-[#071A2B]/85 backdrop-blur-md transition-opacity duration-300">
-          <div className="glass-panel-3 p-5 rounded-2xl border border-earth-aqua/40 shadow-2xl max-w-xs w-full text-center space-y-3">
-            <div className="w-8 h-8 mx-auto rounded-full bg-earth-aqua/20 flex items-center justify-center border border-earth-aqua/40">
-              <span className="w-4 h-4 border-2 border-earth-aqua/30 border-t-earth-aqua rounded-full animate-spin" />
-            </div>
-            <div>
-              <div className="text-xs font-bold text-white tracking-wider font-mono">
-                INITIALIZING PLANETARY OS...
-              </div>
-              <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                Calibrating NASA Blue Marble & Remote Sensors
-              </div>
-            </div>
-            <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-earth-aqua to-earth-emerald rounded-full transition-all duration-300"
-                style={{ width: `${loadingProgress}%` }}
-              />
-            </div>
-            <div className="text-[10px] font-mono text-earth-aqua">{loadingProgress}%</div>
-          </div>
+          <EarthMindLoading 
+            progress={loadingProgress}
+            statusText="INITIALIZING PLANETARY OS..."
+            subText="Calibrating NASA Blue Marble & Remote Sensors"
+            size="sm"
+          />
         </div>
       )}
 

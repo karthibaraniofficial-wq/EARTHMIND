@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="auto">
+  <defs>
+    <!-- Background Space Gradient -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#051322"/>
+      <stop offset="50%" stop-color="#071A2B"/>
+      <stop offset="100%" stop-color="#030C16"/>
+    </linearGradient>
+
+    <!-- Radial Planet Glow -->
+    <radialGradient id="planetGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#18C8C8" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#18C8C8" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#071A2B" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Earth Atmosphere Rim -->
+    <radialGradient id="earthRim" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.9"/>
+      <stop offset="35%" stop-color="#18C8C8" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#0D4B75" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#031525" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- Glass Surface Gradient -->
+    <linearGradient id="glassSurface" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
+    </linearGradient>
+
+    <!-- Cyan Accent Gradient -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#18C8C8"/>
+      <stop offset="100%" stop-color="#27C98A"/>
+    </linearGradient>
+
+    <!-- Filter for soft neon glow -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="440" rx="16" fill="url(#bgGradient)"/>
+  <rect width="1198" height="438" x="1" y="1" rx="15" fill="none" stroke="rgba(24,200,200,0.18)" stroke-width="1.5"/>
+
+  <!-- Subtle Coordinate Grid Matrix -->
+  <g opacity="0.12" stroke="#18C8C8" stroke-width="0.75" stroke-dasharray="3,3">
+    <line x1="80" y1="0" x2="80" y2="440"/>
+    <line x1="240" y1="0" x2="240" y2="440"/>
+    <line x1="400" y1="0" x2="400" y2="440"/>
+    <line x1="560" y1="0" x2="560" y2="440"/>
+    <line x1="720" y1="0" x2="720" y2="440"/>
+    <line x1="880" y1="0" x2="880" y2="440"/>
+    <line x1="1040" y1="0" x2="1040" y2="440"/>
+    <line x1="0" y1="80" x2="1200" y2="80"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="280" x2="1200" y2="280"/>
+    <line x1="0" y1="360" x2="1200" y2="360"/>
+  </g>
+
+  <!-- Star Constellation Dots -->
+  <g fill="#ffffff" opacity="0.35">
+    <circle cx="120" cy="65" r="1.5"/>
+    <circle cx="340" cy="110" r="1.2"/>
+    <circle cx="580" cy="45" r="1.4"/>
+    <circle cx="95" cy="240" r="1"/>
+    <circle cx="480" cy="380" r="1.5"/>
+    <circle cx="680" cy="140" r="1.2"/>
+    <circle cx="1120" cy="70" r="1.6"/>
+    <circle cx="1150" cy="340" r="1.3"/>
+  </g>
+
+  <!-- Right Hero Graphic: High-Tech Earth Globe Representation -->
+  <g transform="translate(930, 220)">
+    <!-- Outer Orbital Field & Rings -->
+    <circle cx="0" cy="0" r="190" fill="url(#planetGlow)"/>
+    
+    <circle cx="0" cy="0" r="165" fill="none" stroke="rgba(24,200,200,0.18)" stroke-width="1.2" stroke-dasharray="6,4"/>
+    <circle cx="0" cy="0" r="145" fill="none" stroke="rgba(155,124,255,0.22)" stroke-width="1"/>
+    
+    <!-- Inclined Orbit Track -->
+    <ellipse cx="0" cy="0" rx="160" ry="60" fill="none" stroke="url(#cyanGrad)" stroke-width="1.6" transform="rotate(-28)" opacity="0.75"/>
+    
+    <!-- Orbiting Satellite Indicator -->
+    <g transform="rotate(-28)">
+      <circle cx="145" cy="22" r="4.5" fill="#18C8C8" filter="url(#softGlow)"/>
+      <circle cx="145" cy="22" r="9" fill="none" stroke="rgba(24,200,200,0.5)" stroke-width="1"/>
+    </g>
+
+    <!-- Central Earth Sphere -->
+    <circle cx="0" cy="0" r="110" fill="url(#earthRim)"/>
+    
+    <!-- Stylized Continents & Lat/Long Mesh -->
+    <g opacity="0.3" stroke="#27C98A" fill="none" stroke-width="0.8">
+      <ellipse cx="0" cy="0" rx="110" ry="110"/>
+      <ellipse cx="0" cy="0" rx="75" ry="110"/>
+      <ellipse cx="0" cy="0" rx="35" ry="110"/>
+      <line x1="-110" y1="0" x2="110" y2="0"/>
+      <line x1="-100" y1="-45" x2="100" y2="-45"/>
+      <line x1="-100" y1="45" x2="100" y2="45"/>
+    </g>
+
+    <!-- Atmospheric Limb Glow Arc -->
+    <path d="M -85,-70 A 110 110 0 0 1 85,-70" fill="none" stroke="#67E8F9" stroke-width="3.5" opacity="0.65" filter="url(#softGlow)"/>
+    
+    <!-- Floating Telemetry Indicator -->
+    <g transform="translate(65, -85)">
+      <rect x="0" y="0" width="110" height="34" rx="6" fill="#091C30" stroke="rgba(24,200,200,0.4)" stroke-width="1"/>
+      <circle cx="14" cy="17" r="4" fill="#27C98A"/>
+      <text x="26" y="15" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="600" letter-spacing="0.5">TERRA ORBIT</text>
+      <text x="26" y="26" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700">705 KM • SYNC</text>
+    </g>
+  </g>
+
+  <!-- Left Content: Identity & Mission Control Hero -->
+  <g transform="translate(70, 75)">
+    <!-- Mission Header Badge -->
+    <g>
+      <rect x="0" y="0" width="310" height="28" rx="14" fill="#091C30" stroke="rgba(24,200,200,0.35)" stroke-width="1"/>
+      <circle cx="16" cy="14" r="4.5" fill="#18C8C8" filter="url(#softGlow)"/>
+      <text x="29" y="18" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10.5" font-weight="700" letter-spacing="1.2">PLANETARY INTELLIGENCE OS 4.0</text>
+      <line x1="225" y1="7" x2="225" y2="21" stroke="rgba(255,255,255,0.15)"/>
+      <text x="235" y="18" fill="#27C98A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.8">SCIENCE EXPO '26</text>
+    </g>
+
+    <!-- Brand Symbol & Main Title -->
+    <g transform="translate(0, 48)">
+      <!-- Symbol Scaled (54x54) -->
+      <g transform="translate(0, -6) scale(0.56)">
+        <circle cx="50" cy="50" r="45" stroke="#18C8C8" stroke-width="0.75" stroke-opacity="0.25" stroke-dasharray="3,3"/>
+        <path d="M 18,36 C 26,22 64,20 82,34" stroke="#18C8C8" stroke-width="1.4" stroke-opacity="0.3" stroke-dasharray="3,3"/>
+        <circle cx="50" cy="50" r="32" fill="url(#planetGlow)" stroke="#18C8C8" stroke-width="1.8"/>
+        <path d="M 23,38 A 32 32 0 0 1 77,38" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.65"/>
+        <path d="M 18,50 Q 50,59 82,50" stroke="#18C8C8" stroke-width="1.2" stroke-opacity="0.35"/>
+        <path d="M 50,18 C 34,30 34,70 50,82" stroke="#27C98A" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="50" y1="18" x2="50" y2="50" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.5" stroke-dasharray="2,1.5"/>
+        <line x1="50" y1="50" x2="79" y2="40" stroke="#18C8C8" stroke-width="1" stroke-opacity="0.6"/>
+        <line x1="50" y1="50" x2="27" y2="72" stroke="#9B7CFF" stroke-width="1" stroke-opacity="0.6"/>
+        <path d="M 82,34 C 95,48 78,74 48,78 C 22,82 8,66 18,36" stroke="url(#cyanGrad)" stroke-width="2.8" stroke-linecap="round" filter="url(#softGlow)"/>
+        <circle cx="50" cy="50" r="3.4" fill="#27C98A" stroke="#FFFFFF" stroke-width="1"/>
+        <circle cx="50" cy="18" r="2.2" fill="#FFFFFF"/>
+        <circle cx="79" cy="40" r="2.8" fill="#18C8C8"/>
+        <circle cx="27" cy="72" r="2.8" fill="#9B7CFF"/>
+      </g>
+
+      <!-- Main Title -->
+      <text x="68" y="38" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="800" letter-spacing="-0.5">
+        EARTH<tspan fill="#18C8C8">MIND</tspan>
+      </text>
+    </g>
+
+    <!-- Subtitle -->
+    <text x="0" y="118" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" letter-spacing="0.5">
+      Planetary Environmental Intelligence &amp; Counterfactual Simulation Platform
+    </text>
+
+    <!-- Mission Statement Quote -->
+    <g transform="translate(0, 142)">
+      <rect x="0" y="0" width="560" height="42" rx="8" fill="url(#glassSurface)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="42" stroke="#18C8C8" stroke-width="3"/>
+      <text x="16" y="26" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-style="italic">
+        “See the planet. Understand its changes. Simulate its future.”
+      </text>
+    </g>
+
+    <!-- Capabilities Matrix Pills -->
+    <g transform="translate(0, 206)">
+      <!-- Pill 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="138" height="28" rx="6" fill="#0C253E" stroke="rgba(24,200,200,0.25)" stroke-width="1"/>
+        <text x="12" y="18" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🌍 3D Digital Twin</text>
+      </g>
+      <!-- Pill 2 -->
+      <g transform="translate(148, 0)">
+        <rect x="0" y="0" width="158" height="28" rx="6" fill="#0C253E" stroke="rgba(24,200,200,0.25)" stroke-width="1"/>
+        <text x="12" y="18" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🔮 What-If Simulator</text>
+      </g>
+      <!-- Pill 3 -->
+      <g transform="translate(316, 0)">
+        <rect x="0" y="0" width="156" height="28" rx="6" fill="#0C253E" stroke="rgba(24,200,200,0.25)" stroke-width="1"/>
+        <text x="12" y="18" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🎙️ Gemini Live Voice</text>
+      </g>
+      <!-- Pill 4 -->
+      <g transform="translate(482, 0)">
+        <rect x="0" y="0" width="144" height="28" rx="6" fill="#0C253E" stroke="rgba(24,200,200,0.25)" stroke-width="1"/>
+        <text x="12" y="18" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🛰️ 11 Remote Layers</text>
+      </g>
+    </g>
+
+    <!-- Operational Telemetry Bar -->
+    <g transform="translate(0, 252)">
+      <text x="0" y="16" fill="#64748B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" letter-spacing="0.5">
+        DEPLOYMENT: <tspan fill="#27C98A" font-weight="bold">VERCEL EDGE (PRODUCTION)</tspan>  |  SECURITY: <tspan fill="#18C8C8">ZERO SECRET EXPOSURE</tspan>  |  TESTS: <tspan fill="#27C98A">90/90 PASS</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

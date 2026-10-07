@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 90" width="100%" height="auto" fill="none">
+  <defs>
+    <linearGradient id="em-lg-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E3354"/>
+      <stop offset="100%" stop-color="#071A2B"/>
+    </linearGradient>
+    <linearGradient id="em-lg-orbit" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#18C8C8"/>
+      <stop offset="50%" stop-color="#27C98A"/>
+      <stop offset="100%" stop-color="#9B7CFF"/>
+    </linearGradient>
+    <linearGradient id="em-lg-bio" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#27C98A"/>
+      <stop offset="50%" stop-color="#18C8C8"/>
+      <stop offset="100%" stop-color="#0E8686"/>
+    </linearGradient>
+    <filter id="em-lg-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Left Symbol (Scales 100x100 space down to 72x72) -->
+  <g transform="translate(10, 9) scale(0.72)">
+    <!-- Outer Telemetry Ring -->
+    <circle cx="50" cy="50" r="45" stroke="#18C8C8" stroke-width="0.75" stroke-opacity="0.25" stroke-dasharray="3,3"/>
+
+    <!-- Orbital Back Arc -->
+    <path d="M 18,36 C 26,22 64,20 82,34" stroke="#18C8C8" stroke-width="1.4" stroke-opacity="0.3" stroke-dasharray="3,3"/>
+
+    <!-- Planetary Core -->
+    <circle cx="50" cy="50" r="32" fill="url(#em-lg-bg)" stroke="#18C8C8" stroke-width="1.8"/>
+
+    <!-- Atmospheric Limb -->
+    <path d="M 23,38 A 32 32 0 0 1 77,38" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.65"/>
+
+    <!-- Equatorial Curve -->
+    <path d="M 18,50 Q 50,59 82,50" stroke="#18C8C8" stroke-width="1.2" stroke-opacity="0.35"/>
+
+    <!-- Meridian Biosphere Arc -->
+    <path d="M 50,18 C 34,30 34,70 50,82" stroke="url(#em-lg-bio)" stroke-width="2.2" stroke-linecap="round"/>
+
+    <!-- Neural Geodesics -->
+    <line x1="50" y1="18" x2="50" y2="50" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.5" stroke-dasharray="2,1.5"/>
+    <line x1="50" y1="50" x2="79" y2="40" stroke="#18C8C8" stroke-width="1" stroke-opacity="0.6"/>
+    <line x1="50" y1="50" x2="27" y2="72" stroke="#9B7CFF" stroke-width="1" stroke-opacity="0.6"/>
+
+    <!-- Orbital Front Arc -->
+    <path d="M 82,34 C 95,48 78,74 48,78 C 22,82 8,66 18,36" stroke="url(#em-lg-orbit)" stroke-width="2.8" stroke-linecap="round" filter="url(#em-lg-glow)"/>
+
+    <!-- Neural Nodes -->
+    <circle cx="50" cy="50" r="3.4" fill="#27C98A" stroke="#FFFFFF" stroke-width="1"/>
+    <circle cx="50" cy="18" r="2.2" fill="#FFFFFF"/>
+    <circle cx="79" cy="40" r="2.8" fill="#18C8C8"/>
+    <circle cx="27" cy="72" r="2.8" fill="#9B7CFF"/>
+  </g>
+
+  <!-- Right Typography Wordmark -->
+  <g transform="translate(98, 0)">
+    <!-- Brand Wordmark -->
+    <text x="0" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Plus Jakarta Sans', sans-serif" font-size="34" font-weight="800" letter-spacing="1.5">
+      <tspan fill="#FFFFFF">EARTH</tspan><tspan fill="#18C8C8">MIND</tspan>
+    </text>
+
+    <!-- Subtitle Tagline -->
+    <text x="2" y="68" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="2.2">
+      PLANETARY ENVIRONMENTAL INTELLIGENCE
+    </text>
+  </g>
+</svg>

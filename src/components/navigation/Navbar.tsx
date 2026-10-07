@@ -33,6 +33,7 @@ import { GlassBadge } from '../glass/GlassBadge';
 import { useVoice } from '../../voice/VoiceContext';
 import { VoiceStatusIndicator } from '../voice/VoiceStatusIndicator';
 import { useEarthMindTheme } from '../../theme/ThemeProvider';
+import { EarthMindLogo } from '../../branding';
 
 export interface NavbarProps {
   currentView: string;
@@ -115,38 +116,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           onClick={() => onNavigate('overview')}
           className="flex items-center gap-3 cursor-pointer group flex-shrink-0"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-earth-deep via-earth-ocean to-earth-aqua p-[1.5px] shadow-[0_0_20px_rgba(24,200,200,0.3)] group-hover:shadow-[0_0_25px_rgba(24,200,200,0.5)] transition-all">
-            <div className="w-full h-full bg-[#071A2B] rounded-[10px] flex items-center justify-center relative overflow-hidden">
-              <svg viewBox="0 0 24 24" className="w-6 h-6 text-earth-aqua">
-                <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4" />
-                <path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.3" />
-                <path d="M3.6 9h16.8M3.6 15h16.8" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.3" />
-                <circle cx="12" cy="12" r="2.2" fill="#27C98A" />
-                <circle cx="7" cy="8" r="1.4" fill="#18C8C8" />
-                <circle cx="17" cy="8" r="1.4" fill="#9B7CFF" />
-                <circle cx="8" cy="16" r="1.4" fill="#9B7CFF" />
-                <circle cx="16" cy="16" r="1.4" fill="#18C8C8" />
-                <line x1="7" y1="8" x2="12" y2="12" stroke="#18C8C8" strokeWidth="1" strokeOpacity="0.8" />
-                <line x1="17" y1="8" x2="12" y2="12" stroke="#9B7CFF" strokeWidth="1" strokeOpacity="0.8" />
-                <line x1="8" y1="16" x2="12" y2="12" stroke="#9B7CFF" strokeWidth="1" strokeOpacity="0.8" />
-                <line x1="16" y1="16" x2="12" y2="12" stroke="#18C8C8" strokeWidth="1" strokeOpacity="0.8" />
-              </svg>
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold tracking-wider text-base text-white font-mono">
-                EARTH<span className="text-earth-aqua">MIND</span>
-              </span>
-              <GlassBadge tone="aqua" size="sm" pulse>
-                TWIN v3.0 OS
-              </GlassBadge>
-            </div>
-            <div className="text-[10px] text-slate-400 font-mono tracking-tight hidden sm:block">
-              PLANETARY ENVIRONMENTAL INTELLIGENCE OS
-            </div>
-          </div>
+          <EarthMindLogo
+            variant="full"
+            size="md"
+            badgeText="v4.0 OS"
+            showTagline
+          />
         </div>
 
         {/* Center Grouped Navigation Links */}

@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { Palette, GraduationCap, ShieldCheck } from '../icons';
 import { useEarthMindTheme } from '../../theme/ThemeProvider';
+import { EarthMindSymbol } from '../../branding';
 
 export type RailMode = 'icon' | 'compact' | 'full';
 
@@ -83,11 +84,16 @@ export const LeftNavRail: React.FC<LeftNavRailProps> = ({
         {/* Top Header & Rail Mode Toggle */}
         <div className="flex items-center justify-between px-2 py-1.5 border-b border-white/10 mb-2">
           {effectiveMode !== 'icon' ? (
-            <span className="text-[10px] font-mono uppercase tracking-wider text-earth-aqua font-bold truncate">
-              NAVIGATION
-            </span>
+            <div className="flex items-center gap-1.5 truncate">
+              <EarthMindSymbol size="xs" variant="primary" />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-earth-aqua font-bold truncate">
+                NAVIGATION
+              </span>
+            </div>
           ) : (
-            <div className="w-2 h-2 rounded-full bg-earth-aqua mx-auto" />
+            <div className="mx-auto" title="EARTHMIND">
+              <EarthMindSymbol size="xs" variant="cyan" />
+            </div>
           )}
 
           <button

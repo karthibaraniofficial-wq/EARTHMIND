@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="100%" height="auto">
+  <defs>
+    <linearGradient id="archBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#041220"/>
+      <stop offset="50%" stop-color="#061A2B"/>
+      <stop offset="100%" stop-color="#030C16"/>
+    </linearGradient>
+    <linearGradient id="layerGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0A2239"/>
+      <stop offset="100%" stop-color="#0E2F4E"/>
+    </linearGradient>
+    <linearGradient id="layerGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#08233C"/>
+      <stop offset="100%" stop-color="#0B2F52"/>
+    </linearGradient>
+    <linearGradient id="layerGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0A2542"/>
+      <stop offset="100%" stop-color="#0C345C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1100" height="580" rx="14" fill="url(#archBg)" stroke="rgba(24,200,200,0.2)" stroke-width="1.2"/>
+
+  <!-- Architecture Header -->
+  <g transform="translate(40, 36)">
+    <rect x="0" y="0" width="160" height="24" rx="12" fill="#0D2E4D" stroke="rgba(24,200,200,0.3)" stroke-width="1"/>
+    <text x="14" y="16" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" letter-spacing="1">SYSTEM MAP</text>
+    <text x="176" y="18" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+      EARTHMIND Operational System Architecture
+    </text>
+  </g>
+
+  <!-- Layer 1: Client Spatial UI Layer -->
+  <g transform="translate(40, 80)">
+    <rect width="1020" height="100" rx="10" fill="url(#layerGrad1)" stroke="rgba(24,200,200,0.25)" stroke-width="1.2"/>
+    <text x="24" y="30" fill="#18C8C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">LAYER 01: SPATIAL PRESENTATION &amp; WORKSPACE (REACT 18 + THREE.JS + TAILWIND)</text>
+    
+    <!-- 4 Submodules in Layer 1 -->
+    <g transform="translate(24, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🌐 3D Real Earth (Three.js)</text>
+    </g>
+    <g transform="translate(265, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🪟 Liquid Glass 2.0 AppShell</text>
+    </g>
+    <g transform="translate(505, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🎙️ VoiceDock &amp; HUD Waveform</text>
+    </g>
+    <g transform="translate(745, 44)">
+      <rect width="250" height="42" rx="6" fill="#061828" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">📊 5-Part Scientific Data Cards</text>
+    </g>
+  </g>
+
+  <!-- Connectors Layer 1 to 2 -->
+  <g stroke="rgba(24,200,200,0.35)" stroke-width="1.5" stroke-dasharray="3,3">
+    <line x1="180" y1="180" x2="180" y2="204"/>
+    <line x1="420" y1="180" x2="420" y2="204"/>
+    <line x1="680" y1="180" x2="680" y2="204"/>
+    <line x1="920" y1="180" x2="920" y2="204"/>
+  </g>
+
+  <!-- Layer 2: Biophysical & Simulation Engines -->
+  <g transform="translate(40, 204)">
+    <rect width="1020" height="100" rx="10" fill="url(#layerGrad2)" stroke="rgba(39,201,138,0.25)" stroke-width="1.2"/>
+    <text x="24" y="30" fill="#27C98A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">LAYER 02: CORE PLANETARY INTELLIGENCE &amp; SIMULATION ENGINES</text>
+    
+    <!-- 4 Submodules in Layer 2 -->
+    <g transform="translate(24, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(39,201,138,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🛰️ PlanetaryLayerEngine (11 Layers)</text>
+    </g>
+    <g transform="translate(265, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(39,201,138,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🔮 What-If Simulator (8 Steps)</text>
+    </g>
+    <g transform="translate(505, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(39,201,138,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🕰️ EarthMemory &amp; Forensics</text>
+    </g>
+    <g transform="translate(745, 44)">
+      <rect width="250" height="42" rx="6" fill="#061828" stroke="rgba(39,201,138,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">⚠️ RiskEngine &amp; Sentinel Alerts</text>
+    </g>
+  </g>
+
+  <!-- Connectors Layer 2 to 3 -->
+  <g stroke="rgba(39,201,138,0.35)" stroke-width="1.5" stroke-dasharray="3,3">
+    <line x1="180" y1="304" x2="180" y2="328"/>
+    <line x1="420" y1="304" x2="420" y2="328"/>
+    <line x1="680" y1="304" x2="680" y2="328"/>
+    <line x1="920" y1="304" x2="920" y2="328"/>
+  </g>
+
+  <!-- Layer 3: Multimodal AI & Scientific Reasoning -->
+  <g transform="translate(40, 328)">
+    <rect width="1020" height="100" rx="10" fill="url(#layerGrad3)" stroke="rgba(155,124,255,0.25)" stroke-width="1.2"/>
+    <text x="24" y="30" fill="#9B7CFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">LAYER 03: MULTIMODAL AI &amp; SCIENTIFIC REASONING PIPELINE</text>
+    
+    <!-- 4 Submodules in Layer 3 -->
+    <g transform="translate(24, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(155,124,255,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">⚡ Gemini 2.0 Live (Bidi ws)</text>
+    </g>
+    <g transform="translate(265, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(155,124,255,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🛠️ 24 Tool Call Dispatchers</text>
+    </g>
+    <g transform="translate(505, 44)">
+      <rect width="225" height="42" rx="6" fill="#061828" stroke="rgba(155,124,255,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🧪 FactCheck &amp; EvidenceEngine</text>
+    </g>
+    <g transform="translate(745, 44)">
+      <rect width="250" height="42" rx="6" fill="#061828" stroke="rgba(155,124,255,0.2)" stroke-width="1"/>
+      <text x="12" y="25" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">🛡️ Deterministic Offline Voice Fallback</text>
+    </g>
+  </g>
+
+  <!-- Connectors Layer 3 to 4 -->
+  <g stroke="rgba(155,124,255,0.35)" stroke-width="1.5" stroke-dasharray="3,3">
+    <line x1="550" y1="428" x2="550" y2="452"/>
+  </g>
+
+  <!-- Layer 4: Cloud Edge, Zero Secret Security & Diagnostics -->
+  <g transform="translate(40, 452)">
+    <rect width="1020" height="90" rx="10" fill="#051829" stroke="rgba(79,168,255,0.25)" stroke-width="1.2"/>
+    <text x="24" y="28" fill="#4FA8FF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">LAYER 04: INFRASTRUCTURE, ZERO-SECRET SECURITY &amp; VERIFICATION</text>
+    
+    <g transform="translate(24, 40)">
+      <text x="0" y="16" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="11">
+        • <tspan fill="#F1F5F9" font-weight="bold">VERCEL GLOBAL EDGE</tspan>: High-speed SPA delivery + Serverless API Functions (<tspan fill="#18C8C8">/api/health/ai</tspan>)
+      </text>
+      <text x="0" y="34" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="11">
+        • <tspan fill="#F1F5F9" font-weight="bold">SECRET SAFETY</tspan>: Zero browser API exposure (<tspan fill="#27C98A">process.env.GEMINI_API_KEY</tspan> server-side only)
+      </text>
+      <text x="560" y="16" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="11">
+        • <tspan fill="#F1F5F9" font-weight="bold">TEST TELEMETRY</tspan>: 90/90 Comprehensive Intent &amp; Tool Tests Passing
+      </text>
+      <text x="560" y="34" fill="#94A3B8" font-family="ui-monospace, monospace" font-size="11">
+        • <tspan fill="#F1F5F9" font-weight="bold">DATA HONESTY</tspan>: Strict separation of Observed vs Modelled vs Simulated
+      </text>
+    </g>
+  </g>
+</svg>

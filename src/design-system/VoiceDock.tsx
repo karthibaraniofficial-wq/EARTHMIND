@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mic, MicOff, Volume2, Sparkles, AlertCircle, Settings, X, ChevronUp, ChevronDown } from '../components/icons';
 import { useVoice } from '../voice/VoiceContext';
+import { EarthMindSymbol } from '../branding';
 
 export const VoiceDock: React.FC = () => {
   const {
@@ -59,7 +60,7 @@ export const VoiceDock: React.FC = () => {
         <div className="w-80 sm:w-96 rounded-2xl bg-[#071A2B]/95 border border-earth-aqua/40 shadow-2xl backdrop-blur-2xl p-4 text-slate-100 space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-200">
           <div className="flex items-center justify-between border-b border-white/10 pb-2">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-earth-aqua animate-pulse" />
+              <EarthMindSymbol size="xs" variant="primary" animated="pulse" />
               <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
                 EARTHMIND VOICE DOCK
               </span>
@@ -150,13 +151,11 @@ export const VoiceDock: React.FC = () => {
           }`}
           title="Toggle EarthMind Spoken Voice"
         >
-          {isListening ? (
-            <Mic className="w-3.5 h-3.5 animate-pulse text-[#071A2B]" />
-          ) : isSpeaking ? (
-            <Volume2 className="w-3.5 h-3.5 animate-pulse text-[#071A2B]" />
-          ) : (
-            <Mic className="w-3.5 h-3.5 text-earth-aqua" />
-          )}
+          <EarthMindSymbol
+            size={16}
+            variant={isSpeaking ? 'dark' : isListening ? 'dark' : 'cyan'}
+            animated={isListening ? 'pulse' : isSpeaking ? 'orbit' : false}
+          />
           <span>{getStatusText()}</span>
         </button>
 

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { GraduationCap, ShieldCheck } from '../components/icons';
 import { useAppShell } from './AppShellContext';
+import { EarthMindSymbol } from '../branding';
 
 export const SideRail: React.FC = () => {
   const { currentView, onNavigate, railExpanded, toggleRail } = useAppShell();
@@ -46,11 +47,16 @@ export const SideRail: React.FC = () => {
       {/* Rail Header / Expand Toggle */}
       <div className="flex items-center justify-between px-2 py-1.5 border-b border-white/10 mb-2">
         {railExpanded ? (
-          <span className="text-[10px] font-mono uppercase tracking-wider text-earth-aqua font-bold truncate">
-            NAVIGATION
-          </span>
+          <div className="flex items-center gap-2 truncate">
+            <EarthMindSymbol size="xs" variant="primary" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-earth-aqua font-bold truncate">
+              NAVIGATION
+            </span>
+          </div>
         ) : (
-          <div className="w-2 h-2 rounded-full bg-earth-aqua mx-auto" />
+          <div className="mx-auto" title="EARTHMIND Planetary Intelligence">
+            <EarthMindSymbol size="xs" variant="cyan" />
+          </div>
         )}
 
         <button

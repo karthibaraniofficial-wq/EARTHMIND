@@ -21,6 +21,7 @@ import { GlassCard } from '../components/glass/GlassCard';
 import { GlassButton } from '../components/glass/GlassButton';
 import { GlassBadge } from '../components/glass/GlassBadge';
 import { EnvironmentalHotspot } from '../types';
+import { EarthMindLogo, EarthMindSymbol } from '../branding';
 
 interface LandingPageProps {
   onEnterPlatform: (view?: string) => void;
@@ -46,14 +47,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           {/* Hero Left Content */}
           <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel-2 border border-earth-aqua/30 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
-              <span className="w-2 h-2 rounded-full bg-earth-emerald animate-ping" />
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass-panel-2 border border-earth-aqua/30 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
+              <EarthMindSymbol size="xs" variant="primary" animated="pulse" />
               <span className="text-xs font-mono font-bold tracking-wider text-earth-aqua">
-                AI ENVIRONMENTAL DIGITAL TWIN
+                PLANETARY ENVIRONMENTAL INTELLIGENCE OS
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <div className="pt-1">
+              <EarthMindLogo variant="full" size="xl" showTagline={false} />
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
               Explore Earth's Past.{' '}
               <span className="aurora-glow-text block mt-1">Simulate Its Future.</span>
             </h1>
