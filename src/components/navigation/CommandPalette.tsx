@@ -21,9 +21,11 @@ import {
   Presentation,
   Mic
 } from 'lucide-react';
+import { Palette } from '../icons';
 import { GlassCard } from '../glass/GlassCard';
 import { EnvironmentalHotspot, LayerType } from '../../types';
 import { useVoice } from '../../voice/VoiceContext';
+import { useEarthMindTheme } from '../../theme/ThemeProvider';
 
 
 interface CommandPaletteProps {
@@ -50,6 +52,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onToggleAi,
 }) => {
   const { startListening, toggleVoicePanel } = useVoice();
+  const { toggleAppearanceStudio, setPreset } = useEarthMindTheme();
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -69,6 +72,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   if (!isOpen) return null;
 
   const quickPrompts = [
+    { text: 'Appearance Studio (0–100% Theme & Liquid Glass)', action: 'OPEN_APPEARANCE', triggerAppearance: true },
+    { text: 'Set Theme Preset: EarthMind Aurora', action: 'THEME_AURORA', preset: 'aurora' as const },
+    { text: 'Set Theme Preset: EarthMind Glass (Max Translucency)', action: 'THEME_GLASS', preset: 'glass' as const },
+    { text: 'Set Theme Preset: Aerospace Mission Control', action: 'THEME_MISSION', preset: 'mission' as const },
+    { text: 'Set Theme Preset: Pure Minimalist Science', action: 'THEME_PURE', preset: 'pure' as const },
+    { text: 'Set Theme Preset: Science Expo Presentation', action: 'THEME_EXPO', preset: 'expo' as const },
     { text: 'Talk to EarthMind (Voice Intelligence Control)', action: 'START_VOICE', triggerVoice: true },
     { text: 'Open Amazon Basin in 3D Explorer', action: 'OPEN_AMAZON', spotId: 'amazon-rainforest', view: 'explorer' },
     { text: 'Show Flood Risk & Runoff Hazard Layer', action: 'SHOW_FLOOD', layer: 'flood' as LayerType, view: 'explorer' },
@@ -84,6 +93,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { text: 'Open Scientific Research Lab & Hypotheses', action: 'OPEN_RESEARCH', view: 'research' },
     { text: 'Open Decision Center & Cost-Impact Trade-offs', action: 'OPEN_DECISIONS', view: 'decisions' },
     { text: 'Open Twin OS 500-Option Config Center', action: 'OPEN_SETTINGS', view: 'settings' },
+    { text: 'Open Planetary Academy & Biophysical Quizzes', action: 'OPEN_ACADEMY', view: 'academy' },
+    { text: 'Audit Satellite Telemetry & Data Quality Center', action: 'OPEN_QUALITY', view: 'quality' },
   ];
 
   const filteredHotspots = hotspots.filter(
@@ -98,6 +109,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   );
 
   const views = [
+    { label: 'Appearance Studio (Theme Engine)', view: 'appearance', icon: Palette },
     { label: 'Overview Dashboard', view: 'overview', icon: Globe },
     { label: 'Earth Explorer (3D)', view: 'explorer', icon: Compass },
     { label: 'Earth Memory (Timeline)', view: 'memory', icon: Clock },
@@ -113,6 +125,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { label: 'Scientific Lab', view: 'research', icon: FlaskConical },
     { label: 'Decision Center', view: 'decisions', icon: Scale },
     { label: 'Executive Reports', view: 'reports', icon: FileText },
+    { label: '🎓 Planetary Academy', view: 'academy', icon: Compass },
+    { label: '🛡️ Data Quality Center', view: 'quality', icon: Layers },
     { label: 'Twin OS Settings', view: 'settings', icon: Settings },
     { label: '⚡ EarthMind Autopilot', view: 'autopilot', icon: Sparkles },
     { label: '👥 Multi-Agent Council', view: 'council', icon: Scale },
@@ -172,7 +186,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 <button
                   key={view}
                   onClick={() => {
-                    onNavigate(view);
+                    if (view === 'appearance') {
+                      toggleAppearanceStudio(true);
+                    } else {
+                      onNavigate(view);
+                    }
                     onClose();
                   }}
                   className="flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-white/10 text-left transition-colors font-mono"
@@ -195,6 +213,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 <button
                   key={i}
                   onClick={() => {
+                    if ((prompt as any).triggerAppearance) {
+                      toggleAppearanceStudio(true);
+                    }
+                    if ((prompt as any).preset) {
+                      setPreset((prompt as any).preset);
+                    }
                     if (prompt.spotId) {
                       const spot = hotspots.find((h) => h.id === prompt.spotId);
                       if (spot) onSelectHotspot(spot);

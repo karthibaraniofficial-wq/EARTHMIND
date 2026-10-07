@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/navigation/Navbar';
 import { StatusBar } from './components/navigation/StatusBar';
 import { CommandPalette } from './components/navigation/CommandPalette';
+import { LeftNavRail } from './components/navigation/LeftNavRail';
+import { ContextIntelligencePanel } from './components/navigation/ContextIntelligencePanel';
 import { AssistantDrawer } from './domains/ai/AssistantDrawer';
 import { GuidedDemoController } from './domains/demo/GuidedDemoController';
 import { ScienceExhibitionView } from './domains/exhibition/ScienceExhibitionView';
 import { MethodologyModal } from './components/modals/MethodologyModal';
 import { TwinConfigProvider, useTwinConfig } from './context/TwinConfigContext';
 import { VoiceProvider, useVoice } from './voice/VoiceContext';
+import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeCustomizer } from './theme/ThemeCustomizer';
 
 // Voice Intelligence Components
 import { VoiceOrb } from './components/voice/VoiceOrb';
@@ -53,6 +57,9 @@ import { ReproducibilityView } from './domains/reproducibility/ReproducibilityVi
 import { SentinelMonitorView } from './domains/sentinel/SentinelMonitorView';
 import { BattleModeView } from './domains/battle/BattleModeView';
 import { MissionModeView } from './domains/missions/MissionModeView';
+import { EarthMindAcademyView } from './domains/education/EarthMindAcademyView';
+import { DataQualityCenterView } from './domains/quality/DataQualityCenterView';
+import { EarthMindCopilot } from './components/navigation/EarthMindCopilot';
 
 // Curated Data & Presets
 import { ENVIRONMENTAL_HOTSPOTS, PRESET_SCENARIOS } from './data/hotspotsData';
@@ -159,7 +166,7 @@ function AppContent() {
 
 
   return (
-    <div className="min-h-screen bg-[#071A2B] text-slate-100 flex flex-col font-sans selection:bg-earth-aqua/30 selection:text-white relative">
+    <div className="min-h-screen bg-[var(--earthmind-bg)] text-[var(--earthmind-text)] aurora-bg flex flex-col font-sans selection:bg-earth-aqua/30 selection:text-white relative transition-colors duration-300">
       {/* 1. Global Navigation Bar */}
       <Navbar
         currentView={currentView}
@@ -172,6 +179,23 @@ function AppContent() {
         onToggleExhibitionMode={() => setIsExhibitionMode(!isExhibitionMode)}
         isExhibitionMode={isExhibitionMode}
       />
+
+      {/* Floating Spatial Left Navigation Rail */}
+      {currentView !== 'landing' && (
+        <LeftNavRail
+          currentView={currentView}
+          onNavigate={handleNavigate}
+        />
+      )}
+
+      {/* Floating Contextual Intelligence Panel */}
+      {currentView !== 'landing' && (
+        <ContextIntelligencePanel
+          currentView={currentView}
+          selectedHotspot={selectedHotspot}
+          onNavigateToSimulator={() => handleNavigate('simulator')}
+        />
+      )}
 
       {/* 2. Main Content Routing Shell */}
       <main className="flex-1 w-full flex flex-col">
@@ -438,6 +462,14 @@ function AppContent() {
             }}
           />
         )}
+
+        {currentView === 'academy' && (
+          <EarthMindAcademyView />
+        )}
+
+        {currentView === 'quality' && (
+          <DataQualityCenterView />
+        )}
       </main>
 
       {/* 3. Global Status Bar (Footer) */}
@@ -527,17 +559,25 @@ function AppContent() {
       <VoicePermissionModal />
       <VoiceTestConsole />
       <VoiceResearchSourcesPanel />
+
+      {/* 10. Appearance Studio 2.0 (Theme Engine Modal) */}
+      <ThemeCustomizer />
+
+      {/* 11. EarthMind Contextual Copilot (Phase 31) */}
+      <EarthMindCopilot />
     </div>
   );
 }
 
 export function App() {
   return (
-    <TwinConfigProvider>
-      <VoiceProvider>
-        <AppContent />
-      </VoiceProvider>
-    </TwinConfigProvider>
+    <ThemeProvider>
+      <TwinConfigProvider>
+        <VoiceProvider>
+          <AppContent />
+        </VoiceProvider>
+      </TwinConfigProvider>
+    </ThemeProvider>
   );
 }
 

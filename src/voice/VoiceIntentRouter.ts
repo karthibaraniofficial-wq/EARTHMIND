@@ -375,6 +375,28 @@ function routeVoiceIntentInternal(command: ParsedVoiceCommand, settings: VoiceSe
       };
     }
 
+    case 'HELLO': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'Hello. EarthMind planetary intelligence online and ready.',
+        responseText: 'EarthMind online. 28+ operational tools, simulation engine, and search grounding active.',
+        executionNote: 'Operator greeted',
+      };
+    }
+
+    case 'SET_EXPLANATION_LEVEL': {
+      const lvl = command.params.level || 3;
+      const lvlName = command.params.levelName || 'Technical';
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: `Scientific explanation depth set to Level ${lvl}: ${lvlName}.`,
+        responseText: `Calibrated explanation reasoning depth to Level ${lvl} (${lvlName}).`,
+        executionNote: `Explanation level: ${lvl} (${lvlName})`,
+      };
+    }
+
     case 'EXPLAIN_SCREEN': {
       return {
         actionable: true,

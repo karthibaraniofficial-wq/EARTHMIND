@@ -9,7 +9,17 @@ export type LayerType =
   | 'flood'
   | 'drought'
   | 'wildfire'
-  | 'rainfall';
+  | 'rainfall'
+  | 'forest_cover'
+  | 'deforestation'
+  | 'water_stress'
+  | 'groundwater'
+  | 'pollution'
+  | 'carbon'
+  | 'biodiversity'
+  | 'land_cover'
+  | 'sea_level'
+  | 'heat_risk';
 
 export interface HistoricalDataPoint {
   year: number;

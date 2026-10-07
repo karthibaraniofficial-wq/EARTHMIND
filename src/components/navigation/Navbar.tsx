@@ -27,10 +27,12 @@ import {
   ShieldCheck,
   Target
 } from 'lucide-react';
+import { Palette } from '../icons';
 import { GlassButton } from '../glass/GlassButton';
 import { GlassBadge } from '../glass/GlassBadge';
 import { useVoice } from '../../voice/VoiceContext';
 import { VoiceStatusIndicator } from '../voice/VoiceStatusIndicator';
+import { useEarthMindTheme } from '../../theme/ThemeProvider';
 
 export interface NavbarProps {
   currentView: string;
@@ -56,6 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isExhibitionMode,
 }) => {
   const { toggleListening, isListening, isSpeaking } = useVoice();
+  const { toggleAppearanceStudio, theme } = useEarthMindTheme();
   const [openDropdown, setOpenDropdown] = useState<'domains' | 'labs' | 'power' | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -105,8 +108,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isPowerActive = powerItems.some((p) => p.id === currentView);
 
   return (
-    <header className="sticky top-0 z-40 w-full px-4 py-3 bg-[#071A2B]/85 backdrop-blur-xl border-b border-white/10 select-none">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4" ref={dropdownRef}>
+    <header className="sticky top-2 z-40 w-full px-2 sm:px-4 select-none pointer-events-none">
+      <div className="max-w-7xl mx-auto rounded-2xl px-3.5 py-2 glass-panel-3 border border-white/15 shadow-2xl backdrop-blur-2xl pointer-events-auto flex items-center justify-between gap-3" ref={dropdownRef}>
         {/* Brand & Logo */}
         <div 
           onClick={() => onNavigate('overview')}
@@ -379,6 +382,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-white/10 rounded border border-white/10 text-slate-300">
               ⌘K
             </kbd>
+          </button>
+
+          {/* Appearance Studio (Theme Engine & Liquid Glass) */}
+          <button
+            onClick={() => toggleAppearanceStudio(true)}
+            className="p-2 rounded-xl transition-all border glass-panel-1 border-white/10 text-earth-aurora hover:text-white hover:bg-earth-aurora/20 hover:border-earth-aurora/40 relative shadow-sm"
+            title="Appearance Studio (0–100% Planetary Liquid Glass 2.0)"
+          >
+            <Palette className="w-4 h-4" />
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-earth-aqua rounded-full animate-ping" />
           </button>
 
           {/* Settings Console Button */}

@@ -15,6 +15,7 @@ import { RealEarth } from '../../components/3d/RealEarth';
 import { HotspotIntelligencePanel } from './HotspotIntelligencePanel';
 import { GlassCard } from '../../components/glass/GlassCard';
 import { GlassBadge } from '../../components/glass/GlassBadge';
+import { EarthGlassHud } from '../../components/navigation/EarthGlassHud';
 import { EnvironmentalHotspot, LayerType } from '../../types';
 import { VoiceCommandSuggestions } from '../../components/voice/VoiceCommandSuggestions';
 
@@ -101,6 +102,9 @@ export const EarthExplorerView: React.FC<EarthExplorerViewProps> = ({
 
       {/* Main 3D Stage & Context Panel Container */}
       <div className="relative flex-1 w-full h-full flex flex-col lg:flex-row items-center justify-between p-4 pt-16">
+        {/* Floating Spatial Earth Glass HUD Capsules */}
+        <EarthGlassHud hotspot={selectedHotspot} />
+
         {/* 3D Earth Digital Twin */}
         <div className="relative flex-1 w-full h-full flex items-center justify-center">
           <RealEarth

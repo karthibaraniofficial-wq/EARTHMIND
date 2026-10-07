@@ -12,6 +12,8 @@ import { GlassButton } from '../glass/GlassButton';
 import { WebSource } from '../../web/WebSourceParser';
 import { useVoice } from '../../voice/VoiceContext';
 
+import { ResearchPipelineIndicator } from './ResearchPipelineIndicator';
+
 interface VoiceResearchSourcesPanelProps {
   isOpen?: boolean;
   onClose?: () => void;
@@ -76,6 +78,11 @@ export const VoiceResearchSourcesPanel: React.FC<VoiceResearchSourcesPanelProps>
             >
               <X className="w-4 h-4" />
             </button>
+          </div>
+
+          {/* Research Pipeline Flow: SEARCHING -> SOURCES -> VALIDATING -> ANALYZING -> ANSWER */}
+          <div className="px-4 pt-3 pb-1">
+            <ResearchPipelineIndicator currentStage={activeSources.length > 0 ? 'validating' : 'searching'} />
           </div>
 
           {/* Sources List */}

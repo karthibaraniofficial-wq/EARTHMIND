@@ -18,15 +18,18 @@ import {
   Mic,
   Terminal
 } from 'lucide-react';
+import { Palette } from '../components/icons';
 import { GlassCard } from '../components/glass/GlassCard';
 import { GlassBadge } from '../components/glass/GlassBadge';
 import { GlassButton } from '../components/glass/GlassButton';
 import { useTwinConfig } from '../context/TwinConfigContext';
 import { useVoice } from '../voice/VoiceContext';
+import { useEarthMindTheme } from '../theme/ThemeProvider';
 
 export const SettingsView: React.FC = () => {
   const { config, updateConfig, resetConfig } = useTwinConfig();
   const { settings: voiceSettings, updateSettings: updateVoiceSettings, toggleTestConsole } = useVoice();
+  const { toggleAppearanceStudio, presetId, setPreset, theme } = useEarthMindTheme();
   const [activeTab, setActiveTab] = useState<
     'visual' | 'earth' | 'grid' | 'lighting' | 'gis' | 'layers' | 'sim' | 'ai' | 'data' | 'system' | 'voice'
   >('earth');
@@ -206,6 +209,28 @@ export const SettingsView: React.FC = () => {
                 <div className="pb-3 border-b border-white/10">
                   <h2 className="text-base font-bold text-white font-mono uppercase">02. Liquid Glass & Spatial UI (001–010)</h2>
                   <p className="text-xs text-slate-400 mt-0.5">Blur radius, translucency, neon glow accent, and visual density.</p>
+                </div>
+
+                {/* Appearance Studio 2.0 Master Banner */}
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-earth-ocean/30 via-earth-aqua/15 to-earth-aurora/20 border border-earth-aqua/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <Palette className="w-5 h-5 text-earth-aqua" />
+                      <span className="font-mono font-bold text-sm text-white">Appearance Studio 2.0</span>
+                      <GlassBadge tone="aqua" size="sm">0–100% ENGINE</GlassBadge>
+                    </div>
+                    <p className="text-xs text-slate-300 mt-1 max-w-md">
+                      Live 3-pane theme editor with live Earth preview, token inspector, 10 presets, glass physics, and complete design customization.
+                    </p>
+                  </div>
+                  <GlassButton
+                    variant="primary"
+                    size="sm"
+                    onClick={() => toggleAppearanceStudio(true)}
+                    leftIcon={<Palette className="w-4 h-4" />}
+                  >
+                    Open Appearance Studio
+                  </GlassButton>
                 </div>
 
                 <div className="space-y-4">

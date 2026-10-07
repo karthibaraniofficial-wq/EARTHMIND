@@ -1,9 +1,9 @@
 import React from 'react';
 
-export type ButtonVariant = 'primary' | 'emerald' | 'aurora' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'emerald' | 'aurora' | 'ghost' | 'danger' | 'amber' | 'glass';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
-interface GlassButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GlassButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   leftIcon?: React.ReactNode;
@@ -22,7 +22,8 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 select-none relative overflow-hidden active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed';
+  const baseStyles =
+    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 select-none relative overflow-hidden active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed';
 
   const sizeStyles: Record<ButtonSize, string> = {
     sm: 'text-xs px-3 py-1.5 gap-1.5',
@@ -31,11 +32,20 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
   };
 
   const variantStyles: Record<ButtonVariant, string> = {
-    primary: 'bg-gradient-to-r from-earth-ocean to-earth-aqua text-white shadow-[0_0_20px_rgba(24,200,200,0.3)] hover:shadow-[0_0_30px_rgba(24,200,200,0.5)] border border-white/20 hover:border-white/40',
-    emerald: 'bg-gradient-to-r from-emerald-600 to-earth-emerald text-white shadow-[0_0_20px_rgba(39,201,138,0.3)] hover:shadow-[0_0_30px_rgba(39,201,138,0.5)] border border-white/20 hover:border-white/40',
-    aurora: 'bg-gradient-to-r from-purple-600 to-earth-aurora text-white shadow-[0_0_20px_rgba(155,124,255,0.3)] hover:shadow-[0_0_30px_rgba(155,124,255,0.5)] border border-white/20 hover:border-white/40',
-    ghost: 'glass-panel-1 text-slate-200 hover:text-white hover:glass-panel-2 border border-white/10 hover:border-white/25',
-    danger: 'bg-gradient-to-r from-red-600 to-earth-coral text-white shadow-[0_0_20px_rgba(255,107,107,0.3)] hover:shadow-[0_0_30px_rgba(255,107,107,0.5)] border border-white/20 hover:border-white/40',
+    primary:
+      'bg-gradient-to-r from-earth-ocean to-earth-aqua text-white shadow-[0_0_20px_rgba(24,200,200,0.3)] hover:shadow-[0_0_30px_rgba(24,200,200,0.5)] border border-white/20 hover:border-white/40',
+    emerald:
+      'bg-gradient-to-r from-emerald-600 to-earth-emerald text-white shadow-[0_0_20px_rgba(39,201,138,0.3)] hover:shadow-[0_0_30px_rgba(39,201,138,0.5)] border border-white/20 hover:border-white/40',
+    aurora:
+      'bg-gradient-to-r from-purple-600 to-earth-aurora text-white shadow-[0_0_20px_rgba(155,124,255,0.3)] hover:shadow-[0_0_30px_rgba(155,124,255,0.5)] border border-white/20 hover:border-white/40',
+    ghost:
+      'glass-panel-1 text-slate-200 hover:text-white hover:glass-panel-2 border border-white/10 hover:border-white/25',
+    danger:
+      'bg-gradient-to-r from-red-600 to-earth-coral text-white shadow-[0_0_20px_rgba(255,107,107,0.3)] hover:shadow-[0_0_30px_rgba(255,107,107,0.5)] border border-white/20 hover:border-white/40',
+    amber:
+      'bg-gradient-to-r from-amber-500 to-earth-sun text-[#071A2B] font-bold shadow-[0_0_20px_rgba(255,209,102,0.3)] hover:shadow-[0_0_30px_rgba(255,209,102,0.5)] border border-white/20',
+    glass:
+      'glass-panel-2 text-white hover:glass-panel-3 border border-white/20 hover:border-[var(--earthmind-accent)]/50 shadow-md',
   };
 
   return (
@@ -44,7 +54,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
       disabled={disabled || loading}
       {...props}
     >
-      {/* Top subtle highlight shimmer */}
+      {/* Top subtle specular highlight */}
       <span className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
       {loading ? (

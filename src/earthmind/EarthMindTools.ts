@@ -5,7 +5,7 @@
  */
 
 import { AppActionContext } from '../voice/VoiceActionExecutor';
-import { buildScreenContext, EarthMindScreenContext } from './EarthMindContext';
+import { buildScreenContext, EarthMindScreenContext, explainScreen } from './EarthMindContext';
 import { SimulationTools } from './SimulationTools';
 import { MapTools } from './MapTools';
 import { ChartTools } from './ChartTools';
@@ -247,6 +247,58 @@ export const ALL_EARTHMIND_TOOL_DECLARATIONS: GenAiToolDeclaration[] = [
       required: ['expression'],
     },
   },
+  {
+    name: 'getHighestValue',
+    description: 'Returns the highest recorded value and year for the active chart metric.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'whenDidItIncrease',
+    description: 'Identifies historical periods when the active metric increased and explains rate of change.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'getTrendAnalysis',
+    description: 'Provides trajectory trend analysis (increasing/decreasing/stable) with net change.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'getHighestRiskHotspot',
+    description: 'Finds and focuses the hotspot on Earth twin with highest composite environmental risk.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'showFloodHotspots',
+    description: 'Activates flood risk sensor layer and identifies all acute flood exposure hotspots.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'explainAreaColor',
+    description: 'Explains the color mapping and risk severity thresholds for the active satellite layer.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'simulateWhatIf',
+    description: 'Executes a What-If biophysical simulation returning structured BASELINE, SCENARIO, CHANGE, and UNCERTAINTY.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        variable: { type: 'STRING', description: 'Variable key (e.g. rainfallDelta, treeCoverDelta).' },
+        delta: { type: 'NUMBER', description: 'Delta percentage to set.' },
+      },
+      required: ['variable', 'delta'],
+    },
+  },
+  {
+    name: 'explainResultChange',
+    description: 'Explains the biophysical causes and parameter drivers behind the current simulation result.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
+  {
+    name: 'explainScreen',
+    description: 'Provides a comprehensive scientific explanation of the current EarthMind screen, active layer, and visible metrics.',
+    parameters: { type: 'OBJECT', properties: {} },
+  },
 ];
 
 export async function executeEarthMindTool(
@@ -432,6 +484,53 @@ export async function executeEarthMindTool(
       case 'calculate': {
         const calcRes = CalculationEngine.evaluateArithmetic(args.expression || '0');
         return { success: true, result: calcRes, message: calcRes.explanation };
+      }
+
+      // EXTENDED SPECIALIZED TOOLS
+      case 'getHighestValue': {
+        const hv = ChartTools.getHighestValue(ctx);
+        return { success: true, result: hv, message: hv.explanation };
+      }
+
+      case 'whenDidItIncrease': {
+        const wi = ChartTools.whenDidItIncrease(ctx);
+        return { success: true, result: wi, message: wi.explanation };
+      }
+
+      case 'getTrendAnalysis': {
+        const ta = ChartTools.getTrendAnalysis(ctx);
+        return { success: true, result: ta, message: ta.explanation };
+      }
+
+      case 'getHighestRiskHotspot': {
+        const hr = MapTools.getHighestRiskHotspot(ctx);
+        return { success: true, result: hr, message: hr.explanation };
+      }
+
+      case 'showFloodHotspots': {
+        const sf = MapTools.showFloodHotspots(ctx);
+        return { success: true, result: sf, message: sf.explanation };
+      }
+
+      case 'explainAreaColor': {
+        const ec = MapTools.explainAreaColor(ctx);
+        return { success: true, result: ec, message: ec.explanation };
+      }
+
+      case 'simulateWhatIf': {
+        const sw = SimulationTools.simulateWhatIf(args.variable || 'rainfallDelta', typeof args.delta === 'number' ? args.delta : 20, ctx);
+        return { success: sw.success, result: sw, message: sw.spokenSummary };
+      }
+
+      case 'explainResultChange': {
+        const erc = SimulationTools.explainResultChange(ctx);
+        return { success: true, result: erc, message: erc.explanation };
+      }
+
+      case 'explainScreen': {
+        const fullCtx = buildScreenContext(ctx);
+        const explanation = explainScreen(fullCtx);
+        return { success: true, result: fullCtx, message: explanation.spoken };
       }
 
       default:

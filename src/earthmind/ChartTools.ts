@@ -93,6 +93,77 @@ export class ChartTools {
     };
   }
 
+  public static getHighestValue(ctx: AppActionContext): {
+    metric: string;
+    highestRecorded: { year: number; value: number };
+    explanation: string;
+  } {
+    const summary = this.getActiveChartSummary(ctx);
+    const explanation = `In ${ctx.selectedHotspot?.name || 'the active region'}, the highest recorded value for ${summary.metric} is ${summary.highestRecorded.value}, observed in year ${summary.highestRecorded.year}.`;
+    return {
+      metric: summary.metric,
+      highestRecorded: summary.highestRecorded,
+      explanation,
+    };
+  }
+
+  public static whenDidItIncrease(ctx: AppActionContext): {
+    metric: string;
+    periods: { startYear: number; endYear: number; startVal: number; endVal: number; delta: number }[];
+    explanation: string;
+  } {
+    const history = ctx.selectedHotspot?.history || [];
+    const metric = ctx.activeLayer || 'health';
+    const periods: { startYear: number; endYear: number; startVal: number; endVal: number; delta: number }[] = [];
+
+    for (let i = 1; i < history.length; i++) {
+      const prev = this.extractMetricValue(history[i - 1], metric);
+      const curr = this.extractMetricValue(history[i], metric);
+      if (curr > prev) {
+        periods.push({
+          startYear: history[i - 1].year,
+          endYear: history[i].year,
+          startVal: prev,
+          endVal: curr,
+          delta: Math.round((curr - prev) * 10) / 10,
+        });
+      }
+    }
+
+    let explanation = `For ${metric}, increases occurred during: `;
+    if (periods.length > 0) {
+      explanation += periods.map((p) => `${p.startYear}–${p.endYear} (+${p.delta})`).join(', ') + '.';
+    } else {
+      explanation = `No significant multi-year increase in ${metric} was detected in the historical observation record.`;
+    }
+
+    return {
+      metric,
+      periods,
+      explanation,
+    };
+  }
+
+  public static getTrendAnalysis(ctx: AppActionContext): {
+    metric: string;
+    direction: 'increasing' | 'decreasing' | 'stable';
+    pctChange: number;
+    explanation: string;
+  } {
+    const summary = this.getActiveChartSummary(ctx);
+    const explanation = `The multi-decadal trend for ${summary.metric} in ${ctx.selectedHotspot?.name || 'this region'} is ${summary.netChange.direction}, with a net shift of ${summary.netChange.delta > 0 ? '+' : ''}${summary.netChange.delta} points (${summary.netChange.pctChange}%).`;
+    return {
+      metric: summary.metric,
+      direction: summary.netChange.direction as 'increasing' | 'decreasing' | 'stable',
+      pctChange: summary.netChange.pctChange,
+      explanation,
+    };
+  }
+
+  public static explainGraph(ctx: AppActionContext): string {
+    return this.getActiveChartSummary(ctx).explanation;
+  }
+
   private static extractMetricValue(dp: HistoricalDataPoint, layer: string): number {
     switch (layer) {
       case 'flood':

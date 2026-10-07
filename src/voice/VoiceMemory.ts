@@ -60,7 +60,7 @@ export class VoiceMemory {
    * e.g. "What about 2035?" when previously discussing Chennai flood risk.
    */
   public static resolveFollowUp(query: string): { resolvedIntent: string; resolvedLocation?: string; resolvedYear?: number } {
-    const q = query.toLowerCase();
+    const q = query.toLowerCase().replace(/[.,!?;]/g, '').trim();
 
     // Check year reference
     const yearMatch = q.match(/\b(20\d\d)\b/);

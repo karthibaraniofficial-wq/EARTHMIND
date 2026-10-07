@@ -48,6 +48,17 @@ export class ToolPermissionManager {
     ['factCheckClaim', { name: 'factCheckClaim', tier: 'SAFE_ACTION', description: 'Verify claim against scientific databases' }],
     ['calculate', { name: 'calculate', tier: 'SAFE_ACTION', description: 'Execute deterministic numerical calculation' }],
 
+    // SPECIALIZED EXTENDED INTELLIGENCE TOOLS
+    ['getHighestValue', { name: 'getHighestValue', tier: 'READ_ONLY', description: 'Inspect peak historical chart value and year' }],
+    ['whenDidItIncrease', { name: 'whenDidItIncrease', tier: 'READ_ONLY', description: 'Identify historical rising periods in time-series' }],
+    ['getTrendAnalysis', { name: 'getTrendAnalysis', tier: 'READ_ONLY', description: 'Evaluate multi-decadal slope and trajectory' }],
+    ['getHighestRiskHotspot', { name: 'getHighestRiskHotspot', tier: 'READ_ONLY', description: 'Locate highest combined risk region on Earth twin' }],
+    ['showFloodHotspots', { name: 'showFloodHotspots', tier: 'SAFE_ACTION', description: 'Activate flood layer and identify acute exposure zones' }],
+    ['explainAreaColor', { name: 'explainAreaColor', tier: 'READ_ONLY', description: 'Explain active layer color palette and risk thresholds' }],
+    ['simulateWhatIf', { name: 'simulateWhatIf', tier: 'SAFE_ACTION', description: 'Execute What-If scenario with baseline/scenario/change/uncertainty' }],
+    ['explainResultChange', { name: 'explainResultChange', tier: 'READ_ONLY', description: 'Explain biophysical drivers causing simulation delta' }],
+    ['explainScreen', { name: 'explainScreen', tier: 'READ_ONLY', description: 'Explain active screen state and visible layers' }],
+
     // HIGH IMPACT / DESTRUCTIVE TOOLS
     ['resetSimulation', {
       name: 'resetSimulation',

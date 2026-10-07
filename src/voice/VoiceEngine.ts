@@ -15,7 +15,10 @@ import { ScientificReasoningEngine } from '../intelligence/ScientificReasoningEn
 import { FactCheckEngine } from '../intelligence/FactCheckEngine';
 import { CalculationEngine } from '../earthmind/CalculationEngine';
 import { ChartTools } from '../earthmind/ChartTools';
-import { buildScreenContext } from '../earthmind/EarthMindContext';
+import { MapTools } from '../earthmind/MapTools';
+import { SimulationTools } from '../earthmind/SimulationTools';
+import { buildScreenContext, explainScreen } from '../earthmind/EarthMindContext';
+import { ResearchReportGenerator } from '../reports/ResearchReportGenerator';
 import { EarthMindStateBridge } from '../earthmind/EarthMindStateBridge';
 import { getGeminiLiveModel, getGeminiResearchModel } from '../config/aiModels';
 
@@ -285,9 +288,10 @@ export class VoiceEngine {
     this.stopAudioMeter();
     this.setState('PROCESSING');
 
-    // 1. Parse Voice Command
+    // 1. Parse Voice Command (with conversational session follow-up resolution)
     this.setState('UNDERSTANDING');
-    const parsed = parseVoiceCommand(transcript, this.settings.language);
+    const followUp = VoiceMemory.resolveFollowUp(transcript);
+    const parsed = parseVoiceCommand(followUp.resolvedIntent || transcript, this.settings.language);
     this.lastCommand = parsed;
     this.listener?.onLastCommand(parsed);
 
@@ -388,42 +392,107 @@ export class VoiceEngine {
       const res = CalculationEngine.evaluateArithmetic(expr);
       spokenText = `The calculated value is ${res.formattedText}.`;
       displayText = res.explanation;
+    } else if (cmd.intent === 'HELLO') {
+      spokenText = 'Hello. EarthMind planetary intelligence online and ready.';
+      displayText = 'EarthMind online. Multimodal remote sensing, biophysical simulation, and search grounding active.';
+    } else if (cmd.intent === 'SET_EXPLANATION_LEVEL') {
+      const lvl = (cmd.params.level || 3) as import('../intelligence/ScientificReasoningEngine').ExplanationLevel;
+      VoiceMemory.setExplanationLevel(lvl);
+      spokenText = `Scientific explanation depth calibrated to Level ${lvl}: ${cmd.params.levelName || 'Technical'}.`;
+      displayText = `Explanation depth calibrated to Level ${lvl} (${cmd.params.levelName || 'Technical'})`;
+    } else if (cmd.intent === 'GENERATE_REPORT') {
+      const topic = cmd.params.topic || VoiceMemory.get().currentTopic || 'Amazon Deforestation & Hydrological Impact';
+      const rep = ResearchReportGenerator.generateReport({
+        topic,
+        hotspotName: this.appContext?.selectedHotspot.name,
+        sources: VoiceMemory.get().recentSources,
+      });
+      const dual = AnswerComposer.compose({
+        spokenVoiceText: `Generated environmental intelligence report on ${topic}. Key findings, satellite evidence, and policy recommendations have been synthesized.`,
+        screenTitle: rep.title,
+        earthmindSummary: rep.executiveSummary,
+        earthmindMetrics: [
+          { label: 'Observation Confidence', value: `${Math.round(rep.uncertainty.confidence * 100)}%` },
+          { label: 'Uncertainty Margin', value: `±${rep.uncertainty.marginOfErrorPct}%` },
+          { label: 'Verified Sources', value: String(rep.references.length) },
+        ],
+      });
+      VoiceResponseManager.dispatch(dual);
+      spokenText = dual.spokenVoiceText;
+      displayText = dual.screenPayload.title;
+      if (this.appContext) {
+        this.appContext.onNavigate('reports');
+      }
     } else if (cmd.intent === 'EXPLAIN_SCREEN') {
       if (this.appContext) {
         const screenCtx = buildScreenContext(this.appContext);
-        const reasoning = ScientificReasoningEngine.reasonAboutTopic(
-          `Explain ${screenCtx.selectedLocation.name} under ${screenCtx.activeLayers.primary} layer`,
-          VoiceMemory.get().explanationLevel,
-          { hotspotName: screenCtx.selectedLocation.name, layer: screenCtx.activeLayers.primary }
-        );
-        const dual = AnswerComposer.compose({
-          spokenVoiceText: reasoning.spokenExplanation,
-          screenTitle: `Current Screen Context: ${screenCtx.selectedLocation.name}`,
-          earthmindSummary: reasoning.synthesis,
-          earthmindMetrics: Object.entries(screenCtx.visibleMetrics).map(([k, v]) => ({ label: k, value: v })),
-          visualHighlightTarget: { type: 'hotspot', targetId: screenCtx.selectedLocation.id },
-        });
-        VoiceResponseManager.dispatch(dual);
-        spokenText = dual.spokenVoiceText;
-        displayText = dual.screenPayload.title;
+        
+        if (cmd.params.subType === 'highest_risk') {
+          const hr = MapTools.getHighestRiskHotspot(this.appContext);
+          spokenText = hr.explanation;
+          displayText = `Highest Risk: ${hr.hotspot.name}`;
+        } else if (cmd.params.subType === 'area_red') {
+          const ar = MapTools.explainAreaColor(this.appContext);
+          spokenText = ar.explanation;
+          displayText = `Active Layer Threshold: ${ar.threshold}`;
+        } else {
+          const { spoken: screenSpoken, summary: screenSummary } = explainScreen(screenCtx);
+          const reasoning = ScientificReasoningEngine.reasonAboutTopic(
+            `Explain ${screenCtx.selectedLocation.name} under ${screenCtx.activeLayers.primary} layer`,
+            VoiceMemory.get().explanationLevel,
+            { hotspotName: screenCtx.selectedLocation.name, layer: screenCtx.activeLayers.primary }
+          );
+          const dual = AnswerComposer.compose({
+            spokenVoiceText: screenSpoken,
+            screenTitle: `Screen Context: ${screenCtx.selectedLocation.name} (${screenCtx.selectedYear})`,
+            earthmindSummary: screenSummary + ' • ' + reasoning.synthesis,
+            earthmindMetrics: Object.entries(screenCtx.visibleMetrics).map(([k, v]) => ({ label: k, value: v })),
+            visualHighlightTarget: { type: 'hotspot', targetId: screenCtx.selectedLocation.id },
+          });
+          VoiceResponseManager.dispatch(dual);
+          spokenText = dual.spokenVoiceText;
+          displayText = dual.screenPayload.title;
+        }
       }
     } else if (cmd.intent === 'EXPLAIN_CHART') {
       if (this.appContext) {
-        const chartRes = ChartTools.getActiveChartSummary(this.appContext);
-        const dual = AnswerComposer.compose({
-          spokenVoiceText: chartRes.explanation,
-          screenTitle: chartRes.title,
-          earthmindSummary: `Observed trend: ${chartRes.netChange.direction} (${chartRes.netChange.pctChange}% delta). Peak recorded value: ${chartRes.highestRecorded.value} in year ${chartRes.highestRecorded.year}.`,
-          earthmindMetrics: [
-            { label: 'Current Value', value: chartRes.currentValue },
-            { label: 'Highest Recorded', value: `${chartRes.highestRecorded.value} (${chartRes.highestRecorded.year})` },
-            { label: 'Net Delta', value: `${chartRes.netChange.delta} (${chartRes.netChange.pctChange}%)` },
-          ],
-          visualHighlightTarget: { type: 'chart_bar', targetId: String(chartRes.highestRecorded.year) },
-        });
-        VoiceResponseManager.dispatch(dual);
-        spokenText = dual.spokenVoiceText;
-        displayText = dual.screenPayload.title;
+        if (cmd.params.yearA && cmd.params.yearB) {
+          const comp = ChartTools.compareHistoricalYears(cmd.params.yearA, cmd.params.yearB, this.appContext);
+          spokenText = comp.explanation;
+          displayText = `Epoch Comparison: ${comp.yearA} vs ${comp.yearB}`;
+        } else if (cmd.params.subType === 'highest') {
+          const hv = ChartTools.getHighestValue(this.appContext);
+          spokenText = hv.explanation;
+          displayText = `Highest Value: ${hv.highestRecorded.value} (${hv.highestRecorded.year})`;
+        } else if (cmd.params.subType === 'increase_periods') {
+          const wi = ChartTools.whenDidItIncrease(this.appContext);
+          spokenText = wi.explanation;
+          displayText = `Historical Increases: ${wi.metric}`;
+        } else if (cmd.params.subType === 'trend') {
+          const tr = ChartTools.getTrendAnalysis(this.appContext);
+          spokenText = tr.explanation;
+          displayText = `Trend: ${tr.direction} (${tr.pctChange}%)`;
+        } else if (cmd.params.subType === 'result_change') {
+          const rc = SimulationTools.explainResultChange(this.appContext);
+          spokenText = rc.explanation;
+          displayText = `Driver: ${rc.strongestDriver}`;
+        } else {
+          const chartRes = ChartTools.getActiveChartSummary(this.appContext);
+          const dual = AnswerComposer.compose({
+            spokenVoiceText: chartRes.explanation,
+            screenTitle: chartRes.title,
+            earthmindSummary: `Observed trend: ${chartRes.netChange.direction} (${chartRes.netChange.pctChange}% delta). Peak recorded value: ${chartRes.highestRecorded.value} in year ${chartRes.highestRecorded.year}.`,
+            earthmindMetrics: [
+              { label: 'Current Value', value: chartRes.currentValue },
+              { label: 'Highest Recorded', value: `${chartRes.highestRecorded.value} (${chartRes.highestRecorded.year})` },
+              { label: 'Net Delta', value: `${chartRes.netChange.delta} (${chartRes.netChange.pctChange}%)` },
+            ],
+            visualHighlightTarget: { type: 'chart_bar', targetId: String(chartRes.highestRecorded.year) },
+          });
+          VoiceResponseManager.dispatch(dual);
+          spokenText = dual.spokenVoiceText;
+          displayText = dual.screenPayload.title;
+        }
       }
     } else if (cmd.intent === 'EXHIBITION_INFO') {
       const dual = AnswerComposer.compose({

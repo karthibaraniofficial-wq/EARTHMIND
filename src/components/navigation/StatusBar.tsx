@@ -1,5 +1,6 @@
 import React from 'react';
 import { Activity, ShieldCheck, Cpu, HardDrive } from 'lucide-react';
+import { EarthMindCommandBus } from '../../earthmind/EarthMindCommandBus';
 
 interface StatusBarProps {
   activeHotspotName?: string;
@@ -36,7 +37,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
         </div>
       </div>
 
-      {/* Center: Context labels */}
+      {/* Center: Context labels & Information Density Switcher */}
       <div className="flex items-center gap-3">
         <div className="hidden lg:flex items-center gap-1.5">
           <span className="text-slate-500">Target:</span>
@@ -45,6 +46,23 @@ export const StatusBar: React.FC<StatusBarProps> = ({
         <div className="hidden lg:flex items-center gap-1.5">
           <span className="text-slate-500">Scenario:</span>
           <span className="text-earth-sun font-semibold">{activeScenarioName}</span>
+        </div>
+
+        {/* Phase 29: Information Density Mode Switcher */}
+        <div className="flex items-center gap-1 p-0.5 rounded-lg bg-white/5 border border-white/10 text-[10px]">
+          {(['focus', 'data', 'expert'] as const).map((density) => (
+            <button
+              key={density}
+              onClick={() => {
+                document.documentElement.setAttribute('data-density', density);
+                EarthMindCommandBus.setDensityMode(density);
+              }}
+              className="px-2 py-0.5 rounded uppercase font-mono transition-colors text-slate-400 hover:text-white hover:bg-white/10"
+              title={`Switch UI Information Density: ${density.toUpperCase()}`}
+            >
+              {density}
+            </button>
+          ))}
         </div>
       </div>
 

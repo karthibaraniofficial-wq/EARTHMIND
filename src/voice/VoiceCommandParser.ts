@@ -303,6 +303,134 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
     };
   }
 
+  // 1b. Operator Greeting & Readiness
+  if (
+    lower === 'hello' ||
+    lower === 'hello earthmind' ||
+    lower === 'hello earthmind.' ||
+    lower === 'hi' ||
+    lower === 'hi earthmind' ||
+    lower === 'vanakkam' ||
+    lower === 'vanakkam earthmind' ||
+    lower === 'namaste' ||
+    lower === 'hey earthmind'
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'HELLO',
+      confidence: 0.98,
+      params: {},
+      explanation: 'Establish EarthMind operational intelligence readiness',
+    };
+  }
+
+  // 1c. Scientific Explanation Levels
+  if (
+    lower === 'explain simply' ||
+    lower.includes('explain simply') ||
+    lower.includes('beginner level') ||
+    lower.includes('level 1')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SET_EXPLANATION_LEVEL',
+      confidence: 0.95,
+      params: { level: 1, levelName: 'BEGINNER' },
+      explanation: 'Calibrate scientific reasoning depth to Level 1: Beginner',
+    };
+  }
+
+  if (
+    lower.includes('explain for a student') ||
+    lower.includes('for a student') ||
+    lower.includes('student level') ||
+    lower.includes('level 2')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SET_EXPLANATION_LEVEL',
+      confidence: 0.95,
+      params: { level: 2, levelName: 'STUDENT' },
+      explanation: 'Calibrate scientific reasoning depth to Level 2: Student',
+    };
+  }
+
+  if (
+    lower.includes('explain technically') ||
+    lower.includes('technical level') ||
+    lower.includes('level 3')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SET_EXPLANATION_LEVEL',
+      confidence: 0.95,
+      params: { level: 3, levelName: 'TECHNICAL' },
+      explanation: 'Calibrate scientific reasoning depth to Level 3: Technical',
+    };
+  }
+
+  if (
+    lower.includes('explain scientifically') ||
+    lower.includes('research level') ||
+    lower.includes('level 4')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SET_EXPLANATION_LEVEL',
+      confidence: 0.95,
+      params: { level: 4, levelName: 'RESEARCH' },
+      explanation: 'Calibrate scientific reasoning depth to Level 4: Research',
+    };
+  }
+
+  if (
+    lower.includes('give me the advanced version') ||
+    lower.includes('advanced version') ||
+    lower.includes('expert level') ||
+    lower.includes('level 5')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SET_EXPLANATION_LEVEL',
+      confidence: 0.95,
+      params: { level: 5, levelName: 'EXPERT' },
+      explanation: 'Calibrate scientific reasoning depth to Level 5: Expert',
+    };
+  }
+
+  // 1d. Research Report Creation
+  if (
+    lower.startsWith('create a report') ||
+    lower.startsWith('create report') ||
+    lower.startsWith('generate a report') ||
+    lower.startsWith('generate report') ||
+    lower.includes('research report') ||
+    lower === 'create a report'
+  ) {
+    let topic = 'Regional Environmental Intelligence';
+    if (lower.includes('about')) {
+      topic = rawOriginal.replace(/^.*about\s+/i, '').trim();
+    } else if (lower.includes('amazon')) {
+      topic = 'Amazon Deforestation & Hydrological Impact';
+    } else if (lower.includes('chennai')) {
+      topic = 'Chennai Urban Watershed & Flood Risk';
+    }
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'GENERATE_REPORT',
+      confidence: 0.96,
+      params: { topic, question: rawOriginal },
+      explanation: `Synthesize environmental research report: ${topic}`,
+    };
+  }
+
   // 2. Exhibition & Demo Presentation Commands
   if (
     lower.includes('start science expo') ||
@@ -370,20 +498,157 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
     };
   }
 
-  // 2b. Screen & Chart Intelligence Commands
+  // 2b. Screen & Geospatial Intelligence Commands
   if (
+    lower === 'what am i seeing' ||
+    lower === 'what am i seeing?' ||
     lower === 'what am i looking at' ||
     lower.includes('explain this screen') ||
     lower.includes('explain screen') ||
-    lower.includes('what is on this screen')
+    lower.includes('what is on this screen') ||
+    lower.includes('describe this screen')
   ) {
     return {
       rawText: rawOriginal,
       normalizedText: text,
       intent: 'EXPLAIN_SCREEN',
-      confidence: 0.95,
+      confidence: 0.96,
       params: {},
       explanation: 'Explain current active EarthMind screen, layer, and biophysical context',
+    };
+  }
+
+  if (lower.includes('which region has the highest risk') || lower.includes('highest risk region')) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_SCREEN',
+      confidence: 0.95,
+      params: { subType: 'highest_risk' },
+      explanation: 'Identify and pan to region with highest combined risk index',
+    };
+  }
+
+  if (lower.includes('why is this area red') || lower.includes('why is it red') || lower.includes('why is this red')) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_SCREEN',
+      confidence: 0.95,
+      params: { subType: 'area_red' },
+      explanation: 'Explain active layer color thresholds and critical stress regions',
+    };
+  }
+
+  if (lower.includes('show flood hotspots') || lower.includes('flood hotspots')) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SELECT_LAYER',
+      confidence: 0.95,
+      params: { layer: 'flood', subType: 'flood_hotspots' },
+      explanation: 'Activate flood layer and highlight acute flood risk hotspots',
+    };
+  }
+
+  // Tamil & Thanglish regional query (e.g. "Chennai-la flood risk epdi irukku?")
+  if (lower.includes('chennai-la') || lower.includes('chennai la') || lower.includes('epdi irukku') || lower.includes('epadi irukku')) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SELECT_LAYER',
+      confidence: 0.95,
+      params: { layer: 'flood', location: 'chennai', locationId: 'chennai' },
+      explanation: 'Activate flood layer for Chennai and analyze localized flood risk (Tamil/Thanglish intent)',
+    };
+  }
+
+  // Historical epoch comparisons (e.g. "compare 2020 and 2026", "compare 2020 with 2026")
+  const compareYearsMatch = lower.match(/compare\s+(?:the\s+years\s+)?(20\d\d)\s+(?:and|with|to)\s+(20\d\d)/i);
+  if (compareYearsMatch || (lower.includes('compare') && (lower.includes('2020') || lower.includes('2026') || lower.includes('2018')))) {
+    let yA = compareYearsMatch ? parseInt(compareYearsMatch[1], 10) : 2020;
+    let yB = compareYearsMatch ? parseInt(compareYearsMatch[2], 10) : 2026;
+    if (lower.includes('2018') && lower.includes('2026')) { yA = 2018; yB = 2026; }
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.95,
+      params: { yearA: yA, yearB: yB, subType: 'compare_years', question: rawOriginal },
+      explanation: `Compare historical time series between ${yA} and ${yB}`,
+    };
+  }
+
+  if (lower.includes('explain the difference') || lower.includes('explain difference')) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.95,
+      params: { subType: 'difference', question: rawOriginal },
+      explanation: 'Explain observed variance and difference between epochs',
+    };
+  }
+
+  // Specialized Chart Queries
+  if (
+    lower.includes('highest value') ||
+    lower.includes('what is the highest value') ||
+    lower.includes('peak value')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.95,
+      params: { subType: 'highest', question: rawOriginal },
+      explanation: 'Identify highest recorded historical value and peak epoch',
+    };
+  }
+
+  if (
+    lower.includes('when did it increase') ||
+    lower.includes('when did flood risk increase') ||
+    lower.includes('when did temperature increase')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.95,
+      params: { subType: 'increase_periods', question: rawOriginal },
+      explanation: 'Identify historical periods of increase and rate of rise',
+    };
+  }
+
+  if (
+    lower.includes('what is the trend') ||
+    lower.includes('show trend') ||
+    lower.includes('trend trajectory')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.95,
+      params: { subType: 'trend', question: rawOriginal },
+      explanation: 'Analyze multi-decadal slope, direction, and net delta',
+    };
+  }
+
+  if (
+    lower.includes('why did the result change') ||
+    lower.includes('why did the simulation change') ||
+    lower.includes('why did it increase') ||
+    lower.includes('why did it change')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.94,
+      params: { subType: 'result_change', question: rawOriginal },
+      explanation: 'Explain biophysical drivers and parameter variations behind result',
     };
   }
 
@@ -391,12 +656,7 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
     lower.includes('explain this chart') ||
     lower.includes('explain the graph') ||
     lower.includes('explain chart') ||
-    lower.includes('explain graph') ||
-    lower.includes('highest value') ||
-    lower.includes('why did the result change') ||
-    lower.includes('why did it increase') ||
-    lower.includes('compare these two bars') ||
-    lower.includes('what does this red region mean')
+    lower.includes('explain graph')
   ) {
     return {
       rawText: rawOriginal,
@@ -446,16 +706,23 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
   if (
     lower.includes('fact check this claim') ||
     lower.includes('fact check') ||
+    lower.includes('check this claim') ||
+    lower.includes('verify this claim') ||
+    lower.includes('verify this') ||
     lower.includes('is this claim true') ||
     lower.includes('is this true') ||
+    lower.includes('is that true') ||
+    lower.includes('is it true') ||
     lower.includes('is sea level rising faster now')
   ) {
+    let claim = rawOriginal.replace(/^(fact check:?|fact check this claim:?|check this claim:?|verify this claim:?|verify this:?|is this claim true that|is this true that|is that true that|is it true that)\s*/i, '').trim();
+    if (!claim) claim = rawOriginal;
     return {
       rawText: rawOriginal,
       normalizedText: text,
       intent: 'FACT_CHECK',
       confidence: 0.95,
-      params: { claim: rawOriginal },
+      params: { claim },
       explanation: 'Verify claim against peer-reviewed scientific datasets',
     };
   }
@@ -463,9 +730,19 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
   if (
     lower.includes('search the latest climate news') ||
     lower.includes('search latest climate news') ||
-    lower.includes('what is happening with climate change today') ||
-    lower.includes('what is the latest nasa climate report') ||
+    lower.includes('what is the latest climate news') ||
+    lower.includes('latest climate news') ||
+    lower.includes('what happened today') ||
+    lower.includes('what is the latest nasa update') ||
     lower.includes('what is the latest nasa climate information') ||
+    lower.includes('what is the latest nasa climate report') ||
+    lower.includes('what is the current global temperature trend') ||
+    lower.includes('global temperature trend') ||
+    lower.includes('what is happening in the amazon') ||
+    lower.includes('what is the latest isro mission') ||
+    lower.includes('latest isro') ||
+    lower.includes('climate change na enna') ||
+    lower.includes('what is happening with climate change today') ||
     lower.includes('search web') ||
     lower.includes('research this')
   ) {
@@ -663,6 +940,9 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
       lower.includes(`show ${alias}`) ||
       lower.includes(`target ${alias}`) ||
       lower.includes(`fly to ${alias}`) ||
+      lower.includes(`zoom into ${alias}`) ||
+      lower.includes(`zoom in ${alias}`) ||
+      lower.includes(`zoom to ${alias}`) ||
       lower === alias
     ) {
       return {
@@ -748,13 +1028,19 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
   }
 
   // 7. What-If Simulation Variable Controls
-  // E.g. "Increase tree cover by 20 percent", "Set rainfall to 40 percent", "Reduce traffic by 15 percent"
+  // E.g. "Increase tree cover by 20 percent", "What if tree cover decreases?", "Set rainfall to 40 percent"
   for (const [varAlias, varInfo] of Object.entries(SIM_VARIABLE_ALIASES)) {
     if (lower.includes(varAlias)) {
       const numInfo = extractNumberAndPercentage(lower);
-      if (numInfo.value !== null) {
-        let deltaVal = numInfo.value;
-        const isDecrease = lower.includes('reduce') || lower.includes('decrease') || lower.includes('lower') || lower.includes('cut') || lower.includes('less');
+      let deltaVal = numInfo.value;
+      const isDecrease = lower.includes('reduce') || lower.includes('decrease') || lower.includes('lower') || lower.includes('cut') || lower.includes('less');
+      const isIncrease = lower.includes('increase') || lower.includes('raise') || lower.includes('more') || lower.includes('boost');
+
+      if (deltaVal === null && (isDecrease || isIncrease || lower.includes('what if'))) {
+        deltaVal = isDecrease ? -15 : 20;
+      }
+
+      if (deltaVal !== null) {
         if (isDecrease && deltaVal > 0) {
           deltaVal = -deltaVal;
         }
@@ -778,6 +1064,40 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
         };
       }
     }
+  }
+
+  // Temperature / Heat Anomaly Simulation
+  if ((lower.includes('temperature') || lower.includes('temp')) && (lower.includes('increase') || lower.includes('degree') || lower.includes('what if'))) {
+    const numInfo = extractNumberAndPercentage(lower);
+    const deg = numInfo.value ?? 2;
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'SET_SIMULATION_VARIABLE',
+      confidence: 0.94,
+      params: {
+        variable: 'urbanization',
+        variableKey: 'urbanizationDelta',
+        variableName: 'Surface Thermal & Urbanization Forcing',
+        delta: deg * 10,
+        value: deg,
+        unit: '°C',
+        targetView: 'simulator',
+      },
+      explanation: `Simulate surface thermal heating anomaly of +${deg}°C via coupled urban heat forcing`,
+    };
+  }
+
+  // Hydrological & Flood Risk Impact Query
+  if (lower.includes('what happens to flood risk') || lower.includes('how does flood risk change')) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.95,
+      params: { subType: 'flood_risk_change', question: rawOriginal },
+      explanation: 'Analyze flood risk change and hydrological response to scenario',
+    };
   }
 
   // Simulation execution / reset

@@ -61,7 +61,9 @@ export type VoiceIntentType =
   | 'TOGGLE_GRID'
   | 'SET_VOLUME'
   | 'SET_SPEECH_SPEED'
+  | 'SET_EXPLANATION_LEVEL'
   | 'STOP_SPEAKING'
+  | 'HELLO'
   | 'CHANGE_LANGUAGE'
   | 'EXPLAIN_SCREEN'
   | 'EXPLAIN_CHART'
@@ -86,6 +88,8 @@ export interface ParsedVoiceCommand {
     locationName?: string;
     location?: string;
     year?: number;
+    yearA?: number;
+    yearB?: number;
     layer?: LayerType;
     variable?: keyof SimulationParameters | string;
     variableKey?: keyof SimulationParameters;
@@ -98,6 +102,10 @@ export interface ParsedVoiceCommand {
     enable?: boolean;
     speechRate?: number;
     volume?: number;
+    level?: number;
+    levelName?: string;
+    topic?: string;
+    subType?: string;
     language?: RecognitionLanguage;
     question?: string;
     url?: string;

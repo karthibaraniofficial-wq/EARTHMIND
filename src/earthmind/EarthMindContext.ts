@@ -26,12 +26,24 @@ export interface EarthMindScreenContext {
     primary: LayerType;
     visibleOverlays: string[];
   };
+  visibleCharts: {
+    title: string;
+    currentMetric: string;
+    highestRecordedYear?: number;
+    highestRecordedValue?: number;
+    trendDirection: 'increasing' | 'decreasing' | 'stable';
+  };
   activeCharts: {
     title: string;
     currentMetric: string;
     highestRecordedYear?: number;
     highestRecordedValue?: number;
     trendDirection: 'increasing' | 'decreasing' | 'stable';
+  };
+  visibleMap: {
+    focusedHotspot: string;
+    zoomLevel: number;
+    activeRasterType: string;
   };
   activeMap: {
     focusedHotspot: string;
@@ -57,11 +69,18 @@ export interface EarthMindScreenContext {
     isAvailable: boolean;
     status: string;
   };
+  currentAlerts: {
+    hasActiveAlert: boolean;
+    count: number;
+    message?: string;
+    severity?: 'low' | 'medium' | 'high' | 'critical';
+  };
   currentAlert: {
     hasActiveAlert: boolean;
     message?: string;
     severity?: 'low' | 'medium' | 'high' | 'critical';
   };
+  exhibitionMode: boolean;
   visibleMetrics: Record<string, number | string>;
   visibleLegend: {
     layer: string;
@@ -97,6 +116,27 @@ export function buildScreenContext(ctx: AppActionContext): EarthMindScreenContex
     });
   }
 
+  const chartInfo = {
+    title: `${spot ? spot.name : 'Regional'} Historical Multi-Decadal Time Series`,
+    currentMetric: ctx.activeLayer || 'health',
+    highestRecordedYear: maxYear,
+    highestRecordedValue: maxVal,
+    trendDirection: 'increasing' as const,
+  };
+
+  const mapInfo = {
+    focusedHotspot: spot ? spot.name : 'Amazon Rainforest',
+    zoomLevel: 4.5,
+    activeRasterType: ctx.activeLayer || 'health',
+  };
+
+  const alertInfo = {
+    hasActiveAlert: metrics.floodRisk > 75 || metrics.heatRisk > 80,
+    count: (metrics.floodRisk > 75 ? 1 : 0) + (metrics.heatRisk > 80 ? 1 : 0),
+    message: metrics.floodRisk > 75 ? 'Critical Flood Exposure Alert' : undefined,
+    severity: (metrics.floodRisk > 85 ? 'critical' : metrics.floodRisk > 75 ? 'high' : 'low') as 'low' | 'medium' | 'high' | 'critical',
+  };
+
   return {
     currentPage: ctx.currentView || 'overview',
     currentModule: getModuleDescription(ctx.currentView || 'overview'),
@@ -116,18 +156,10 @@ export function buildScreenContext(ctx: AppActionContext): EarthMindScreenContex
       primary: ctx.activeLayer || 'health',
       visibleOverlays: [ctx.activeLayer || 'health'],
     },
-    activeCharts: {
-      title: `${spot ? spot.name : 'Regional'} Historical Multi-Decadal Time Series`,
-      currentMetric: ctx.activeLayer || 'health',
-      highestRecordedYear: maxYear,
-      highestRecordedValue: maxVal,
-      trendDirection: 'increasing',
-    },
-    activeMap: {
-      focusedHotspot: spot ? spot.name : 'Amazon Rainforest',
-      zoomLevel: 4.5,
-      activeRasterType: ctx.activeLayer || 'health',
-    },
+    visibleCharts: chartInfo,
+    activeCharts: chartInfo,
+    visibleMap: mapInfo,
+    activeMap: mapInfo,
     selectedScenario: {
       id: ctx.scenarios && ctx.scenarios[0] ? ctx.scenarios[0].id : 'baseline',
       name: ctx.scenarios && ctx.scenarios[0] ? ctx.scenarios[0].name : 'Business as Usual',
@@ -143,11 +175,13 @@ export function buildScreenContext(ctx: AppActionContext): EarthMindScreenContex
       isAvailable: true,
       status: 'Ready for Synthesis',
     },
+    currentAlerts: alertInfo,
     currentAlert: {
-      hasActiveAlert: metrics.floodRisk > 75 || metrics.heatRisk > 80,
-      message: metrics.floodRisk > 75 ? 'Critical Flood Exposure Alert' : undefined,
-      severity: metrics.floodRisk > 85 ? 'critical' : metrics.floodRisk > 75 ? 'high' : 'low',
+      hasActiveAlert: alertInfo.hasActiveAlert,
+      message: alertInfo.message,
+      severity: alertInfo.severity,
     },
+    exhibitionMode: ctx.isExhibitionMode || false,
     visibleMetrics: {
       EnvironmentalHealth: metrics.environmentalHealth,
       HeatRiskIndex: metrics.heatRisk,
@@ -166,6 +200,14 @@ export function buildScreenContext(ctx: AppActionContext): EarthMindScreenContex
       `Timeline calibrated to epoch: ${ctx.selectedYear || 2026}`,
     ],
   };
+}
+
+export function explainScreen(screen: EarthMindScreenContext): { spoken: string; summary: string } {
+  const loc = screen.selectedLocation;
+  const layerLabel = screen.activeLayers.primary.replace('_', ' ');
+  const spoken = `You are viewing the ${screen.currentModule}, focused on ${loc.name} in ${loc.country}. The active satellite layer is ${layerLabel} for year ${screen.selectedYear}, with a regional Environmental Health score of ${loc.environmentalHealth}.`;
+  const summary = `Location: ${loc.name} (${loc.region}, ${loc.country}) | Module: ${screen.currentModule} | Active Layer: ${layerLabel} | Year: ${screen.selectedYear} | Primary Risk: ${loc.primaryRisk} | Environmental Health: ${loc.environmentalHealth}/100`;
+  return { spoken, summary };
 }
 
 function getModuleDescription(view: string): string {

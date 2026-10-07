@@ -27,35 +27,36 @@ export const VoiceOrb: React.FC = () => {
       case 'LISTENING':
         return 'Listening...';
       case 'PROCESSING':
-        return 'Processing...';
+        return 'Thinking...';
       case 'UNDERSTANDING':
-        return 'Understanding...';
+        return 'Searching scientific data...';
       case 'EXECUTING':
-        return 'Applying command...';
+        return 'Executing planetary command...';
       case 'SPEAKING':
-        return 'EarthMind is responding...';
+        return 'EarthMind speaking...';
       case 'REQUESTING_PERMISSION':
-        return 'Enabling mic...';
+        return 'Enabling audio interface...';
       case 'ERROR':
-        return 'Microphone unavailable';
+        return 'Voice fallback active';
       default:
-        return 'Tap to speak';
+        return 'Voice Intelligence';
     }
   };
 
   const getOrbAura = () => {
     switch (state) {
       case 'LISTENING':
-        return 'shadow-[0_0_35px_rgba(24,200,200,0.6)] border-earth-aqua';
+        return 'shadow-[0_0_35px_rgba(24,200,200,0.65)] border-earth-aqua';
       case 'PROCESSING':
+        return 'shadow-[0_0_35px_rgba(155,124,255,0.65)] border-earth-aurora animate-spin-slow';
       case 'UNDERSTANDING':
-        return 'shadow-[0_0_35px_rgba(155,124,255,0.6)] border-earth-aurora animate-spin-slow';
+        return 'shadow-[0_0_35px_rgba(79,168,255,0.65)] border-earth-sky';
       case 'EXECUTING':
         return 'shadow-[0_0_35px_rgba(39,201,138,0.7)] border-earth-emerald';
       case 'SPEAKING':
-        return 'shadow-[0_0_35px_rgba(79,168,255,0.6)] border-earth-sky';
+        return 'shadow-[0_0_35px_rgba(24,200,200,0.65)] border-earth-aqua';
       case 'ERROR':
-        return 'shadow-[0_0_35px_rgba(255,107,107,0.5)] border-earth-coral';
+        return 'shadow-[0_0_25px_rgba(255,107,107,0.4)] border-earth-coral';
       default:
         return 'shadow-[0_0_20px_rgba(24,200,200,0.25)] border-white/20 hover:shadow-[0_0_30px_rgba(24,200,200,0.45)]';
     }
@@ -63,7 +64,7 @@ export const VoiceOrb: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 group select-none">
-      {/* Floating Status Pill */}
+      {/* Floating Spatial Status Pill */}
       <div
         onClick={toggleVoicePanel}
         className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel-2 border border-white/15 backdrop-blur-xl shadow-xl cursor-pointer hover:border-earth-aqua/40 transition-all opacity-90 group-hover:opacity-100"
@@ -102,7 +103,7 @@ export const VoiceOrb: React.FC = () => {
         {isListening && (
           <div
             className="absolute -inset-2.5 rounded-full border border-earth-aqua/50 animate-ping opacity-75 pointer-events-none"
-            style={{ transform: `scale(${1 + audioLevel * 0.4})` }}
+            style={{ transform: `scale(${1 + Math.min(0.5, audioLevel * 0.4)})` }}
           />
         )}
 
@@ -111,10 +112,15 @@ export const VoiceOrb: React.FC = () => {
           className={`relative w-14 h-14 rounded-full p-[2px] transition-all duration-300 transform active:scale-95 flex items-center justify-center ${getOrbAura()}`}
           title="Talk to EarthMind (Voice Intelligence Control)"
         >
-          {/* Glass Spherical Background */}
+          {/* Liquid Glass Spherical Background */}
           <div className="w-full h-full rounded-full bg-gradient-to-br from-[#0c2a47]/90 via-[#071A2B]/95 to-[#051320] backdrop-blur-2xl flex items-center justify-center relative overflow-hidden border border-white/20">
-            {/* Soft Aurora Light Reflection */}
-            <div className="absolute top-0 left-1/4 right-1/4 h-3 bg-gradient-to-b from-white/30 to-transparent rounded-full pointer-events-none" />
+            {/* Soft Liquid Glass Highlight Sheen */}
+            <div className="absolute top-0 left-1/4 right-1/4 h-3 bg-gradient-to-b from-white/35 to-transparent rounded-full pointer-events-none" />
+
+            {/* Subtle orbital animation when searching/thinking */}
+            {(state === 'PROCESSING' || state === 'UNDERSTANDING') && (
+              <div className="absolute inset-1 rounded-full border border-earth-aurora/40 animate-spin pointer-events-none" />
+            )}
 
             {/* Icon depending on state */}
             {state === 'ERROR' ? (
@@ -122,7 +128,7 @@ export const VoiceOrb: React.FC = () => {
             ) : isSpeaking ? (
               <Volume2 className="w-6 h-6 text-earth-emerald animate-pulse" />
             ) : state === 'PROCESSING' || state === 'UNDERSTANDING' ? (
-              <Sparkles className="w-6 h-6 text-earth-aurora animate-spin" />
+              <Sparkles className="w-6 h-6 text-earth-aurora animate-pulse" />
             ) : isListening ? (
               <Mic className="w-6 h-6 text-earth-aqua animate-pulse" />
             ) : (

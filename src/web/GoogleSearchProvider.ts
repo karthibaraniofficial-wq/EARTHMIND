@@ -24,6 +24,8 @@ export interface SearchGroundingResponse {
 }
 
 export class GoogleSearchProvider {
+  private static cache: Map<string, SearchGroundingResponse> = new Map();
+
   /**
    * Generates multiple targeted search queries for comprehensive coverage.
    */
@@ -44,6 +46,9 @@ export class GoogleSearchProvider {
     } else if (clean.includes('flood') || clean.includes('chennai') || clean.includes('tamil nadu')) {
       queries.push(`Chennai monsoon flood risk Pallikaranai marshland Sentinel-1 SAR`);
       queries.push(`urban runoff wetland encroachment coastal flooding IIT Madras`);
+    } else if (clean.includes('isro') || clean.includes('nisar')) {
+      queries.push(`ISRO NASA NISAR earth observation mission L-band S-band radar`);
+      queries.push(`ISRO EOS-06 Oceansat-3 sea surface temperature telemetry`);
     } else {
       queries.push(`${q} scientific research official report`);
     }
@@ -55,6 +60,12 @@ export class GoogleSearchProvider {
    * Executes live search grounding against server endpoint or verified scientific intelligence index.
    */
   public static async search(request: SearchGroundingRequest): Promise<SearchGroundingResponse> {
+    const cacheKey = request.query.toLowerCase().trim();
+    if (this.cache.has(cacheKey)) {
+      const cached = this.cache.get(cacheKey)!;
+      return { ...cached, latencyMs: 5 };
+    }
+
     const start = Date.now();
     const expanded = this.generateSubQueries(request.query);
 
@@ -78,7 +89,7 @@ export class GoogleSearchProvider {
             SourceQualityEngine.evaluate(s, expanded, parsedSources);
           });
 
-          return {
+          const result: SearchGroundingResponse = {
             query: request.query,
             expandedQueries: expanded,
             sources: parsedSources,
@@ -87,6 +98,8 @@ export class GoogleSearchProvider {
             conflictExplanation: data.conflictExplanation,
             latencyMs: Date.now() - start,
           };
+          this.cache.set(cacheKey, result);
+          return result;
         }
       }
     } catch {
@@ -103,7 +116,7 @@ export class GoogleSearchProvider {
                             request.query.toLowerCase().includes('conflict') || 
                             request.query.toLowerCase().includes('rate varies');
 
-    return {
+    const result: SearchGroundingResponse = {
       query: request.query,
       expandedQueries: expanded,
       sources: curated,
@@ -116,6 +129,8 @@ export class GoogleSearchProvider {
         : undefined,
       latencyMs: Date.now() - start,
     };
+    this.cache.set(cacheKey, result);
+    return result;
   }
 
   /**
@@ -252,6 +267,45 @@ export class GoogleSearchProvider {
           relevanceScore: 95,
           crossSourceScore: 91,
           scientificReliability: 94,
+          isPeerReviewed: true,
+          isOfficialAgency: true,
+        },
+      ];
+    }
+
+    if (q.includes('isro') || q.includes('nisar') || q.includes('oceansat')) {
+      return [
+        {
+          id: 'src-isro-nisar',
+          title: 'ISRO-NASA NISAR Earth Observation Observatory',
+          url: 'https://isro.gov.in/NISAR.html',
+          domain: 'isro.gov.in',
+          publisher: 'Indian Space Research Organisation (ISRO)',
+          snippet: 'Dual-frequency L-band and S-band synthetic aperture radar systematically measures ecosystem disturbances, ice-sheet collapses, and groundwater deformation worldwide with sub-centimeter accuracy.',
+          publicationDate: '2025-10-10',
+          accessDate: new Date().toISOString().split('T')[0],
+          authorityScore: 98,
+          freshnessScore: 95,
+          relevanceScore: 98,
+          crossSourceScore: 96,
+          scientificReliability: 99,
+          isPeerReviewed: true,
+          isOfficialAgency: true,
+        },
+        {
+          id: 'src-isro-eos6',
+          title: 'ISRO EOS-06 (Oceansat-3) Ocean Color and Thermal Infrared Telemetry',
+          url: 'https://isro.gov.in/EOS_06.html',
+          domain: 'isro.gov.in',
+          publisher: 'ISRO Space Applications Centre',
+          snippet: 'Ocean Color Monitor (OCM-3) and Thermal Infrared Spectrometer provide high-resolution sea surface temperature, chlorophyll concentration, and coastal turbidity mapping.',
+          publicationDate: '2025-05-18',
+          accessDate: new Date().toISOString().split('T')[0],
+          authorityScore: 96,
+          freshnessScore: 90,
+          relevanceScore: 95,
+          crossSourceScore: 93,
+          scientificReliability: 97,
           isPeerReviewed: true,
           isOfficialAgency: true,
         },

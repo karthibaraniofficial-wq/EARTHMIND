@@ -9,7 +9,12 @@ import { WebResearchAgent, WebResearchMode, WebResearchExecutionResult } from '.
 
 export type ResearchTimelineStage = 
   | 'IDLE' 
+  | 'UNDERSTANDING'
   | 'SEARCHING' 
+  | 'VALIDATING'
+  | 'ANALYZING'
+  | 'COMPOSING'
+  | 'SPEAKING'
   | 'SOURCE_DISCOVERY' 
   | 'SOURCE_VALIDATION' 
   | 'EVIDENCE_ANALYSIS' 
@@ -35,7 +40,7 @@ export class ResearchOrchestrator {
     return () => this.listeners.delete(listener);
   }
 
-  private static notify(stage: ResearchTimelineStage, label: string, extra?: Partial<ResearchTimelineEvent>): void {
+  public static notify(stage: ResearchTimelineStage, label: string, extra?: Partial<ResearchTimelineEvent>): void {
     this.currentStage = stage;
     const evt: ResearchTimelineEvent = {
       stage,
@@ -57,7 +62,7 @@ export class ResearchOrchestrator {
   }
 
   /**
-   * Orchestrates full 5-stage research workflow.
+   * Orchestrates full 7-stage research workflow.
    */
   public static async orchestrate(
     query: string,
@@ -65,27 +70,33 @@ export class ResearchOrchestrator {
     targetUrl?: string
   ): Promise<WebResearchExecutionResult> {
     try {
-      // 1. SEARCHING
-      this.notify('SEARCHING', `Querying Google Search Grounding for: "${query.slice(0, 35)}..."`);
-      await new Promise((r) => setTimeout(r, 80));
-
-      // 2. SOURCE DISCOVERY
-      this.notify('SOURCE_DISCOVERY', 'Retrieving authoritative domains (NASA, NOAA, IPCC, ISRO, Nature)');
+      // 1. UNDERSTANDING
+      this.notify('UNDERSTANDING', `Understanding scientific query: "${query.slice(0, 35)}..."`);
       await new Promise((r) => setTimeout(r, 60));
 
-      // 3. SOURCE VALIDATION
-      this.notify('SOURCE_VALIDATION', 'Computing source quality & freshness metrics (SourceQualityEngine)');
+      // 2. SEARCHING
+      this.notify('SEARCHING', `Querying Google Search Grounding across authoritative sources`);
+      await new Promise((r) => setTimeout(r, 80));
+
+      // 3. VALIDATING
+      this.notify('VALIDATING', 'Validating agency credentials & freshness (NASA, NOAA, IPCC, ISRO, Nature)');
       
       const result = await WebResearchAgent.executeResearch(query, mode, targetUrl);
 
-      // 4. EVIDENCE ANALYSIS
-      this.notify('EVIDENCE_ANALYSIS', `Corroborating ${result.sources.length} sources (Consensus: ${result.synthesis.status})`, {
+      // 4. ANALYZING
+      this.notify('ANALYZING', `Cross-analyzing ${result.sources.length} sources (Consensus: ${result.synthesis.status})`, {
         sourcesFound: result.sources.length,
       });
       await new Promise((r) => setTimeout(r, 60));
 
-      // 5. ANSWER
-      this.notify('ANSWER', 'Synthesized dual-tier voice answer & evidence card', {
+      // 5. COMPOSING
+      this.notify('COMPOSING', 'Composing dual-tier spoken response & structured evidence cards', {
+        sourcesFound: result.sources.length,
+      });
+      await new Promise((r) => setTimeout(r, 40));
+
+      // 6. SPEAKING
+      this.notify('SPEAKING', 'Delivering concise conversational brief', {
         sourcesFound: result.sources.length,
       });
 

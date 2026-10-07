@@ -15,14 +15,29 @@ export const ResearchTimeline: React.FC = () => {
   if (!timelineEvent || timelineEvent.stage === 'IDLE') return null;
 
   const stages: { key: ResearchTimelineStage; label: string; icon: any }[] = [
-    { key: 'SEARCHING', label: 'Querying Web', icon: Search },
-    { key: 'SOURCE_DISCOVERY', label: 'Discovering Sources', icon: Compass },
-    { key: 'SOURCE_VALIDATION', label: 'Validating Authority', icon: ShieldCheck },
-    { key: 'EVIDENCE_ANALYSIS', label: 'Cross-Corroborating', icon: Cpu },
-    { key: 'ANSWER', label: 'Synthesized Answer', icon: CheckCircle2 },
+    { key: 'UNDERSTANDING', label: 'Understand', icon: Compass },
+    { key: 'SEARCHING', label: 'Search', icon: Search },
+    { key: 'VALIDATING', label: 'Validate', icon: ShieldCheck },
+    { key: 'ANALYZING', label: 'Analyze', icon: Cpu },
+    { key: 'COMPOSING', label: 'Compose', icon: CheckCircle2 },
+    { key: 'SPEAKING', label: 'Speak', icon: Loader2 },
   ];
 
-  const currentIdx = stages.findIndex((s) => s.key === timelineEvent.stage);
+  // Map any legacy or sub-stage keys to primary timeline positions
+  const stageMap: Record<string, number> = {
+    UNDERSTANDING: 0,
+    SEARCHING: 1,
+    SOURCE_DISCOVERY: 1,
+    VALIDATING: 2,
+    SOURCE_VALIDATION: 2,
+    ANALYZING: 3,
+    EVIDENCE_ANALYSIS: 3,
+    COMPOSING: 4,
+    ANSWER: 4,
+    SPEAKING: 5,
+  };
+
+  const currentIdx = stageMap[timelineEvent.stage] ?? -1;
 
   return (
     <div className="p-3 rounded-xl bg-[#071A2B]/90 border border-earth-aqua/30 backdrop-blur-md shadow-lg space-y-2">
