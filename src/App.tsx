@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/navigation/Navbar';
+import { AppShell, GlobalTopBar, Workspace, SideRail, ContextPanel, FloatingLayer } from './design-system';
 import { StatusBar } from './components/navigation/StatusBar';
 import { CommandPalette } from './components/navigation/CommandPalette';
-import { LeftNavRail } from './components/navigation/LeftNavRail';
-import { ContextIntelligencePanel } from './components/navigation/ContextIntelligencePanel';
 import { AssistantDrawer } from './domains/ai/AssistantDrawer';
 import { GuidedDemoController } from './domains/demo/GuidedDemoController';
 import { ScienceExhibitionView } from './domains/exhibition/ScienceExhibitionView';
@@ -166,39 +164,59 @@ function AppContent() {
 
 
   return (
-    <div className="min-h-screen bg-[var(--earthmind-bg)] text-[var(--earthmind-text)] aurora-bg flex flex-col font-sans selection:bg-earth-aqua/30 selection:text-white relative transition-colors duration-300">
-      {/* 1. Global Navigation Bar */}
-      <Navbar
-        currentView={currentView}
-        onNavigate={handleNavigate}
-        onOpenCommand={() => setIsCommandOpen(true)}
-        onToggleAi={() => setIsAiOpen(!isAiOpen)}
-        isAiOpen={isAiOpen}
-        onStartGuidedDemo={() => setIsDemoActive(true)}
-        isDemoActive={isDemoActive}
-        onToggleExhibitionMode={() => setIsExhibitionMode(!isExhibitionMode)}
-        isExhibitionMode={isExhibitionMode}
-      />
-
-      {/* Floating Spatial Left Navigation Rail */}
-      {currentView !== 'landing' && (
-        <LeftNavRail
-          currentView={currentView}
-          onNavigate={handleNavigate}
+    <AppShell
+      currentView={currentView}
+      onNavigate={handleNavigate}
+      topBar={
+        <GlobalTopBar
+          onOpenCommand={() => setIsCommandOpen(true)}
+          onToggleAi={() => setIsAiOpen(!isAiOpen)}
+          isAiOpen={isAiOpen}
+          onStartGuidedDemo={() => setIsDemoActive(true)}
+          isDemoActive={isDemoActive}
+          onToggleExhibitionMode={() => setIsExhibitionMode(!isExhibitionMode)}
+          isExhibitionMode={isExhibitionMode}
         />
-      )}
-
-      {/* Floating Contextual Intelligence Panel */}
-      {currentView !== 'landing' && (
-        <ContextIntelligencePanel
-          currentView={currentView}
-          selectedHotspot={selectedHotspot}
-          onNavigateToSimulator={() => handleNavigate('simulator')}
+      }
+      statusBar={
+        <StatusBar
+          activeHotspotName={selectedHotspot.name}
+          activeScenarioName={activeScenario.name}
+          simEngineStatus="RECONVERGED"
+          onOpenMethodology={() => setIsMethodologyOpen(true)}
         />
-      )}
-
-      {/* 2. Main Content Routing Shell */}
-      <main className="flex-1 w-full flex flex-col">
+      }
+      floatingLayer={
+        <FloatingLayer>
+          {activeHighlight && (
+            <div className="fixed top-16 right-4 z-[45] px-3.5 py-1.5 rounded-full bg-earth-aqua/15 border border-earth-aqua/50 backdrop-blur-xl text-earth-aqua text-xs font-mono flex items-center gap-2 shadow-[0_0_20px_rgba(24,200,200,0.3)] animate-pulse pointer-events-none">
+              <span className="w-2 h-2 rounded-full bg-earth-aqua animate-ping" />
+              <span>VOICE SPOTLIGHT: {activeHighlight.type.toUpperCase()} [{activeHighlight.id.toUpperCase()}]</span>
+            </div>
+          )}
+          <VoiceTranscript />
+          <VoicePanel />
+          <VoiceSettingsPanel />
+          <VoiceConfirmationModal />
+          <VoicePermissionModal />
+          <VoiceTestConsole />
+          <VoiceResearchSourcesPanel />
+          <EarthMindCopilot />
+        </FloatingLayer>
+      }
+    >
+      <Workspace
+        sideRail={<SideRail />}
+        contextPanel={
+          <ContextPanel
+            selectedHotspot={selectedHotspot}
+            onNavigateToSimulator={() => handleNavigate('simulator')}
+            onNavigateToResearch={() => handleNavigate('research')}
+            onNavigateToComparison={() => handleNavigate('scenarios')}
+            onNavigateToReports={() => handleNavigate('reports')}
+          />
+        }
+      >
         {currentView === 'landing' && (
           <LandingPage
             onEnterPlatform={(view) => handleNavigate(view || 'overview')}
@@ -470,17 +488,9 @@ function AppContent() {
         {currentView === 'quality' && (
           <DataQualityCenterView />
         )}
-      </main>
+      </Workspace>
 
-      {/* 3. Global Status Bar (Footer) */}
-      <StatusBar
-        activeHotspotName={selectedHotspot.name}
-        activeScenarioName={activeScenario.name}
-        simEngineStatus="RECONVERGED"
-        onOpenMethodology={() => setIsMethodologyOpen(true)}
-      />
-
-      {/* 4. Global Command Palette (Ctrl+K) */}
+      {/* Global Command Palette (Ctrl+K) */}
       <CommandPalette
         isOpen={isCommandOpen}
         onClose={() => setIsCommandOpen(false)}
@@ -499,7 +509,7 @@ function AppContent() {
         }}
       />
 
-      {/* 5. Context-Aware AI Assistant Drawer */}
+      {/* Context-Aware AI Assistant Drawer */}
       <AssistantDrawer
         isOpen={isAiOpen}
         onClose={() => setIsAiOpen(false)}
@@ -510,7 +520,7 @@ function AppContent() {
         onNavigate={handleNavigate}
       />
 
-      {/* 6. Guided Demo Mode Automated Orchestration */}
+      {/* Guided Demo Mode Automated Orchestration */}
       <GuidedDemoController
         isActive={isDemoActive}
         onExitDemo={() => setIsDemoActive(false)}
@@ -523,9 +533,9 @@ function AppContent() {
         hotspots={hotspots}
       />
 
-      {/* 7. Science Exhibition Presentation Overlay */}
+      {/* Science Exhibition Presentation Overlay */}
       {isExhibitionMode && (
-        <div className="fixed inset-0 z-50 bg-[#071A2B]/95 backdrop-blur-2xl overflow-y-auto custom-scrollbar animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[80] bg-[#071A2B]/95 backdrop-blur-2xl overflow-y-auto custom-scrollbar animate-in fade-in duration-200">
           <ScienceExhibitionView
             onClose={() => setIsExhibitionMode(false)}
             onNavigateToSimulator={() => {
@@ -536,36 +546,15 @@ function AppContent() {
         </div>
       )}
 
-      {/* 8. Methodology & Data Sources Modal */}
+      {/* Methodology & Data Sources Modal */}
       <MethodologyModal
         isOpen={isMethodologyOpen}
         onClose={() => setIsMethodologyOpen(false)}
       />
 
-      {/* Voice Spotlight HUD */}
-      {activeHighlight && (
-        <div className="fixed top-20 right-6 z-40 px-3.5 py-1.5 rounded-full bg-earth-aqua/15 border border-earth-aqua/50 backdrop-blur-xl text-earth-aqua text-xs font-mono flex items-center gap-2 shadow-[0_0_20px_rgba(24,200,200,0.3)] animate-pulse pointer-events-none">
-          <span className="w-2 h-2 rounded-full bg-earth-aqua animate-ping" />
-          <span>VOICE SPOTLIGHT: {activeHighlight.type.toUpperCase()} [{activeHighlight.id.toUpperCase()}]</span>
-        </div>
-      )}
-
-      {/* 9. EARTHMIND Voice Intelligence Subsystem */}
-      <VoiceOrb />
-      <VoiceTranscript />
-      <VoicePanel />
-      <VoiceSettingsPanel />
-      <VoiceConfirmationModal />
-      <VoicePermissionModal />
-      <VoiceTestConsole />
-      <VoiceResearchSourcesPanel />
-
-      {/* 10. Appearance Studio 2.0 (Theme Engine Modal) */}
+      {/* Appearance Studio 2.0 (Theme Engine Modal) */}
       <ThemeCustomizer />
-
-      {/* 11. EarthMind Contextual Copilot (Phase 31) */}
-      <EarthMindCopilot />
-    </div>
+    </AppShell>
   );
 }
 

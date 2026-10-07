@@ -50,6 +50,43 @@
     --pointer-x: 50%;
     --pointer-y: 50%;
 
+    /* Z-Index Controlled Scale */
+    --z-base: 0;
+    --z-content: 10;
+    --z-sticky: 20;
+    --z-nav: 30;
+    --z-context: 40;
+    --z-floating: 50;
+    --z-dropdown: 60;
+    --z-tooltip: 70;
+    --z-modal: 80;
+    --z-command: 90;
+    --z-critical: 100;
+
+    /* Global Spacing Scale */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 32px;
+    --space-8: 40px;
+    --space-9: 48px;
+    --space-10: 64px;
+
+    /* Safe Area Variables */
+    --safe-top: 64px;
+    --safe-right: 16px;
+    --safe-bottom: 48px;
+    --safe-left: 16px;
+
+    /* Structural Shell Dimensions */
+    --topbar-height: 56px;
+    --statusbar-height: 36px;
+    --rail-width: 64px;
+    --context-width: 0px;
+
     /* Legacy color variables preserved for full backwards compatibility */
     --color-deep-ocean: #071A2B;
     --color-ocean: #087EA4;
@@ -261,3 +298,71 @@
 .animate-pulse-subtle {
   animation: pulseSubtle 3s ease-in-out infinite;
 }
+
+/* ==========================================================
+   SPATIAL ARCHITECTURE & APPLICATION SHELL GRID
+   ========================================================== */
+.earthmind-app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: var(--earthmind-bg);
+  color: var(--earthmind-text);
+  overflow-x: hidden;
+}
+
+.earthmind-workspace {
+  display: grid;
+  grid-template-columns: var(--rail-width, 64px) minmax(0, 1fr) var(--context-width, 0px);
+  grid-template-rows: minmax(0, 1fr);
+  flex: 1 1 auto;
+  width: 100%;
+  height: calc(100vh - var(--topbar-height, 56px) - var(--statusbar-height, 36px));
+  min-height: calc(100vh - var(--topbar-height, 56px) - var(--statusbar-height, 36px));
+  max-height: calc(100vh - var(--topbar-height, 56px) - var(--statusbar-height, 36px));
+  overflow: hidden;
+  position: relative;
+  transition: grid-template-columns 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.earthmind-main-viewport {
+  grid-column: 2;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.earthmind-side-rail-region {
+  grid-column: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: var(--z-nav, 30);
+}
+
+.earthmind-context-panel-region {
+  grid-column: 3;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: var(--z-context, 40);
+}
+
+/* Mobile responsive collapse */
+@media (max-width: 1023px) {
+  .earthmind-workspace {
+    grid-template-columns: var(--rail-width, 0px) minmax(0, 1fr) 0px;
+  }
+  .earthmind-context-panel-region {
+    display: none;
+  }
+}
+

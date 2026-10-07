@@ -20,6 +20,7 @@ import { GlassCard } from '../../components/glass/GlassCard';
 import { GlassButton } from '../../components/glass/GlassButton';
 import { GlassBadge } from '../../components/glass/GlassBadge';
 import { EnvironmentalHotspot, SavedScenario } from '../../types';
+import { ScientificBadge } from '../../design-system/ScientificBadge';
 
 interface ReportGeneratorViewProps {
   hotspots: EnvironmentalHotspot[];
@@ -63,7 +64,7 @@ export const ReportGeneratorView: React.FC<ReportGeneratorViewProps> = ({
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 py-6 space-y-6 min-w-0">
       {/* Top Action Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
         <div>
@@ -118,6 +119,7 @@ export const ReportGeneratorView: React.FC<ReportGeneratorViewProps> = ({
                 EARTHMIND
               </span>
               <span className="text-xs font-mono text-slate-400 print:text-gray-500">| DIGITAL TWIN REPORT</span>
+              <ScientificBadge provenance="OBSERVED" confidence={95} size="sm" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white print:text-black">
               {selectedHotspot.name}

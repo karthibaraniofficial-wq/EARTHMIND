@@ -115,7 +115,7 @@ export const VoicePanel: React.FC = () => {
   ];
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[420px] p-4 flex flex-col justify-end pointer-events-none">
+    <div className="fixed inset-y-0 right-0 z-[80] w-full sm:w-[420px] p-4 flex flex-col justify-end pointer-events-none">
       <div className="pointer-events-auto">
         <GlassCard
           variant="strong"

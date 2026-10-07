@@ -18,6 +18,7 @@ import { GlassCard } from '../../components/glass/GlassCard';
 import { GlassBadge } from '../../components/glass/GlassBadge';
 import { GlassButton } from '../../components/glass/GlassButton';
 import { FutureForkBranch, SimulationParameters } from '../../types';
+import { ScientificBadge } from '../../design-system/ScientificBadge';
 
 interface FutureForkViewProps {
   onNavigateToSimulator: () => void;
@@ -129,7 +130,7 @@ export const FutureForkView: React.FC<FutureForkViewProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 space-y-6 min-w-0">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -139,7 +140,10 @@ export const FutureForkView: React.FC<FutureForkViewProps> = ({
               FEATURE 46 • MULTIPLE-FUTURE BRANCHING ENGINE
             </span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white mt-1">Future Fork</h1>
+          <div className="flex items-center gap-3 mt-1">
+            <h1 className="text-3xl font-extrabold text-white">Future Fork</h1>
+            <ScientificBadge provenance="PROJECTED" confidence={80} sensor="IPCC SSP1-2.6 / SSP2-4.5 / SSP5-8.5 Pathways" size="sm" />
+          </div>
           <p className="text-sm text-slate-400 mt-1 max-w-2xl">
             Explore branched planetary trajectories from 2026. Compare how policy decisions divert Earth toward regenerative recovery or catastrophic runaway tipping points.
           </p>

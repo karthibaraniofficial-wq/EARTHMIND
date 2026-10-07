@@ -14,6 +14,7 @@ import { GlassCard } from '../../components/glass/GlassCard';
 import { GlassButton } from '../../components/glass/GlassButton';
 import { GlassBadge } from '../../components/glass/GlassBadge';
 import { EnvironmentalHotspot } from '../../types';
+import { ScientificBadge } from '../../design-system/ScientificBadge';
 
 interface ForensicsInvestigationViewProps {
   hotspots: EnvironmentalHotspot[];
@@ -37,7 +38,7 @@ export const ForensicsInvestigationView: React.FC<ForensicsInvestigationViewProp
     : forensics.factors.filter((f) => f.category === selectedCategory);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 space-y-6 min-w-0">
       {/* Header & Hotspot Switcher */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -47,7 +48,10 @@ export const ForensicsInvestigationView: React.FC<ForensicsInvestigationViewProp
               MULTIVARIATE ECOLOGICAL INVESTIGATION
             </span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white mt-1">Environmental Forensics</h1>
+          <div className="flex items-center gap-3 mt-1">
+            <h1 className="text-3xl font-extrabold text-white">Environmental Forensics</h1>
+            <ScientificBadge provenance="MODELED" confidence={92} sensor="Sentinel-2 + Landsat-9 Cross-Correlation" size="sm" />
+          </div>
           <p className="text-sm text-slate-400 mt-1 max-w-2xl">
             Correlate orbital multispectral radiometric changes with local anthropogenic and climatic stress factors using transparent evidence-weighted association models.
           </p>

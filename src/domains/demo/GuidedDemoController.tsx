@@ -195,7 +195,7 @@ export const GuidedDemoController: React.FC<GuidedDemoControllerProps> = ({
   const progressPct = ((currentStep.duration - secondsRemaining) / currentStep.duration) * 100;
 
   return (
-    <div className="fixed top-16 inset-x-4 z-50 max-w-4xl mx-auto animate-in slide-in-from-top duration-300">
+    <div className="fixed top-16 inset-x-4 z-[80] max-w-4xl mx-auto animate-in slide-in-from-top duration-300">
       <GlassCard
         variant="strong"
         glow="emerald"

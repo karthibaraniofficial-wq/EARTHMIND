@@ -39,7 +39,7 @@ export const OverviewDashboardView: React.FC<OverviewDashboardViewProps> = ({
   const m = selectedHotspot.currentMetrics;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 space-y-6 min-w-0">
       {/* Top Banner: Hero Welcome with Active Hotspot context */}
       <GlassCard variant="highlight" glow="aqua" className="p-6 border border-earth-aqua/30 shadow-2xl relative overflow-hidden">
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">

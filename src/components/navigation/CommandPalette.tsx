@@ -147,7 +147,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-[90] flex items-start justify-center pt-20 px-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-150">
       <div className="fixed inset-0" onClick={onClose} />
 
       <GlassCard

@@ -97,7 +97,7 @@ export const ThemeCustomizer: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-xl animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-xl animate-in fade-in duration-200">
       <div className="w-full h-full max-w-[1600px] max-h-[96vh] rounded-3xl glass-panel-3 border border-white/20 shadow-2xl flex flex-col overflow-hidden relative">
         {/* TOP TOOLBAR */}
         <header className="px-6 py-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 backdrop-blur-md">
@@ -885,7 +885,7 @@ export const ThemeCustomizer: React.FC = () => {
 
       {/* IMPORT THEME MODAL */}
       {importModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
           <div className="w-full max-w-lg p-6 rounded-2xl glass-panel-3 border border-white/20 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-white font-mono uppercase">Import EarthMind Theme JSON</h3>

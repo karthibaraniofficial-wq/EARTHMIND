@@ -18,6 +18,7 @@ import { GlassBadge } from '../../components/glass/GlassBadge';
 import { EarthGlassHud } from '../../components/navigation/EarthGlassHud';
 import { EnvironmentalHotspot, LayerType } from '../../types';
 import { VoiceCommandSuggestions } from '../../components/voice/VoiceCommandSuggestions';
+import { EarthHUD } from '../../design-system/EarthHUD';
 
 
 interface EarthExplorerViewProps {
@@ -60,7 +61,7 @@ export const EarthExplorerView: React.FC<EarthExplorerViewProps> = ({
   );
 
   return (
-    <div className="relative w-full h-[calc(100vh-100px)] min-h-[640px] flex flex-col overflow-hidden bg-radial-aurora">
+    <div className="relative w-full h-full min-h-[640px] flex flex-col overflow-hidden bg-radial-aurora min-w-0">
       {/* Top Floating Overlay: Quick Hotspot Selector & Search */}
       <div className="absolute top-4 inset-x-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
         {/* Hotspot Pills */}
@@ -138,6 +139,21 @@ export const EarthExplorerView: React.FC<EarthExplorerViewProps> = ({
               onNavigateToSimulator={onNavigateToSimulator}
               onNavigateToMemory={onNavigateToMemory}
               onNavigateToForensics={onNavigateToForensics}
+            />
+          </div>
+        )}
+
+        {/* Restrained Planetary Telemetry HUD */}
+        {selectedHotspot && (
+          <div className="absolute bottom-20 left-4 z-20 pointer-events-auto hidden md:block">
+            <EarthHUD
+              locationName={selectedHotspot.name}
+              lat={selectedHotspot.coordinates.lat}
+              lon={selectedHotspot.coordinates.lng}
+              year={2026}
+              activeLayerName={layers.find((l) => l.id === activeLayer)?.label || 'Composite Health'}
+              provenance="OBSERVED"
+              confidence={94}
             />
           </div>
         )}

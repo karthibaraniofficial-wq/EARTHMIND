@@ -31,6 +31,24 @@ export const ScienceExhibitionView: React.FC<ScienceExhibitionViewProps> = ({
 }) => {
   const [activeSection, setActiveSection] = useState<number>(0);
 
+  // Keyboard navigation for presentation: ArrowRight, ArrowLeft, Space, ESC
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        setActiveSection((p) => Math.min(7, p + 1));
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setActiveSection((p) => Math.max(0, p - 1));
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const sections = [
     {
       id: 'problem',

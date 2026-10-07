@@ -51,7 +51,7 @@ export const VoiceResearchSourcesPanel: React.FC<VoiceResearchSourcesPanelProps>
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] p-4 flex flex-col justify-end pointer-events-none animate-in fade-in slide-in-from-right duration-200">
+    <div className="fixed inset-y-0 right-0 z-[80] w-full sm:w-[480px] p-4 flex flex-col justify-end pointer-events-none animate-in fade-in slide-in-from-right duration-200">
       <div className="pointer-events-auto w-full max-h-[92vh] flex flex-col">
         <GlassCard variant="strong" glow="aqua" className="flex flex-col flex-1 overflow-hidden border border-earth-aqua/30 shadow-2xl bg-[#071A2B]/95 backdrop-blur-2xl">
           {/* Header */}

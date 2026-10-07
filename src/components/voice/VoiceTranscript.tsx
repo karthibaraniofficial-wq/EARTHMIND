@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { Sparkles, Check, Volume2, Mic, BookOpen, ExternalLink, ShieldCheck, ChevronRight } from '../icons';
+import { Sparkles, Check, Volume2, Mic, BookOpen, ExternalLink, ShieldCheck, ChevronRight, X } from '../icons';
 import { useVoice } from '../../voice/VoiceContext';
 import { GlassBadge } from '../glass/GlassBadge';
 
@@ -29,15 +29,34 @@ export const VoiceTranscript: React.FC = () => {
   const showSpeakingBanner = isSpeaking && lastResponse;
   const showRecentSuccess = !isListening && !isSpeaking && lastCommand && lastResponse;
 
+  const [dismissed, setDismissed] = React.useState(false);
+
+  // Auto-dismiss recent success after 6 seconds
+  React.useEffect(() => {
+    if (showRecentSuccess) {
+      setDismissed(false);
+      const timer = setTimeout(() => setDismissed(true), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [showRecentSuccess, lastResponse]);
+
+  // Reset dismissed state on new speech/command
+  React.useEffect(() => {
+    if (isListening || isSpeaking) {
+      setDismissed(false);
+    }
+  }, [isListening, isSpeaking]);
+
+  if (dismissed) return null;
   if (!showLiveBanner && !showSpeakingBanner && !showRecentSuccess && !screenPayload) {
     return null;
   }
 
   return (
-    <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-40 max-w-xl w-[94%] sm:w-[540px] pointer-events-auto animate-in fade-in slide-in-from-bottom-2 duration-200">
-      <div className="glass-panel-3 p-4 rounded-2xl border border-earth-aqua/30 shadow-2xl backdrop-blur-2xl bg-[#071A2B]/95 text-slate-100 space-y-3">
+    <div className="fixed top-[calc(var(--topbar-height,56px)+12px)] left-1/2 transform -translate-x-1/2 z-[45] max-w-lg w-[92%] sm:w-[480px] pointer-events-auto animate-in fade-in slide-in-from-top-2 duration-200">
+      <div className="glass-panel-3 p-3.5 rounded-2xl border border-earth-aqua/30 shadow-2xl backdrop-blur-2xl bg-[#071A2B]/95 text-slate-100 space-y-2.5">
         {/* Top Status Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <div className="flex items-center gap-2">
             {isListening ? (
               <div className="p-1 rounded-lg bg-earth-aqua/20 border border-earth-aqua/40">
@@ -61,16 +80,26 @@ export const VoiceTranscript: React.FC = () => {
             </span>
           </div>
 
-          {researchSources.length > 0 && (
+          <div className="flex items-center gap-1.5">
+            {researchSources.length > 0 && (
+              <button
+                onClick={toggleSourcesPanel}
+                className="text-[10px] font-mono text-earth-aqua hover:underline flex items-center gap-1 px-2 py-0.5 rounded bg-earth-aqua/10 border border-earth-aqua/20 hover:bg-earth-aqua/20 transition-all"
+              >
+                <BookOpen className="w-3 h-3" />
+                {researchSources.length} Sources
+                <ChevronRight className="w-3 h-3" />
+              </button>
+            )}
+
             <button
-              onClick={toggleSourcesPanel}
-              className="text-[10px] font-mono text-earth-aqua hover:underline flex items-center gap-1 px-2 py-0.5 rounded bg-earth-aqua/10 border border-earth-aqua/20 hover:bg-earth-aqua/20 transition-all"
+              onClick={() => setDismissed(true)}
+              className="p-1 rounded text-slate-400 hover:text-white hover:bg-white/10"
+              title="Dismiss Transcript Toast"
             >
-              <BookOpen className="w-3 h-3" />
-              {researchSources.length} Verified Sources
-              <ChevronRight className="w-3 h-3" />
+              <X className="w-3.5 h-3.5" />
             </button>
-          )}
+          </div>
         </div>
 
         {/* Live User Speech */}

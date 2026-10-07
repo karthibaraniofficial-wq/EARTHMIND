@@ -45,13 +45,13 @@ export const GlassDrawer: React.FC<GlassDrawerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div className="fixed inset-0 z-[80] overflow-hidden">
       <div
         className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      <div className={`fixed ${posClasses[position]} ${sizeClasses[size]} max-w-full z-50 flex flex-col`}>
+      <div className={`fixed ${posClasses[position]} ${sizeClasses[size]} max-w-full z-[80] flex flex-col`}>
         <GlassSurface
           variant="glass-strong"
           glow="accent"

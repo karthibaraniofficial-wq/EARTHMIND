@@ -41,7 +41,7 @@ export const EarthMindCopilot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-12 right-6 z-40 max-w-sm pointer-events-auto transition-all duration-300">
+    <div className="fixed bottom-[calc(var(--statusbar-height,36px)+12px)] left-4 sm:left-[calc(var(--rail-width,64px)+16px)] z-[40] max-w-sm pointer-events-auto transition-all duration-300">
       {isMinimized ? (
         <button
           onClick={() => setIsMinimized(false)}

@@ -188,7 +188,9 @@ export const AssistantDrawer: React.FC<AssistantDrawerProps> = ({
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[460px] bg-[#071A2B]/95 backdrop-blur-2xl border-l border-white/15 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+    <>
+      <div className="fixed inset-0 bg-[#071A2B]/75 backdrop-blur-sm z-[80] transition-opacity" onClick={onClose} />
+      <div className="fixed inset-y-0 right-0 z-[80] w-full sm:w-[460px] bg-[#071A2B]/95 backdrop-blur-2xl border-l border-white/15 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
       {/* Drawer Header */}
       <div className="p-4 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -348,5 +350,6 @@ export const AssistantDrawer: React.FC<AssistantDrawerProps> = ({
         </form>
       </div>
     </div>
+    </>
   );
 };
