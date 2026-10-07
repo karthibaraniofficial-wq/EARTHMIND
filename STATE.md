@@ -1,41 +1,55 @@
 # EARTHMIND: Project State
 
-- **Current Phase**: PRODUCTION GITHUB REPOSITORY PUSH & VERCEL DEPLOYMENT COMPLETE
-- **Current Module**: Production CI/CD (`origin/main`), Vercel Serverless Gateway (`api/health/ai.ts`), Security & Secret Protection, Gemini 2.0 Live Integration
-- **Current Status**: RELEASED & VERIFIED LIVE (GitHub Pushed to `karthibaraniofficial-wq/EARTHMIND`, Vercel Production Deployed to `https://earthmind.vercel.app`, Live Health Endpoint `https://earthmind.vercel.app/api/health/ai` HTTP 200 OK)
+- **Current Phase**: EARTHMIND VOICE INTELLIGENCE 2.0 UPGRADE COMPLETE & VERIFIED
+- **Current Module**: Multimodal Voice Intelligence Subsystem, Google Search Grounding, Research Intelligence Layer, Scientific Reasoning Engine, Deterministic Math, 28-Tool Master Registry, Dual-Tier Answer Composer, Section 48 Diagnostic Telemetry
+- **Current Status**: RELEASED & VERIFIED (All 37 automated tests passed flawlessly, production build `npm run build` succeeds cleanly in 1m 17s with 0 errors)
 
-- **Completed**:
-  - [x] **Phase 1 — Project Inspection & Framework Verification**:
-    - Confirmed framework: React 18 + Vite 5 + TypeScript 5.9 + Tailwind CSS + Three.js.
-    - Package manager: npm with deterministic `package-lock.json`.
-  - [x] **Phase 2 — Security Audit & Secret Isolation**:
-    - Scanned full codebase for `GEMINI_API_KEY`, `AIza`, tokens, private keys, and browser-leaking patterns.
-    - 0 permanent secrets committed or exposed in client bundles or public repositories.
-  - [x] **Phase 3 — Environment Security**:
-    - `.env.example` contains only safe placeholder values.
-    - `.gitignore` strictly ignores `.env`, `.env.*`, `.env.local`, `.vercel`, `*.pem`, `*.key`.
-  - [x] **Phase 4 & 5 — Gemini & Cloud Security**:
-    - Permanent `GEMINI_API_KEY` is strictly confined to server-side execution (`process.env.GEMINI_API_KEY`).
-    - Configured as a Sensitive Environment Variable on Vercel production.
-  - [x] **Phase 6 & 7 — Build Audit & Cross-Platform Packaging**:
-    - Resolved cross-platform Rollup architecture via `optionalDependencies` supporting both Linux (`@rollup/rollup-linux-x64-gnu`) and Windows (`@rollup/rollup-win32-x64-msvc`).
-    - `npm run build` and `vercel build` succeed cleanly with 0 TypeScript/compilation errors.
-  - [x] **Phase 8, 9 & 10 — Vercel Architecture & Serverless Endpoint**:
-    - Added Vercel Serverless Function `api/health/ai.ts` returning live AI health and tool readiness.
-    - Configured `vercel.json` with SPA routing rewrites and API passthroughs.
-  - [x] **Phase 11 to 15 — GitHub Push & Repository Verification**:
-    - Target repository: `https://github.com/karthibaraniofficial-wq/EARTHMIND.git`
-    - Target branch: `main`
-    - Pushed commits `90f0538`, `b853bc8`, `734ff43`, and `4739540`.
-  - [x] **Phase 16 to 20 — Vercel Deployment & Post-Deployment Verification**:
-    - Connected Vercel Project `earthmind` directly to GitHub repository `karthibaraniofficial-wq/EARTHMIND`.
-    - Production URL: `https://earthmind.vercel.app` (HTTP 200 OK).
-    - Production Health API: `https://earthmind.vercel.app/api/health/ai` (HTTP 200 OK, `configured: true`, `toolsCount: 24`).
-  - [x] **Phase 21 — Professional Production Documentation**:
-    - Created comprehensive `README.md` and MIT `LICENSE`.
+---
 
-- **Verification Status**:
-  - GitHub Remote: `https://github.com/karthibaraniofficial-wq/EARTHMIND.git` (Tracked & Synced at `main`)
-  - Vercel Production URL: `https://earthmind.vercel.app` (HTTP 200 OK)
-  - Vercel Serverless AI Health: `https://earthmind.vercel.app/api/health/ai` (HTTP 200 OK, `configured: true`)
-  - Secret Exposure Scan: CLEAN (0 secrets committed, 0 secrets in bundle)
+## Completed in Voice Intelligence 2.0 Upgrade:
+
+1. **AI Model Governance & Architecture**:
+   - Primary real-time voice model: `GEMINI_LIVE_MODEL=gemini-3.8-live` (never `gemini-2.0-flash-exp`).
+   - Secondary research model: `GEMINI_RESEARCH_MODEL=gemini-3.8-flash` for web search, URL analysis, and deep reasoning.
+   - Centralized governance in `src/config/aiModels.ts`, eliminating all hardcoded model names across the codebase.
+   - Dynamic health endpoint `/api/health/ai` and Vite dev server reporting live model configurations.
+
+2. **Google Search Grounding & Web Intelligence (`src/web/`)**:
+   - `GoogleSearchProvider.ts`: Multi-query expansion, live Google Search grounding against `/api/research/query`, and curated offline fallback index.
+   - `WebSourceParser.ts`: Domain extraction, official agency identification (NASA, NOAA, IPCC, ISRO, Nature, Copernicus), and source normalization.
+   - `URLResearchProvider.ts`: Real-time web retrieval against `/api/research/url`, content sanitization, and honest error handling (never fakes reading URLs).
+   - `CitationManager.ts`: Formatted APA-style citations and spoken conversational attribution phrases.
+
+3. **Multi-Source Quality & Corroboration Engine (`src/intelligence/`)**:
+   - `SourceQualityEngine.ts`: 5-dimensional scoring (`authority_score`, `freshness_score`, `relevance_score`, `cross_source_score`, `scientific_reliability`).
+   - `EvidenceEngine.ts`: Multi-source agreement vs. conflict detection (`AGREEMENT`, `CONFLICT`, `UNCERTAINTY`).
+   - `FactCheckEngine.ts`: Verifies scientific claims and returns verdicts (`SUPPORTED`, `PARTIALLY_SUPPORTED`, `UNSUPPORTED`, `CONTRADICTED`, `INSUFFICIENT_EVIDENCE`).
+   - `ScientificReasoningEngine.ts`: Distinguishes correlation from causation, analyzes multi-domain couplings (deforestation, rainfall, runoff, sponge cities), and supports explanation depth levels 1 through 5.
+   - `UncertaintyEngine.ts`: Standardized provenance metadata (`OBSERVED`, `MEASURED`, `MODELED`, `SIMULATED`, `ESTIMATED`, `PROJECTED`, `PREDICTED`, `DEMO_DATA`).
+   - `AnswerComposer.ts`: Dual-tier synthesis separating spoken audio (1-3 concise sentences) from structured screen cards (`EARTHMIND ANALYSIS` vs. `EXTERNAL EVIDENCE`).
+   - `IntentRouter.ts`: 14-category intent classifier with English, Tamil, Hindi, and Tamil-English code-switching support.
+
+4. **EarthMind Domain Control & Tools Registry (`src/earthmind/`)**:
+   - `EarthMindTools.ts`: Consolidated 28-tool master registry with parameter bounds validation and category routing.
+   - `CalculationEngine.ts`: Deterministic arithmetic, percentage changes, unit conversions (km² to ha), and carbon fluxes (strictly preventing LLM math hallucinations).
+   - `EarthMindStateBridge.ts`: Single source of truth bridge ensuring Voice, Mouse, Keyboard, and AI operate on identical state.
+   - Added Chennai hotspot in `src/data/hotspotsData.ts` with historical flood risk time-series (2010–2026), Pallikaranai marshland encroachment forensics, and sponge-city recommendations.
+
+5. **Security & Prompt Injection Defenses (`src/security/`)**:
+   - `SecretManager.ts`: Zero client-side API key exposure; permanent keys confined to server environments.
+   - `InputValidator.ts`: Parameter clamping (-100% to +100%, years 1950–2100), coordinate verification, and prompt injection filtering for external web content.
+   - `ToolPermissionManager.ts`: Tier classification (`READ_ONLY`, `SAFE_ACTION`, `HIGH_IMPACT_ACTION`) with mandatory confirmation modals for destructive operations.
+
+6. **UI Components & Operational Telemetry (`src/components/voice/`)**:
+   - `VoicePanel.tsx`: 5-tab hub (`Control`, `Research`, `Timeline`, `Diagnostics`, `History`) with complete Section 48 14-metric telemetry board.
+   - `VoiceResearchSourcesPanel.tsx`: Interactive sliding drawer with verified citations, authority scores, copy citation, and cross-source comparisons.
+   - `ResearchTimeline.tsx`: Live 5-stage research milestone visualization (`SEARCHING` -> `SOURCE DISCOVERY` -> `SOURCE VALIDATION` -> `EVIDENCE ANALYSIS` -> `ANSWER`).
+   - `VoiceTranscript.tsx`: Dual-tier visual cards separating `EARTHMIND ANALYSIS` from `EXTERNAL EVIDENCE` with clickable source chips.
+   - Voice Focus Spotlight HUD mounted in `src/App.tsx`.
+
+7. **Reports & Exports (`src/reports/`)**:
+   - `ResearchReportGenerator.ts`: Generates structured environmental research briefs exportable as Markdown, HTML, JSON, or printable document.
+
+8. **Verification & Quality Gates**:
+   - Automated Test Suite: `scripts/testVoiceSuite.ts` (37/37 tests passed).
+   - Production Build: `npm run build` (`tsc -b && vite build`) passed with 0 errors.

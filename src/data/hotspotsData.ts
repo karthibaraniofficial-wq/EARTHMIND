@@ -424,6 +424,78 @@ export const ENVIRONMENTAL_HOTSPOTS: EnvironmentalHotspot[] = [
       },
     ],
   },
+  {
+    id: 'chennai',
+    name: 'Chennai (Tamil Nadu)',
+    region: 'South Asia',
+    country: 'India',
+    coordinates: { lat: 13.0827, lng: 80.2707 },
+    summary: 'Coromandel coastal metropolis in Tamil Nadu experiencing acute compound flood risk during Northeast Monsoon cloudbursts combined with rapid urban wetland encroachment.',
+    primaryRisk: 'Monsoon Flood Inundation & Wetland Encroachment',
+    currentMetrics: {
+      environmentalHealth: 54,
+      heatRisk: 76,
+      floodRisk: 82,
+      pollutionAqi: 118,
+      waterStress: 74,
+      greenCoverPct: 18.5,
+      urbanExpansionPct: 48.6,
+      surfaceTempAnomaly: 2.1,
+    },
+    history: [
+      { year: 2010, greenCoverPct: 29.4, urbanCoverPct: 24.1, surfaceTempAnomaly: 0.0, waterIndex: 68, airQualityAqi: 82, floodRiskScore: 56 },
+      { year: 2012, greenCoverPct: 27.8, urbanCoverPct: 27.5, surfaceTempAnomaly: 0.3, waterIndex: 64, airQualityAqi: 88, floodRiskScore: 59 },
+      { year: 2014, greenCoverPct: 25.9, urbanCoverPct: 31.0, surfaceTempAnomaly: 0.7, waterIndex: 61, airQualityAqi: 95, floodRiskScore: 63 },
+      { year: 2016, greenCoverPct: 24.1, urbanCoverPct: 34.6, surfaceTempAnomaly: 1.1, waterIndex: 56, airQualityAqi: 102, floodRiskScore: 68 },
+      { year: 2018, greenCoverPct: 22.3, urbanCoverPct: 38.2, surfaceTempAnomaly: 1.4, waterIndex: 52, airQualityAqi: 109, floodRiskScore: 71 },
+      { year: 2020, greenCoverPct: 21.0, urbanCoverPct: 41.5, surfaceTempAnomaly: 1.6, waterIndex: 48, airQualityAqi: 104, floodRiskScore: 72 },
+      { year: 2022, greenCoverPct: 19.8, urbanCoverPct: 44.8, surfaceTempAnomaly: 1.8, waterIndex: 45, airQualityAqi: 112, floodRiskScore: 76 },
+      { year: 2024, greenCoverPct: 19.0, urbanCoverPct: 47.1, surfaceTempAnomaly: 2.0, waterIndex: 43, airQualityAqi: 115, floodRiskScore: 79 },
+      { year: 2026, greenCoverPct: 18.5, urbanCoverPct: 48.6, surfaceTempAnomaly: 2.1, waterIndex: 41, airQualityAqi: 118, floodRiskScore: 82 },
+    ],
+    forensics: {
+      period: '2020 – 2026',
+      detectedChanges: {
+        vegetationChange: -24.8,
+        builtUpExpansion: 36.2,
+        surfaceTempDelta: 1.8,
+        waterSurfaceDelta: -21.4,
+      },
+      factors: [
+        {
+          factor: 'Pallikaranai Wetland & Basin Encroachment',
+          confidence: 0.96,
+          impact: 'negative',
+          explanation: 'Built-up conversion over natural flood plains has reduced floodwater buffer volume by 42%.',
+          category: 'anthropogenic',
+        },
+        {
+          factor: 'Northeast Monsoon Extreme Convective Downpours',
+          confidence: 0.93,
+          impact: 'negative',
+          explanation: 'Bay of Bengal sea surface warming increases intense 24-hour localized rainfall events by 28%.',
+          category: 'climatic',
+        },
+        {
+          factor: 'Impervious Surface Runoff Acceleration',
+          confidence: 0.91,
+          impact: 'negative',
+          explanation: 'Paved urban sprawl prevents natural infiltration, generating 3.4x peak volumetric discharge into Adyar and Cooum basins.',
+          category: 'hydrological',
+        },
+      ],
+      aiInvestigationSummary: 'Copernicus Sentinel-1 SAR flood extent mapping and Sentinel-2 NDVI time-series prove significant reduction in natural sponge marshland. Peak flood vulnerability is exacerbated by 36% urban expansion directly in natural discharge zones.',
+    },
+    recommendations: [
+      {
+        priority: 1,
+        title: 'Sponge City Wetland Hydrological Restoration',
+        action: 'Demarcate and revitalize 2,400 hectares of Pallikaranai marshland and interconnected temple tank storage network.',
+        expectedImpact: 'Reduces peak urban flood inundation by 32% and restores groundwater water table by 1.8m.',
+        evidence: 'ISRO RISAT radar hydro-modeling and IIT Madras climate resiliency studies.',
+      },
+    ],
+  },
 ];
 
 export const PRESET_SCENARIOS: SavedScenario[] = [

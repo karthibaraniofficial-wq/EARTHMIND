@@ -3,6 +3,8 @@
  * Production-grade settings for the Multimodal Live API session.
  */
 
+import { getGeminiLiveModel } from '../../config/aiModels';
+
 export interface GeminiVoiceConfig {
   voiceName: 'Aoede' | 'Charon' | 'Fenrir' | 'Kore' | 'Puck';
   inputSampleRate: number; // 16000 Hz
@@ -23,7 +25,7 @@ export const DEFAULT_GEMINI_LIVE_CONFIG: {
   voice: GeminiVoiceConfig;
   defaultEndpoint: string;
 } = {
-  model: 'models/gemini-2.0-flash-exp',
+  model: getGeminiLiveModel(),
   voice: {
     voiceName: 'Aoede',
     inputSampleRate: 16000,

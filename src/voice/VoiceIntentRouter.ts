@@ -375,6 +375,86 @@ function routeVoiceIntentInternal(command: ParsedVoiceCommand, settings: VoiceSe
       };
     }
 
+    case 'EXPLAIN_SCREEN': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'This is the active EarthMind view. The selected region and multispectral layers display real-time biophysical telemetry.',
+        responseText: 'Analyzed current screen context and displayed indicators.',
+        executionNote: 'Screen explanation generated',
+      };
+    }
+
+    case 'EXPLAIN_CHART': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'This chart displays the historical trajectory. The peak value reflects the highest recorded stress period.',
+        responseText: 'Inspected active chart series and biophysical delta drivers.',
+        executionNote: 'Chart explanation generated',
+      };
+    }
+
+    case 'RESEARCH_WEB': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: "I'll check the latest evidence across NASA, NOAA, and peer-reviewed sources.",
+        responseText: 'Live research query executed with Google Search Grounding.',
+        executionNote: 'Google Search grounding research triggered',
+      };
+    }
+
+    case 'RESEARCH_URL': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'Analyzing the specified scientific URL and extracting key findings.',
+        responseText: 'Document intelligence analysis completed for URL.',
+        executionNote: 'URL research completed',
+      };
+    }
+
+    case 'FACT_CHECK': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'Evaluating this claim against empirical observational datasets.',
+        responseText: 'Fact-check verification completed.',
+        executionNote: 'Fact check verified',
+      };
+    }
+
+    case 'COMPARE_SOURCES': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'Comparing retrieved evidence across multiple independent scientific datasets.',
+        responseText: 'Multi-source evidence cross-comparison generated.',
+        executionNote: 'Multi-source comparison completed',
+      };
+    }
+
+    case 'CALCULATE': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'Computing the deterministic numerical calculation.',
+        responseText: 'Calculated exact mathematical result.',
+        executionNote: 'Deterministic calculation executed',
+      };
+    }
+
+    case 'EXHIBITION_INFO': {
+      return {
+        actionable: true,
+        requiresConfirmation: false,
+        responseSpeech: 'EARTHMIND is a planetary environmental intelligence platform combining satellite Earth observation, simulation, and AI.',
+        responseText: 'Presented EarthMind innovation architecture for Science Expo judges.',
+        executionNote: 'Exhibition innovation presented',
+      };
+    }
+
     case 'ASK_AI': {
       const q = command.params.question || 'Explain this area';
       return {

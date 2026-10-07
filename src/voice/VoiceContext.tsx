@@ -4,6 +4,13 @@ import { loadVoiceSettings, saveVoiceSettings } from './VoiceSettings';
 import { VoiceEngine } from './VoiceEngine';
 import { AppActionContext } from './VoiceActionExecutor';
 
+import { ScreenPayload, DualTierResponse } from '../intelligence/AnswerComposer';
+import { WebSource } from '../web/WebSourceParser';
+import { ResearchTimelineEvent, ResearchOrchestrator } from '../intelligence/ResearchOrchestrator';
+import { VoiceResponseManager } from './VoiceResponseManager';
+import { VoiceMemory } from './VoiceMemory';
+import { ExplanationLevel } from '../intelligence/ScientificReasoningEngine';
+
 interface VoiceContextValue {
   state: VoiceState;
   isListening: boolean;
@@ -13,6 +20,15 @@ interface VoiceContextValue {
   audioLevel: number;
   lastCommand: ParsedVoiceCommand | null;
   lastResponse: string;
+  screenPayload: ScreenPayload | null;
+  researchSources: WebSource[];
+  timelineEvent: ResearchTimelineEvent | null;
+  activeHighlight: { type: string; id: string } | null;
+  explanationLevel: ExplanationLevel;
+  setExplanationLevel: (lvl: ExplanationLevel) => void;
+  isSourcesPanelOpen: boolean;
+  setIsSourcesPanelOpen: (open: boolean) => void;
+  toggleSourcesPanel: () => void;
   settings: VoiceSettingsConfig;
   updateSettings: (patch: Partial<VoiceSettingsConfig>) => void;
   startListening: () => Promise<boolean>;
@@ -75,11 +91,49 @@ export const VoiceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [geminiLatency, setGeminiLatency] = useState<number>(0);
   const [activeEngineMode, setActiveEngineMode] = useState<'gemini_live' | 'local_fallback'>('gemini_live');
 
+  // Intelligence & Research States
+  const [screenPayload, setScreenPayload] = useState<ScreenPayload | null>(null);
+  const [researchSources, setResearchSources] = useState<WebSource[]>([]);
+  const [timelineEvent, setTimelineEvent] = useState<ResearchTimelineEvent | null>(null);
+  const [activeHighlight, setActiveHighlight] = useState<{ type: string; id: string } | null>(null);
+  const [isSourcesPanelOpen, setIsSourcesPanelOpen] = useState(false);
+  const [explanationLevel, setExplanationLevelState] = useState<ExplanationLevel>(3);
+
   const engineRef = useRef<VoiceEngine | null>(null);
 
   if (!engineRef.current) {
     engineRef.current = new VoiceEngine(settings);
   }
+
+  // Subscribe to Intelligence Response Manager & Research Orchestrator
+  useEffect(() => {
+    const unsubResp = VoiceResponseManager.onResponse((dual) => {
+      setScreenPayload(dual.screenPayload);
+      if (dual.screenPayload.externalEvidence?.sources) {
+        setResearchSources(dual.screenPayload.externalEvidence.sources);
+      }
+    });
+
+    const unsubHl = VoiceResponseManager.onHighlight((target) => {
+      setActiveHighlight(target);
+      setTimeout(() => setActiveHighlight(null), 3500);
+    });
+
+    const unsubTl = ResearchOrchestrator.onTimelineUpdate((evt) => {
+      setTimelineEvent(evt);
+    });
+
+    return () => {
+      unsubResp();
+      unsubHl();
+      unsubTl();
+    };
+  }, []);
+
+  const setExplanationLevel = (lvl: ExplanationLevel) => {
+    setExplanationLevelState(lvl);
+    VoiceMemory.setExplanationLevel(lvl);
+  };
 
   // Register Engine Listener
   useEffect(() => {
@@ -248,6 +302,15 @@ export const VoiceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       audioLevel,
       lastCommand,
       lastResponse,
+      screenPayload,
+      researchSources,
+      timelineEvent,
+      activeHighlight,
+      explanationLevel,
+      setExplanationLevel,
+      isSourcesPanelOpen,
+      setIsSourcesPanelOpen,
+      toggleSourcesPanel: () => setIsSourcesPanelOpen((prev) => !prev),
       settings,
       updateSettings: handleUpdateSettings,
       startListening,
@@ -285,6 +348,12 @@ export const VoiceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       audioLevel,
       lastCommand,
       lastResponse,
+      screenPayload,
+      researchSources,
+      timelineEvent,
+      activeHighlight,
+      explanationLevel,
+      isSourcesPanelOpen,
       settings,
       confirmation,
       isVoicePanelOpen,

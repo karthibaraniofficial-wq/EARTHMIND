@@ -7,6 +7,17 @@ import { addVoiceHistoryItem } from './VoiceHistory';
 import { requestMicrophoneAccess } from './VoicePermissions';
 import { GeminiLiveClient } from '../lib/gemini/GeminiLiveClient';
 import { GeminiLiveConnectionStatus } from '../lib/gemini/GeminiEvents';
+import { ResearchOrchestrator } from '../intelligence/ResearchOrchestrator';
+import { AnswerComposer } from '../intelligence/AnswerComposer';
+import { VoiceResponseManager } from './VoiceResponseManager';
+import { VoiceMemory } from './VoiceMemory';
+import { ScientificReasoningEngine } from '../intelligence/ScientificReasoningEngine';
+import { FactCheckEngine } from '../intelligence/FactCheckEngine';
+import { CalculationEngine } from '../earthmind/CalculationEngine';
+import { ChartTools } from '../earthmind/ChartTools';
+import { buildScreenContext } from '../earthmind/EarthMindContext';
+import { EarthMindStateBridge } from '../earthmind/EarthMindStateBridge';
+import { getGeminiLiveModel, getGeminiResearchModel } from '../config/aiModels';
 
 export interface VoiceEngineListener {
   onStateChange: (state: VoiceState) => void;
@@ -310,19 +321,140 @@ export class VoiceEngine {
   private async executeAndRespond(cmd: ParsedVoiceCommand, route: RouteResult): Promise<void> {
     this.setState('EXECUTING');
 
+    VoiceMemory.update({ lastUserQuery: cmd.rawText });
+
+    let spokenText = route.responseSpeech;
+    let displayText = route.responseText;
+
+    // 1. Specialized Intelligence Execution
+    if (cmd.intent === 'RESEARCH_WEB') {
+      try {
+        const q = cmd.params.query || cmd.rawText;
+        const res = await ResearchOrchestrator.orchestrate(q, 'QUICK_SEARCH');
+        VoiceMemory.setRecentSources(res.sources);
+        const dual = AnswerComposer.compose({
+          spokenVoiceText: res.spokenSummary,
+          screenTitle: `Live Scientific Research: ${q}`,
+          earthmindSummary: `Corroborated with active EarthMind telemetry for ${this.appContext?.selectedHotspot.name || 'global biomes'}.`,
+          webSources: res.sources,
+          webSummary: res.synthesis.primaryFinding,
+          consensusStatus: res.synthesis.status,
+        });
+        VoiceResponseManager.dispatch(dual);
+        spokenText = dual.spokenVoiceText;
+        displayText = dual.screenPayload.title;
+      } catch {
+        spokenText = 'Live web research unavailable. Offline EarthMind controls remain available.';
+        displayText = 'Research query could not be completed.';
+      }
+    } else if (cmd.intent === 'RESEARCH_URL') {
+      try {
+        const url = cmd.params.url || 'https://climate.nasa.gov';
+        const res = await ResearchOrchestrator.orchestrate(cmd.rawText, 'URL_ANALYSIS', url);
+        const dual = AnswerComposer.compose({
+          spokenVoiceText: res.spokenSummary,
+          screenTitle: `Document Intelligence: ${res.urlAnalysis?.title || url}`,
+          earthmindSummary: 'Extracted key biophysical indicators and data points.',
+          webSources: res.sources,
+          webSummary: res.synthesis.primaryFinding,
+        });
+        VoiceResponseManager.dispatch(dual);
+        spokenText = dual.spokenVoiceText;
+        displayText = dual.screenPayload.title;
+      } catch {
+        spokenText = 'Unable to extract external document content.';
+        displayText = 'URL analysis failed.';
+      }
+    } else if (cmd.intent === 'FACT_CHECK') {
+      try {
+        const claim = cmd.params.claim || cmd.rawText;
+        const report = await FactCheckEngine.evaluateClaim(claim);
+        const dual = AnswerComposer.compose({
+          spokenVoiceText: report.spokenVerdict,
+          screenTitle: `Fact Check: "${claim}"`,
+          earthmindSummary: `Verdict: ${report.verdictLabel} (Confidence: ${Math.round(report.confidence * 100)}%)`,
+          webSources: report.sources,
+          webSummary: report.evidenceSummary,
+        });
+        VoiceResponseManager.dispatch(dual);
+        spokenText = dual.spokenVoiceText;
+        displayText = `Fact Check: ${report.verdictLabel}`;
+      } catch {
+        spokenText = 'Fact check evaluation could not be completed.';
+        displayText = 'Fact check error.';
+      }
+    } else if (cmd.intent === 'CALCULATE') {
+      const expr = cmd.params.calculationExpr || cmd.rawText;
+      const res = CalculationEngine.evaluateArithmetic(expr);
+      spokenText = `The calculated value is ${res.formattedText}.`;
+      displayText = res.explanation;
+    } else if (cmd.intent === 'EXPLAIN_SCREEN') {
+      if (this.appContext) {
+        const screenCtx = buildScreenContext(this.appContext);
+        const reasoning = ScientificReasoningEngine.reasonAboutTopic(
+          `Explain ${screenCtx.selectedLocation.name} under ${screenCtx.activeLayers.primary} layer`,
+          VoiceMemory.get().explanationLevel,
+          { hotspotName: screenCtx.selectedLocation.name, layer: screenCtx.activeLayers.primary }
+        );
+        const dual = AnswerComposer.compose({
+          spokenVoiceText: reasoning.spokenExplanation,
+          screenTitle: `Current Screen Context: ${screenCtx.selectedLocation.name}`,
+          earthmindSummary: reasoning.synthesis,
+          earthmindMetrics: Object.entries(screenCtx.visibleMetrics).map(([k, v]) => ({ label: k, value: v })),
+          visualHighlightTarget: { type: 'hotspot', targetId: screenCtx.selectedLocation.id },
+        });
+        VoiceResponseManager.dispatch(dual);
+        spokenText = dual.spokenVoiceText;
+        displayText = dual.screenPayload.title;
+      }
+    } else if (cmd.intent === 'EXPLAIN_CHART') {
+      if (this.appContext) {
+        const chartRes = ChartTools.getActiveChartSummary(this.appContext);
+        const dual = AnswerComposer.compose({
+          spokenVoiceText: chartRes.explanation,
+          screenTitle: chartRes.title,
+          earthmindSummary: `Observed trend: ${chartRes.netChange.direction} (${chartRes.netChange.pctChange}% delta). Peak recorded value: ${chartRes.highestRecorded.value} in year ${chartRes.highestRecorded.year}.`,
+          earthmindMetrics: [
+            { label: 'Current Value', value: chartRes.currentValue },
+            { label: 'Highest Recorded', value: `${chartRes.highestRecorded.value} (${chartRes.highestRecorded.year})` },
+            { label: 'Net Delta', value: `${chartRes.netChange.delta} (${chartRes.netChange.pctChange}%)` },
+          ],
+          visualHighlightTarget: { type: 'chart_bar', targetId: String(chartRes.highestRecorded.year) },
+        });
+        VoiceResponseManager.dispatch(dual);
+        spokenText = dual.spokenVoiceText;
+        displayText = dual.screenPayload.title;
+      }
+    } else if (cmd.intent === 'EXHIBITION_INFO') {
+      const dual = AnswerComposer.compose({
+        spokenVoiceText: 'EARTHMIND is a planetary environmental intelligence operating system that combines satellite Earth observation, simulation, and AI-assisted decision support.',
+        screenTitle: 'EARTHMIND Science Expo 2026 Innovation Brief',
+        earthmindSummary: 'Planetary OS architecture: Problem -> Earth Observation Data -> AI Causal Reasoning -> Biophysical Simulation -> Policy Impact.',
+        earthmindMetrics: [
+          { label: 'Multimodal Tools', value: '28 Registered' },
+          { label: 'Live Model', value: getGeminiLiveModel() },
+          { label: 'Research Model', value: getGeminiResearchModel() },
+        ],
+      });
+      VoiceResponseManager.dispatch(dual);
+      spokenText = dual.spokenVoiceText;
+      displayText = dual.screenPayload.title;
+    }
+
+    // 2. Application State Execution
     let execResult = { success: true, message: 'Executed' };
     if (this.appContext) {
       execResult = executeVoiceAction(cmd, this.appContext);
     }
 
-    this.lastResponse = route.responseText;
-    this.listener?.onLastResponse(route.responseText);
+    this.lastResponse = displayText;
+    this.listener?.onLastResponse(displayText);
 
     this.recordHistory(cmd, execResult.success ? 'SUCCESS' : 'FAILED', execResult.message);
 
-    // 5. Speak response if enabled
-    if (this.settings.autoSpeakResponse && route.responseSpeech) {
-      await this.speak(route.responseSpeech);
+    // 3. Concise Voice Audio Playback
+    if (this.settings.autoSpeakResponse && spokenText) {
+      await this.speak(spokenText);
     } else {
       this.setState('IDLE');
     }

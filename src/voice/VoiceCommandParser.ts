@@ -25,6 +25,9 @@ export const LOCATION_ALIASES: Record<string, { id: string; name: string }> = {
   'california': { id: 'california-central-valley', name: 'California Central Valley' },
   'central valley': { id: 'california-central-valley', name: 'California Central Valley' },
   'california central valley': { id: 'california-central-valley', name: 'California Central Valley' },
+  'chennai': { id: 'chennai', name: 'Chennai (Tamil Nadu)' },
+  'tamil nadu': { id: 'chennai', name: 'Chennai (Tamil Nadu)' },
+  'tamilnadu': { id: 'chennai', name: 'Chennai (Tamil Nadu)' },
 };
 
 // Layer Aliases mapping to LayerType
@@ -217,26 +220,36 @@ export function normalizeLanguage(raw: string, _lang?: RecognitionLanguage): str
 export function parseVoiceCommand(rawInput: string, lang: RecognitionLanguage = 'en-US'): ParsedVoiceCommand {
   const normalized = normalizeLanguage(rawInput, lang);
 
-  // 1. Check for compound multi-command connected by "and then", "and", "then"
-  if (normalized.includes(' and then ') || normalized.includes(' then ') || (normalized.includes(' and ') && normalized.split(' and ').length === 2 && !normalized.includes('compare '))) {
-    const parts = normalized.includes(' and then ')
-      ? normalized.split(' and then ')
-      : normalized.includes(' then ')
-      ? normalized.split(' then ')
-      : normalized.split(' and ');
+  // 1. Check for multi-step compound commands connected by "and then", "then", or commas
+  if (
+    normalized.includes(' and then ') ||
+    normalized.includes(' then ') ||
+    normalized.includes(',') ||
+    (normalized.includes(' and ') && normalized.split(' and ').length === 2 && !normalized.includes('compare ') && !normalized.includes('twenty'))
+  ) {
+    const clauseDelimiters = /\s*(?:,\s*and\s+then\s+|,\s*then\s+|;\s*|,\s*and\s+|\s+and\s+then\s+|\s+then\s+|,\s*|\s+and\s+(?=(?:show|go to|take me to|zoom|open|set|increase|reduce|compare|explain|run|start|tell|reduce)))\s*/i;
+    const parts = normalized.split(clauseDelimiters);
 
-    if (parts.length > 1 && parts[0].trim().length > 3 && parts[1].trim().length > 3) {
-      const sub1 = parseSingleVoiceCommand(parts[0].trim(), rawInput);
-      const sub2 = parseSingleVoiceCommand(parts[1].trim(), rawInput);
-      if (sub1.intent !== 'UNKNOWN' && sub2.intent !== 'UNKNOWN') {
+    if (parts.length > 1) {
+      const parsedSubs: ParsedVoiceCommand[] = [];
+      for (const part of parts) {
+        const cleanP = part.trim().replace(/^and\s+/i, '');
+        if (cleanP.length > 2) {
+          const sub = parseSingleVoiceCommand(cleanP, cleanP);
+          if (sub.intent !== 'UNKNOWN') {
+            parsedSubs.push(sub);
+          }
+        }
+      }
+      if (parsedSubs.length >= 2) {
         return {
           rawText: rawInput,
           normalizedText: normalized,
           intent: 'COMPOUND',
-          confidence: Math.min(sub1.confidence, sub2.confidence),
-          params: { ...sub1.params },
-          explanation: `Compound command: "${sub1.explanation}" and "${sub2.explanation}"`,
-          subCommands: [sub1, sub2],
+          confidence: Math.min(...parsedSubs.map((s) => s.confidence)),
+          params: { ...parsedSubs[0].params, actions: parsedSubs },
+          explanation: `Multi-step sequence: ${parsedSubs.map((s) => s.explanation).join(' -> ')}`,
+          subCommands: parsedSubs,
         };
       }
     }
@@ -354,6 +367,152 @@ function parseSingleVoiceCommand(text: string, rawOriginal: string): ParsedVoice
       confidence: 0.92,
       params: {},
       explanation: 'Go to previous section',
+    };
+  }
+
+  // 2b. Screen & Chart Intelligence Commands
+  if (
+    lower === 'what am i looking at' ||
+    lower.includes('explain this screen') ||
+    lower.includes('explain screen') ||
+    lower.includes('what is on this screen')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_SCREEN',
+      confidence: 0.95,
+      params: {},
+      explanation: 'Explain current active EarthMind screen, layer, and biophysical context',
+    };
+  }
+
+  if (
+    lower.includes('explain this chart') ||
+    lower.includes('explain the graph') ||
+    lower.includes('explain chart') ||
+    lower.includes('explain graph') ||
+    lower.includes('highest value') ||
+    lower.includes('why did the result change') ||
+    lower.includes('why did it increase') ||
+    lower.includes('compare these two bars') ||
+    lower.includes('what does this red region mean')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXPLAIN_CHART',
+      confidence: 0.94,
+      params: { question: rawOriginal },
+      explanation: 'Inspect active chart series, peak values, and biophysical delta drivers',
+    };
+  }
+
+  // 2c. Research & Fact Checking Commands
+  if (
+    lower.includes('explain this url') ||
+    lower.includes('read this website') ||
+    lower.includes('summarize this nasa page') ||
+    lower.includes('what does this pdf say') ||
+    lower.includes('explain this article') ||
+    lower.startsWith('http')
+  ) {
+    const urlMatch = rawOriginal.match(/https?:\/\/[^\s]+/i);
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'RESEARCH_URL',
+      confidence: 0.96,
+      params: { url: urlMatch ? urlMatch[0] : 'https://climate.nasa.gov', question: rawOriginal },
+      explanation: 'Analyze external scientific URL or document',
+    };
+  }
+
+  if (
+    lower.includes('compare two sources') ||
+    lower.includes('compare sources') ||
+    lower.includes('compare the sources')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'COMPARE_SOURCES',
+      confidence: 0.94,
+      params: {},
+      explanation: 'Cross-compare retrieved multi-source evidence',
+    };
+  }
+
+  if (
+    lower.includes('fact check this claim') ||
+    lower.includes('fact check') ||
+    lower.includes('is this claim true') ||
+    lower.includes('is this true') ||
+    lower.includes('is sea level rising faster now')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'FACT_CHECK',
+      confidence: 0.95,
+      params: { claim: rawOriginal },
+      explanation: 'Verify claim against peer-reviewed scientific datasets',
+    };
+  }
+
+  if (
+    lower.includes('search the latest climate news') ||
+    lower.includes('search latest climate news') ||
+    lower.includes('what is happening with climate change today') ||
+    lower.includes('what is the latest nasa climate report') ||
+    lower.includes('what is the latest nasa climate information') ||
+    lower.includes('search web') ||
+    lower.includes('research this')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'RESEARCH_WEB',
+      confidence: 0.95,
+      params: { query: rawOriginal },
+      explanation: 'Perform live Google Search grounding across authoritative scientific sources',
+    };
+  }
+
+  // 2d. Deterministic Calculation Commands
+  if (
+    lower.startsWith('calculate') ||
+    lower.includes('percentage increase') ||
+    lower.includes('convert square kilometers')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'CALCULATE',
+      confidence: 0.95,
+      params: { calculationExpr: rawOriginal },
+      explanation: 'Execute deterministic numerical calculation',
+    };
+  }
+
+  // 2e. Science Expo Exhibition Knowledge Commands
+  if (
+    lower.includes('what is earthmind') ||
+    lower.includes('what is your innovation') ||
+    lower.includes('what is the problem') ||
+    lower.includes('why ai') ||
+    lower.includes('what data do you use') ||
+    lower.includes('what is your novelty') ||
+    lower.includes('what are the limitations') ||
+    lower.includes('what makes this scalable')
+  ) {
+    return {
+      rawText: rawOriginal,
+      normalizedText: text,
+      intent: 'EXHIBITION_INFO',
+      confidence: 0.96,
+      params: { question: rawOriginal },
+      explanation: 'Deliver structured Science Expo 2026 innovation & methodology explanation',
     };
   }
 

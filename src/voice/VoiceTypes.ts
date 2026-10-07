@@ -63,6 +63,14 @@ export type VoiceIntentType =
   | 'SET_SPEECH_SPEED'
   | 'STOP_SPEAKING'
   | 'CHANGE_LANGUAGE'
+  | 'EXPLAIN_SCREEN'
+  | 'EXPLAIN_CHART'
+  | 'RESEARCH_WEB'
+  | 'RESEARCH_URL'
+  | 'FACT_CHECK'
+  | 'CALCULATE'
+  | 'EXHIBITION_INFO'
+  | 'COMPARE_SOURCES'
   | 'COMPOUND'
   | 'UNKNOWN';
 
@@ -92,8 +100,13 @@ export interface ParsedVoiceCommand {
     volume?: number;
     language?: RecognitionLanguage;
     question?: string;
+    url?: string;
+    claim?: string;
+    calculationExpr?: string;
+    query?: string;
     requiresConfirmation?: boolean;
     confirmationPrompt?: string;
+    actions?: ParsedVoiceCommand[];
   };
   explanation: string;
   subCommands?: ParsedVoiceCommand[];

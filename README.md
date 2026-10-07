@@ -82,7 +82,7 @@ The platform merges real-world biophysical observation data with real-time what-
 - **Frontend Core**: React 18, TypeScript 5.9, Vite 5
 - **Styling & UI**: Tailwind CSS, Lucide Icons, Glassmorphism design system
 - **3D Geospatial Engine**: Three.js, Custom WebGL Shaders, Orbit Controls
-- **Voice Intelligence**: Google Gemini 2.0 Multimodal Live API (`gemini-2.0-flash-exp`)
+- **Voice Intelligence**: Google Gemini Live API (`gemini-3.8-live`) with Native 24kHz Audio & Research Intelligence (`gemini-3.8-flash`)
 - **Audio Pipeline**: Web Audio API (16kHz AudioWorklet/ScriptProcessor capture, 24kHz Linear PCM playback scheduler)
 - **Deployment & Serverless**: Vercel (Edge CDN + Node Serverless API Functions)
 

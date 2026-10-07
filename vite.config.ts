@@ -27,21 +27,78 @@ function geminiLiveGatewayPlugin(): Plugin {
       // 1. Health Endpoint: /api/health/ai
       server.middlewares.use('/api/health/ai', (_req, res) => {
         const apiKey = getGeminiApiKey();
-        const isConfigured = Boolean(apiKey && apiKey.length > 0);
+        const isConfigured = Boolean(apiKey && apiKey.trim().length > 0);
+        const liveModel = process.env.GEMINI_LIVE_MODEL || 'gemini-3.8-live';
+        const researchModel = process.env.GEMINI_RESEARCH_MODEL || 'gemini-3.8-flash';
         res.setHeader('Content-Type', 'application/json');
         res.end(
           JSON.stringify({
             status: 'healthy',
             provider: 'google-gemini-live',
-            model: 'gemini-2.0-flash-exp',
+            model: liveModel,
+            liveModel,
+            researchModel,
             configured: isConfigured,
             audioInput: '16kHz PCM linear16',
             audioOutput: '24kHz PCM linear16',
             liveWebSocketEndpoint: '/api/gemini/live',
-            toolsCount: 24,
+            researchEndpoint: '/api/research/query',
+            toolsCount: 28,
             timestamp: new Date().toISOString(),
           })
         );
+      });
+
+      // 1b. Research Query Endpoint: /api/research/query
+      server.middlewares.use('/api/research/query', (req, res) => {
+        if (req.method === 'POST') {
+          let body = '';
+          req.on('data', (chunk) => { body += chunk; });
+          req.on('end', async () => {
+            try {
+              (req as any).body = JSON.parse(body || '{}');
+            } catch {
+              (req as any).body = {};
+            }
+            try {
+              const handler = (await import('./api/research/query.ts')).default;
+              await handler(req, res);
+            } catch (err: any) {
+              res.statusCode = 500;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+        } else {
+          res.statusCode = 405;
+          res.end('Method Not Allowed');
+        }
+      });
+
+      // 1c. URL Research Endpoint: /api/research/url
+      server.middlewares.use('/api/research/url', (req, res) => {
+        if (req.method === 'POST') {
+          let body = '';
+          req.on('data', (chunk) => { body += chunk; });
+          req.on('end', async () => {
+            try {
+              (req as any).body = JSON.parse(body || '{}');
+            } catch {
+              (req as any).body = {};
+            }
+            try {
+              const handler = (await import('./api/research/url.ts')).default;
+              await handler(req, res);
+            } catch (err: any) {
+              res.statusCode = 500;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+        } else {
+          res.statusCode = 405;
+          res.end('Method Not Allowed');
+        }
       });
 
       // 2. WebSocket Gateway: /api/gemini/live

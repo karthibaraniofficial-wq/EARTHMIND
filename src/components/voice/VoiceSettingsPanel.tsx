@@ -15,6 +15,7 @@ import { useVoice } from '../../voice/VoiceContext';
 import { getAudioInputDevices, AudioDeviceOption, checkMicrophonePermission } from '../../voice/VoicePermissions';
 import { DEFAULT_VOICE_SETTINGS } from '../../voice/VoiceSettings';
 import { MicrophonePermissionState, RecognitionLanguage } from '../../voice/VoiceTypes';
+import { getGeminiLiveModel, getGeminiResearchModel } from '../../config/aiModels';
 
 export const VoiceSettingsPanel: React.FC = () => {
   const {
@@ -121,12 +122,12 @@ export const VoiceSettingsPanel: React.FC = () => {
           {/* Diagnostics Card */}
           <div className="p-3 rounded-xl bg-black/40 border border-white/5 font-mono text-[11px] grid grid-cols-2 sm:grid-cols-4 gap-2">
             <div>
-              <span className="text-slate-400 block text-[9px] uppercase">Model</span>
-              <span className="text-white font-bold">gemini-2.0-flash-exp</span>
+              <span className="text-slate-400 block text-[9px] uppercase">Live Voice Model</span>
+              <span className="text-white font-bold">{getGeminiLiveModel()}</span>
             </div>
             <div>
-              <span className="text-slate-400 block text-[9px] uppercase">Audio I/O</span>
-              <span className="text-earth-aqua font-bold">16k In / 24k Out</span>
+              <span className="text-slate-400 block text-[9px] uppercase">Research Model</span>
+              <span className="text-earth-aqua font-bold">{getGeminiResearchModel()}</span>
             </div>
             <div>
               <span className="text-slate-400 block text-[9px] uppercase">Roundtrip Latency</span>
@@ -134,7 +135,7 @@ export const VoiceSettingsPanel: React.FC = () => {
             </div>
             <div>
               <span className="text-slate-400 block text-[9px] uppercase">App Tools</span>
-              <span className="text-amber-300 font-bold">24 Registered</span>
+              <span className="text-amber-300 font-bold">24+ Registered</span>
             </div>
           </div>
         </div>

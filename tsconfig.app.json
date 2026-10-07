@@ -7,6 +7,10 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "lucide-react": ["src/components/icons.tsx"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -18,6 +18,7 @@ import { VoiceConfirmationModal } from './components/voice/VoiceConfirmationModa
 import { VoicePermissionModal } from './components/voice/VoicePermissionModal';
 import { VoiceTestConsole } from './components/voice/VoiceTestConsole';
 import { VoiceCommandSuggestions } from './components/voice/VoiceCommandSuggestions';
+import { VoiceResearchSourcesPanel } from './components/voice/VoiceResearchSourcesPanel';
 
 // Core Platform Views
 import { LandingPage } from './landing/LandingPage';
@@ -85,7 +86,7 @@ function AppContent() {
   const [simParams, setSimParams] = useState<SimulationParameters>(BASELINE_PARAMETERS);
   const [selectedYear, setSelectedYear] = useState<number>(2026);
 
-  const { setAppContext } = useVoice();
+  const { setAppContext, activeHighlight } = useVoice();
   const { updateConfig } = useTwinConfig();
 
   // Cross-Navigation Handlers
@@ -509,6 +510,14 @@ function AppContent() {
         onClose={() => setIsMethodologyOpen(false)}
       />
 
+      {/* Voice Spotlight HUD */}
+      {activeHighlight && (
+        <div className="fixed top-20 right-6 z-40 px-3.5 py-1.5 rounded-full bg-earth-aqua/15 border border-earth-aqua/50 backdrop-blur-xl text-earth-aqua text-xs font-mono flex items-center gap-2 shadow-[0_0_20px_rgba(24,200,200,0.3)] animate-pulse pointer-events-none">
+          <span className="w-2 h-2 rounded-full bg-earth-aqua animate-ping" />
+          <span>VOICE SPOTLIGHT: {activeHighlight.type.toUpperCase()} [{activeHighlight.id.toUpperCase()}]</span>
+        </div>
+      )}
+
       {/* 9. EARTHMIND Voice Intelligence Subsystem */}
       <VoiceOrb />
       <VoiceTranscript />
@@ -517,6 +526,7 @@ function AppContent() {
       <VoiceConfirmationModal />
       <VoicePermissionModal />
       <VoiceTestConsole />
+      <VoiceResearchSourcesPanel />
     </div>
   );
 }
